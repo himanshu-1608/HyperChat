@@ -1,0 +1,20 @@
+.message-box{
+    width: 100%;
+    min-height: 50px;
+    /* background-color: wheat; */
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}
+.message{
+    max-width: 400px;
+    background-color: rgb(235, 235, 235);
+    padding: 5px 20px;
+    border-radius: 5px;
+}
+.sender-name{
+    border-bottom: solid 1px rgb(224,224,224);
+}
