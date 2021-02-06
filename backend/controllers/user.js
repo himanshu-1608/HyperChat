@@ -40,6 +40,36 @@ exports.registerNewUser = async(req, res, next) => {
 
 exports.loginUser = async(req, res, next) => {
     const {userEmail, userPassword} = req.body;
+    let existingUser,token;
+    console.log(userEmail, userPassword);
+    try {
+        existingUser = await User.findOne({ userEmail: userEmail });
+        console.log("existing", existingUser);
+        if (!existingUser) {
+            const error = new Error('Invalid credentials, could not log you in.');
+            return next(error);
+        }
+        token = jwt.sign({
+            userId: existingUser.id,
+            userEmail: existingUser.userEmail
+        }, secret);
+        res.status(200).json({
+            message: "User logged in successfully",
+            token: token,
+            user: {
+                id: existingUser.id,
+                userName: existingUser.userName,
+                userEmail: userEmail
+            }
+        });
+    } catch (err) {
+        console.log(err);
+        const error = new Error(
+            'Logging in failed, please try again later.',
+            500
+        );
+        return next(error);
+    }
 }
 
 exports.getAllUsers = async(req, res, next) => {
