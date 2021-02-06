@@ -2,9 +2,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const secret = "socketDotIoIsShit";
 exports.registerNewUser = async(req, res, next) => {
-    // https://i.pinimg.com/280x280_RS/ca/30/f1/ca30f1448269ed6eb670fd41815457e0.jpg
-    
-    //image link is above one
     const { userName, userEmail, userPassword, userConfirmPassword, userProfilePic } = req.body;
     let user,token;
     try {
@@ -73,11 +70,23 @@ exports.loginUser = async(req, res, next) => {
 }
 
 exports.getAllUsers = async(req, res, next) => {
-    
+    try{
+        const offset = parseInt(req.query.offset);
+        let users = await User.find().limit(offset+20);
+        users = users.filter((user, index) => {
+            return index>=offset;
+        });
+        res.status(200).json({
+            message: `List of users: ${offset} to ${offset+20}`,
+            users: users
+        });
+    } catch(err) {
+        return next(new Error("Failed fetching users"));
+    }
 }
 
 exports.addNewFriend = async(req, res, next) => {
-    
+    const friendID = "";
 }
 
 exports.getUserFriendsAndChannels = async(req, res, next) => {
