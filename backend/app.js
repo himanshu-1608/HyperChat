@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+const io = require('./socket');
 const userRoutes = require('./routes/user');
 const channelRoutes = require('./routes/channel');
 const messageRoutes = require('./routes/message');
@@ -25,8 +26,11 @@ app.use('/message', messageRoutes);
 
 mongoose.connect(MONGODB_URI)
 .then(() => {
-    const server =  app.listen(8080);
-    const io = require('socket.io')(server);  
+    const server =  app.listen(3000);
+    const temp = require('socket.io')(server);
+    temp.on("connect", socket => {
+        console.log('User connected');
+    });
     console.log('Connected!');
 })
 .catch(err => console.log(err));

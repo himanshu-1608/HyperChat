@@ -1,2 +1,4 @@
 keyInfo.js
 /node_modules
+package-lock.json
+socket.js
