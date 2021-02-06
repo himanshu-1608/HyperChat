@@ -2,22 +2,24 @@ import { useState } from 'react';
 import useApi from './useApi';
 import useToken from './useToken';
 
-const Uselogin = (setIsloggedIn) => {
+const Uselogin = ({ setIsLoggedIn }) => {
 	const { setToken } = useToken();
 	const apiCall = useApi();
 	const [email, setEmail] = useState();
 	const [password, setPassword] = useState();
+	const [user, setUser] = useState({});
 	const HandleLogin = async () => {
-		const { token } = await apiCall({
+		const { token, user } = await apiCall({
 			data: {
-				email: email,
-				password: password,
+				userEmail: email,
+				userpassword: password,
 			},
 			method: 'POST',
 			path: 'user/loginuser',
 		});
 		if (token) {
-			setIsloggedIn(true);
+			setIsLoggedIn(true);
+			setUser(user);
 		}
 		setToken(token);
 	};

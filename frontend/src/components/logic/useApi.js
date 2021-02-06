@@ -1,4 +1,4 @@
-const apiURL = 'http://localhost:5000/api';
+const apiURL = 'http://localhost:8080';
 async function apiCall({ token, data, method, path }) {
     if(token && data){
         return fetch(`${apiURL}/${path}`, {

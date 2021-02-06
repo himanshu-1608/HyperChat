@@ -1,32 +1,25 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
-import { HomePage , ChatPage , LoginPage} from './index';
+import { HomePage, ChatPage, LoginPage } from './index';
 import useApp from './components/logic/useApp';
 import Menu from './components/organisms/menu';
 
 function App() {
-	const {
-		isLoggedIn,
-		setIsLoggedIn
-	} = useApp();
-	if(!isLoggedIn){
+	const { isLoggedIn, setIsLoggedIn } = useApp();
+	if (!isLoggedIn) {
 		return (
 			<div className="app">
-				<LoginPage setIsLoggedIn={setIsLoggedIn}/>
+				<LoginPage setIsLoggedIn={setIsLoggedIn} />
 			</div>
 		);
-	}else {
+	} else {
 		return (
 			<div className="app">
 				<Router>
 					<Menu />
 					<Switch>
 						<Route path="/" exact component={() => <HomePage />} />
-						<Route
-							path="/chat/:chatId"
-							exact
-							component={() => <ChatPage />}
-						/>
+						<Route path="/chat/:chatId" exact component={() => <ChatPage />} />
 					</Switch>
 				</Router>
 			</div>
