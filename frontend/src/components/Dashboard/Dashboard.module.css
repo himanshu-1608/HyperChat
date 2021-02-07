@@ -1,0 +1,13 @@
+.RootContainer {
+	width: 100%;
+	height: 80vh;
+	display: flex;
+	justify-content: space-between;
+}
+
+.Sidebar {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	/* align-items: ; */
+}

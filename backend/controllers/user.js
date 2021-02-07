@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const secret = "socketDotIoIsShit";
+const secret = 'learningWebsockets';
 exports.registerNewUser = async(req, res, next) => {
     // https://i.pinimg.com/280x280_RS/ca/30/f1/ca30f1448269ed6eb670fd41815457e0.jpg
     
@@ -19,14 +19,14 @@ exports.registerNewUser = async(req, res, next) => {
         });
         await user.save();
         token = jwt.sign({
-            userId: user.id,
+            userId: user._id,
             userEmail: user.userEmail
         },secret);
         res.status(201).json({
             message: "User created successfully",
             token: token,
             user: {
-                id: user.id,
+                id: user._id,
                 userName: userName,
                 userEmail: userEmail
             }
@@ -55,7 +55,7 @@ exports.loginUser = async(req, res, next) => {
             message: "User logged in successfully",
             token: token,
             user: {
-                id: existingUser.id,
+                id: existingUser._id,
                 userName: existingUser.userName,
                 userEmail: userEmail
             }
@@ -71,7 +71,21 @@ exports.loginUser = async(req, res, next) => {
 }
 
 exports.getAllUsers = async(req, res, next) => {
-    
+    try{
+        const users = await User.find({_id: {$nin: [req.userId]}}).limit(5);
+        res.status(200).json({
+            message: "Fetched users successfully",
+            users: users
+        });
+    }
+    catch(err){
+        console.log(err);
+        const error = new Error(
+            'Fetching all users failed.',
+            500
+        );
+        return next(error);
+    }
 }
 
 exports.addNewFriend = async(req, res, next) => {

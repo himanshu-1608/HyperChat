@@ -24,12 +24,24 @@ app.use('/user', userRoutes);
 app.use('/channel', channelRoutes);
 app.use('/message', messageRoutes);
 
+
+app.use((error, req, res, next) => {
+    const status = error.statusCode || 500;
+    const message = error.message;
+    const data = error.data;
+    res.status(status).json({
+        message: message,
+        data: data
+    });
+})
+
+
 mongoose.connect(MONGODB_URI)
 .then(() => {
-    const server =  app.listen(8080);
-    const temp = require('socket.io')(server);
-    temp.on('connection', socket => {
-        console.log('User connected');
+    const server = app.listen(8080);
+    const io = require('./socket').init(server);
+    io.on('connection', socket => {
+      console.log('Client connected');
     });
     console.log('Connected!');
 })
