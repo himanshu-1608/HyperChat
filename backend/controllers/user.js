@@ -41,10 +41,8 @@ exports.registerNewUser = async(req, res, next) => {
 exports.loginUser = async(req, res, next) => {
     const {userEmail, userPassword} = req.body;
     let existingUser,token;
-    console.log(userEmail, userPassword);
     try {
         existingUser = await User.findOne({ userEmail: userEmail });
-        console.log("existing", existingUser);
         if (!existingUser) {
             const error = new Error('Invalid credentials, could not log you in.');
             return next(error);

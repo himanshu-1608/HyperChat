@@ -26,9 +26,9 @@ app.use('/message', messageRoutes);
 
 mongoose.connect(MONGODB_URI)
 .then(() => {
-    const server =  app.listen(3000);
+    const server =  app.listen(8080);
     const temp = require('socket.io')(server);
-    temp.on("connect", socket => {
+    temp.on('connection', socket => {
         console.log('User connected');
     });
     console.log('Connected!');
