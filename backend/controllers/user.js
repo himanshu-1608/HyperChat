@@ -2,9 +2,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const secret = 'learningWebsockets';
 exports.registerNewUser = async(req, res, next) => {
-    // https://i.pinimg.com/280x280_RS/ca/30/f1/ca30f1448269ed6eb670fd41815457e0.jpg
-    
-    //image link is above one
     const { userName, userEmail, userPassword, userConfirmPassword, userProfilePic } = req.body;
     let user,token;
     try {
@@ -89,7 +86,7 @@ exports.getAllUsers = async(req, res, next) => {
 }
 
 exports.addNewFriend = async(req, res, next) => {
-    
+    const friendID = "";
 }
 
 exports.getUserFriendsAndChannels = async(req, res, next) => {
