@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const secret = "socketDotIoIsShit";
+const secret = 'learningWebsockets';
 exports.registerNewUser = async(req, res, next) => {
     const { userName, userEmail, userPassword, userConfirmPassword, userProfilePic } = req.body;
     let user,token;
@@ -16,14 +16,14 @@ exports.registerNewUser = async(req, res, next) => {
         });
         await user.save();
         token = jwt.sign({
-            userId: user.id,
+            userId: user._id,
             userEmail: user.userEmail
         },secret);
         res.status(201).json({
             message: "User created successfully",
             token: token,
             user: {
-                id: user.id,
+                id: user._id,
                 userName: userName,
                 userEmail: userEmail
             }
@@ -38,10 +38,8 @@ exports.registerNewUser = async(req, res, next) => {
 exports.loginUser = async(req, res, next) => {
     const {userEmail, userPassword} = req.body;
     let existingUser,token;
-    console.log(userEmail, userPassword);
     try {
         existingUser = await User.findOne({ userEmail: userEmail });
-        console.log("existing", existingUser);
         if (!existingUser) {
             const error = new Error('Invalid credentials, could not log you in.');
             return next(error);
@@ -54,7 +52,7 @@ exports.loginUser = async(req, res, next) => {
             message: "User logged in successfully",
             token: token,
             user: {
-                id: existingUser.id,
+                id: existingUser._id,
                 userName: existingUser.userName,
                 userEmail: userEmail
             }
@@ -71,17 +69,19 @@ exports.loginUser = async(req, res, next) => {
 
 exports.getAllUsers = async(req, res, next) => {
     try{
-        const offset = parseInt(req.query.offset);
-        let users = await User.find().limit(offset+20);
-        users = users.filter((user, index) => {
-            return index>=offset;
-        });
+        const users = await User.find({_id: {$nin: [req.userId]}}).limit(5);
         res.status(200).json({
-            message: `List of users: ${offset} to ${offset+20}`,
+            message: "Fetched users successfully",
             users: users
         });
-    } catch(err) {
-        return next(new Error("Failed fetching users"));
+    }
+    catch(err){
+        console.log(err);
+        const error = new Error(
+            'Fetching all users failed.',
+            500
+        );
+        return next(error);
     }
 }
 
