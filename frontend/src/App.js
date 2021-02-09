@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 
 import './App.css';
 
-import Login from './components/Login/Login';
-import Dashboard from './components/Dashboard/Dashboard';
+import Login from './containers/Login/Login';
+import Dashboard from './containers/Dashboard/Dashboard';
 
 class App extends Component{
 
@@ -36,21 +36,22 @@ class App extends Component{
 	render(){
 		const { isLoggedIn, token, friends, subscribedChannels } = this.state;
 		return(
-			<Router>
-				<button onClick={this.handleLogOut}>Logout</button>
-				{ !isLoggedIn ? <Route 
-									path='/' 
-									component={() => <Login 
-										setLogin={(token) => this.setLogin(token)} />} />
-									 : null}
-				{ isLoggedIn ? <Route 
-									path='/' 
-									component={() => <Dashboard 
-										friends={friends}
-										subscribedChannels={subscribedChannels}
-										token={token} />}
-									 /> : null}
-			</Router>
+			<div className="app-box">
+				<Router>
+					{ !isLoggedIn ? <Route 
+										path='/' 
+										component={() => <Login 
+											setLogin={(token) => this.setLogin(token)} />} />
+										: null}
+					{ isLoggedIn ? <Route 
+										path='/' 
+										component={() => <Dashboard 
+											friends={friends}
+											subscribedChannels={subscribedChannels}
+											token={token} />}
+										/> : null}
+				</Router>
+			</div>
 		)
 	}
 }

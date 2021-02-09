@@ -1,0 +1,15 @@
+.button_box{
+    height: 45px;
+    width: 80%;
+    background-color: #dba21d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin-top: 10px;
+    color:rgb(231, 231, 231);
+    font-weight: bolder;
+    font-size: 22px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+}
