@@ -1,30 +1,26 @@
 const jwt = require('jsonwebtoken');
-
-const  SECRET  = 'learningWebsockets';
+const  { secret }  = require('../config');
+const HttpError = require('../models/http-error');
 
 module.exports = async(req, res, next) => {
-    const authorized = req.get('Authorization');
+    const authorized = req.get('authorization');
     if(authorized){  
         const token = authorized.split(' ')[1];
         let decodedToken;
         try{
-            decodedToken = jwt.verify(token, SECRET);
+            decodedToken = jwt.verify(token, secret);
+            if(!decodedToken){
+                return next(new HttpError("Could not authenticate user",401));
+            } else {
+                req.userId = decodedToken.userId;
+                next();
+            }
         }catch(err){
-            console.log('Error in decoding token.', err);
-            err.statusCode = 401;
-            next(err);
+            console.log('Error in decoding token at: isAuth.js.\nError is: ', err);
+            return next(new HttpError("Could not authenticate user",401));
         }
-        if(!decodedToken){
-            const error = new Error('User is not authenticated.');
-            error.setStatus = 401;
-            next(error);
-        }
-        req.userId = decodedToken.userId;
-        next();
     }
     else{
-        const error = new Error('User is not authenticated.');
-        error.setStatus = 401;
-        next(error);
+        return next(new HttpError("No auth token sent in headers",401));
     }
 }

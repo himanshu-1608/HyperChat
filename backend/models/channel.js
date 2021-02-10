@@ -1,6 +1,4 @@
-
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 const channelSchema = new Schema({
@@ -24,4 +22,3 @@ const channelSchema = new Schema({
 });
 
 module.exports = mongoose.model('Channel', channelSchema);
-
