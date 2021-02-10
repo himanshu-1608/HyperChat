@@ -11,6 +11,7 @@ class App extends Component{
 	state = {
 		isLoggedIn: false,
 		token: '',
+		currentUserId: '',
 		friends: [],
 		subscribedChannels: []
 	}
@@ -18,37 +19,48 @@ class App extends Component{
 	componentDidMount(){
 		const isLoggedIn = localStorage.getItem('isLoggedIn');
 		const token = localStorage.getItem('token');
-		if(isLoggedIn)	this.setState({isLoggedIn: true, token: token});
+		const currentUserId = localStorage.getItem('currentUserId')
+		console.log(isLoggedIn, token, currentUserId);
+		if(isLoggedIn)	this.setState({isLoggedIn: true, token: token, currentUserId: currentUserId});
 	}
 
-	setLogin = (token) => {
+	setLogin = (token, currentUserId) => {
 		localStorage.setItem('isLoggedIn', true);
 		localStorage.setItem('token', token);
-		this.setState({isLoggedIn: true, token: token})
+		localStorage.setItem('currentUserId', currentUserId);
+		this.setState({isLoggedIn: true, token: token, currentUserId: currentUserId})
 	}
 
 	handleLogOut = () => {
 		localStorage.removeItem('token');
-        localStorage.removeItem('isLoggedIn');
-		this.setState({isLoggedIn: false, token: ''});
+		localStorage.removeItem('isLoggedIn');
+		localStorage.removeItem('currentUserId');
+		this.setState({isLoggedIn: false, token: '', currentUserId: ''});
+	}
+
+	updateFriendsAndSubscribedChannels = (friends, subscribedChannels) => {
+		console.log('this is called');
+		this.setState({friends: friends, subscribedChannels: subscribedChannels})
 	}
 
 	render(){
-		const { isLoggedIn, token, friends, subscribedChannels } = this.state;
+		const { isLoggedIn, token, currentUserId, friends, subscribedChannels } = this.state;
 		return(
 			<Router>
 				<button onClick={this.handleLogOut}>Logout</button>
 				{ !isLoggedIn ? <Route 
 									path='/' 
 									component={() => <Login 
-										setLogin={(token) => this.setLogin(token)} />} />
+										setLogin={(token, currentUserId) => this.setLogin(token, currentUserId)} />} />
 									 : null}
 				{ isLoggedIn ? <Route 
 									path='/' 
 									component={() => <Dashboard 
 										friends={friends}
 										subscribedChannels={subscribedChannels}
-										token={token} />}
+										token={token}
+										currentUserId={currentUserId}
+										updateFriendsAndSubscribedChannels={(friends, channels) => this.updateFriendsAndSubscribedChannels(friends, channels)} />}
 									 /> : null}
 			</Router>
 		)

@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const io = require('./socket');
 const userRoutes = require('./routes/user');
 const channelRoutes = require('./routes/channel');
 const messageRoutes = require('./routes/message');
@@ -36,13 +35,10 @@ app.use((error, req, res, next) => {
 })
 
 
-mongoose.connect(MONGODB_URI)
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
     const server = app.listen(8080);
-    const io = require('./socket').init(server);
-    io.on('connection', socket => {
-      console.log('Client connected');
-    });
+    require('./socket').init(server);
     console.log('Connected!');
 })
 .catch(err => console.log(err));

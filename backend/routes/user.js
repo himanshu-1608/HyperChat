@@ -13,7 +13,7 @@ router.get('/getAllUsers', isAuth, userControllers.getAllUsers);
 
 router.patch('/addNewFriend', userControllers.addNewFriend);
 
-router.get('/getUserFriendsAndChannels', userControllers.getUserFriendsAndChannels);
+router.get('/getUserFriendsAndChannels', isAuth, userControllers.getUserFriendsAndChannels);
 
 router.get('/getAllUserNames', userControllers.getAllUserNames);
 

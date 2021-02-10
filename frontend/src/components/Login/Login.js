@@ -16,8 +16,8 @@ class Login extends Component{
         fetch('http://localhost:8080/user/loginUser', {
             method: 'POST',
             body: JSON.stringify({
-                userEmail: 'bharti@gmail.com',
-                userPassword: 'bharti'
+                userEmail: this.state.email,
+                userPassword: this.state.password
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -26,7 +26,7 @@ class Login extends Component{
         .then(result => result.json())
         .then(result => {
             console.log(result);
-            this.props.setLogin(result.token);
+            this.props.setLogin(result.token, result.user.id);
         })
         .catch(err => console.log(err));
     }
