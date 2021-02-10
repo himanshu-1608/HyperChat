@@ -3,41 +3,20 @@ import MenuBar from '../../components/MenuBar';
 import NavBar from '../../components/NavBar';
 import styles from './Dashboard.module.css';
 import ChatSection from '../../components/ChatSection'
+import openSocket from 'socket.io-client';
+import { connect } from 'react-redux';
+import * as actionCreators from '../../actions/index';
 
 class Dashboard extends Component{
 
     state={
-        allUsers: [],
-        allChannels: [],
-        message: ''
+        message: '',
+        friends: [],
+        subscribedChannels: []
     }
 
     componentDidMount(){
-        fetch('http://localhost:8080/user/getAllUsers', {
-            method: 'GET',
-            headers: {
-                Authorization: 'Bearer ' + this.props.token
-            }
-        })
-        .then(result => result.json())
-        .then(result => {
-            console.log(result);
-            this.setState({allUsers: result.users});
-        })
-        .catch(err => console.log(err));
-
-        fetch('http://localhost:8080/channel/getAllChannels', {
-            method: 'GET',
-            headers: {
-                Authorization: 'Bearer ' + this.props.token
-            }
-        })
-        .then(result => result.json())
-        .then(result => {
-            console.log(result);
-            this.setState({allChannels: result.channels});
-        })
-        .catch(err => console.log(err));
+        const socket = openSocket('http://localhost:8080');
     }
 
     inputChangeHandler = (e) => {
@@ -61,4 +40,17 @@ class Dashboard extends Component{
     }
 }
 
-export default Dashboard;
+const mapStateToProps = state => {
+	return{
+        user: state.auth.user,
+        token: state.auth.token
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		setLogout: () => dispatch(actionCreators.setLogout())
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
