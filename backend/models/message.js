@@ -1,6 +1,4 @@
-
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
@@ -30,6 +28,10 @@ const messageSchema = new Schema({
         type: Boolean,
         default: false
     },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    },
     messagePayload: {
         type: String,
         required: true
@@ -55,4 +57,3 @@ const messageSchema = new Schema({
 });
 
 module.exports = mongoose.model('Message', messageSchema);
-
