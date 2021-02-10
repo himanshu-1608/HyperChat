@@ -92,7 +92,24 @@ exports.addNewFriend = async(req, res, next) => {
 }
 
 exports.getUserFriendsAndChannels = async(req, res, next) => {
-    
+    try{
+        const user = await User.findById(req.userId).populate('userFriendIDs').populate('userChannelIDs').exec();
+        const friends =  [...user.userFriendIDs];
+        const channels = [...user.userChannelIDs];
+        res.status(200).json({
+            message: "Fetched friends and channels successfully",
+            userFriends: friends,
+            userSubscribedChannels: channels
+        });
+    }
+    catch(err){
+        console.log(err);
+        const error = new Error(
+            'Fetching friends and channels failed.',
+            500
+        );
+        return next(error);
+    }
 }
 
 exports.getAllUserNames = async(req, res, next) => {

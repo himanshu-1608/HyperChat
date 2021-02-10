@@ -34,9 +34,11 @@ class Signup extends Component {
 
         const { name, email, password } = this.state;
         const user = {
-            name: name,
-            email: email,
-            password: password
+            userName: name,
+            userEmail: email,
+            userPassword: password,
+            userConfirmPassword: password,
+            userProfilePic: ''
         }
         this.props.registerUser(user);
     }

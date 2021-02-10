@@ -19,6 +19,12 @@ class Dashboard extends Component{
         const socket = openSocket('http://localhost:8080');
     }
 
+    componentWillReceiveProps(newProps) {
+        if (!newProps.isAuth) {
+          this.props.history.push('/login');
+        }
+    }
+
     inputChangeHandler = (e) => {
         this.setState({[e.target.name]: e.target.value});
     }
@@ -35,6 +41,7 @@ class Dashboard extends Component{
                     <NavBar />
                     <ChatSection />
                 </div>
+                <button onClick={this.props.setLogout}>Logout</button>
             </div>
         )
     }
@@ -49,7 +56,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		setLogout: () => dispatch(actionCreators.setLogout())
+        setLogout: () => dispatch(actionCreators.setLogout())
 	}
 }
 

@@ -1,53 +1,27 @@
 
 import * as actionTypes from './actionTypes';
+import axios from '../axios';
 
-export const registerUser = (user) => {
-    return dispatch => {
-        fetch('http://localhost:8080/user/registerNewUser', {
-            method: 'POST',
-            body: JSON.stringify({
-                userName: user.name,
-                userEmail: user.email,
-                userPassword: user.password,
-                userConfirmPassword: user.password,
-                userProfilePic: ''
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        .then((result) => result.json())
-        .then((result) => {
-            const { user, token } = result;
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
-            dispatch(setLogin(user, token));
-        })
-        .catch((err) => console.log(err));
-    }
+export const registerUser = (user) => dispatch => {
+    axios.post('/user/registerNewUser', user)
+    .then(result => {
+        const { user, token } = result.data;
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        dispatch(setLogin(user, token));
+    })
+    .catch(err => console.log(err));
 }
 
-export const loginUser = (user) => {
-    return dispatch => {
-        fetch('http://localhost:8080/user/loginUser', {
-            method: 'POST',
-            body: JSON.stringify({
-                userEmail: user.email,
-                userPassword: user.password,
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        .then((result) => result.json())
-        .then((result) => {
-            const { user, token } = result;
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
-            dispatch(setLogin(user, token));
-        })
-        .catch((err) => console.log(err));
-    }
+export const loginUser = (user) => dispatch => {
+    axios.post('/user/loginUser', user)
+    .then((result) => {
+        const { user, token } = result.data;
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        dispatch(setLogin(user, token));
+    })
+    .catch((err) => console.log(err));;
 }
 
 export const setLogin = (user, token) => {
