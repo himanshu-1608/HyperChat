@@ -1,86 +1,53 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/user');
-const secret = 'learningWebsockets';
+const { hashPassword, createToken, checkPassword } = require('../utils/auth-utils');
+const { findUserByEmail, createNewUser } = require('../utils/db-utils');
+const HttpError = require('../models/http-error');
 
 exports.registerNewUser = async(req, res, next) => {
-   
-    // let user,token;
-    // try {
-    //     const { userName, userEmail, userPassword, userConfirmPassword, userProfilePic } = req.body;
-    //     user = User({
-    //         userName,
-    //         userEmail,
-    //         userPassword,
-    //         userProfilePicURL: userProfilePic,
-    //         userFriendIDs: [],
-    //         userChannelIDs: [],
-    //         lastSeen: new Date().toString()
-    //     });
-    //     await user.save();
-    //     token = jwt.sign({
-    //         userId: user._id,
-    //         userEmail: user.userEmail
-    //     },secret);
-    //     res.status(201).json({
-    //         message: "User created successfully",
-    //         token: token,
-    //         user: {
-    //             id: user._id,
-    //             userName: userName,
-    //             userEmail: userEmail
-    //         }
-    //     });
-    // } catch(err) {
-    //     const error = new Error(
-    //         'Could not create user');
-    //     throw(error);
-    // }
-    res.status(201).json({
-        message: "User created successfully",
-        token: "random-token",
-        user: {
-            id: "2er2q",
-            userName: "Random Name"
-        }
-    });
+    let existingUser,hashedPassword, createdUser, token;
+    try {
+        const { userName, userEmail, userPassword } = req.body;
+
+        existingUser = await findUserByEmail(userEmail);
+        console.log('existingUser: ', existingUser);
+        if(existingUser) throw new HttpError('User exists already', 409);
+        hashedPassword = await hashPassword(userPassword);
+        createdUser = await createNewUser(userName, userEmail, hashedPassword);
+        token = createToken(createdUser.id);
+        res.status(201).json({
+            message: "User created successfully",
+            token: token,
+            user: {
+                id: createdUser.id,
+                userName: userName
+            }
+        });
+    } catch(err) {
+        if(err.code) return next(err);
+        console.log("Unexpected Error at auth-controllers.js->registerNewUser: ", err);
+        return next(new HttpError('Could not create user', 400));
+    }
 }
 
 exports.loginUser = async(req, res, next) => {
-    // const {userEmail, userPassword} = req.body;
-    // let existingUser,token;
-    // try {
-    //     existingUser = await User.findOne({ userEmail: userEmail });
-    //     if (!existingUser) {
-    //         const error = new Error('Invalid credentials, could not log you in.');
-    //         return next(error);
-    //     }
-    //     token = jwt.sign({
-    //         userId: existingUser.id,
-    //         userEmail: existingUser.userEmail
-    //     }, secret);
-    //     res.status(200).json({
-    //         message: "User logged in successfully",
-    //         token: token,
-    //         user: {
-    //             id: existingUser._id,
-    //             userName: existingUser.userName,
-    //             userEmail: userEmail
-    //         }
-    //     });
-    // } catch (err) {
-    //     console.log(err);
-    //     const error = new Error(
-    //         'Logging in failed, please try again later.',
-    //         500
-    //     );
-    //     return next(error);
-    // }
-    res.status(200).json({
-        message: "User logged in successfully",
-        token: "token-3r2f",
-        user: {
-            id: user._id,
-            userName: userName
-        }
-    });
+    const { userEmail, userPassword } = req.body;
+    let existingUser, isValidPassword, token;
+    try {
+        existingUser = await findUserByEmail(userEmail);
+        if (!existingUser) throw new HttpError('Invalid credentials: Email', 403);
+        isValidPassword = await checkPassword(userPassword, existingUser.userPassword);
+        if (!isValidPassword) throw new HttpError('Invalid credentials: Password', 403);
+        token = createToken(existingUser.id);
+        res.status(200).json({
+            message: "User logged in successfully",
+            token: token,
+            user: {
+                _id: existingUser.id,
+                userName: existingUser.userName
+            }
+        });
+    } catch (err) {
+        if (err.code) return next(err);
+        console.log("Unexpected error at auth-controllers.js->loginUser: ", err);
+        return next(new HttpError('Logging in failed, please try again.', 400));
+    }
 }
