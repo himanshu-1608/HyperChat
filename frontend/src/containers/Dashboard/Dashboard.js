@@ -1,8 +1,8 @@
-
 import React, { Component } from 'react';
-import openSocket from 'socket.io-client';
-
-import classes from './Dashboard.module.css';
+import MenuBar from '../../components/MenuBar';
+import NavBar from '../../components/NavBar';
+import styles from './Dashboard.module.css';
+import ChatSection from '../../components/ChatSection'
 
 class Dashboard extends Component{
 
@@ -38,8 +38,6 @@ class Dashboard extends Component{
             this.setState({allChannels: result.channels});
         })
         .catch(err => console.log(err));
-
-        const socket = openSocket('http://localhost:8080');
     }
 
     inputChangeHandler = (e) => {
@@ -51,40 +49,12 @@ class Dashboard extends Component{
     }
 
     render(){
-
-        const subscribedChannelList = this.props.subscribedChannels.map(channel => {
-            return <div id={channel._id}>{channel.channelName}</div>
-        });
-
-        const friendList = this.props.friends.map(friend => {
-            return <div id={friend._id}>{friend.userName}</div>
-        })
-
         return(
-            <div className={classes.RootContainer}>
-                <div className={classes.Sidebar}>
-                    <div>HyperChat</div>
-                    <div>
-                        <h1>Channel List</h1>
-                        {subscribedChannelList}
-                    </div>
-                    <div>
-                        <h1>Friend List</h1>
-                        {friendList}
-                    </div>
-                </div>
-                <div className={classes.ChatPanel}>
-                    Chat
-                    <input 
-                        type='text'
-                        placeholder='type something'
-                        name='message'
-                        value={this.state.message}/>
-                    <button>Send</button>
-                </div>
-                <div >
-                    <div>All Channels</div>
-                    <div>All users</div>
+            <div className={styles.dashboard_page}>
+                <MenuBar />
+                <div className={styles.main_box}>
+                    <NavBar />
+                    <ChatSection />
                 </div>
             </div>
         )
