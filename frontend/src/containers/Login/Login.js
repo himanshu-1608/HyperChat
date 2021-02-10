@@ -14,7 +14,6 @@ import { BsPeopleCircle } from 'react-icons/bs';
 
 class Login extends Component {
     state = {
-        name:'',
         email: '',
         password: ''
     };
@@ -24,8 +23,8 @@ class Login extends Component {
     }
 
     isFormDataValid = () => {
-        const { name, email, password } = this.state;
-        return name.trim().length && email.trim().length && password.trim().length;
+        const { email, password } = this.state;
+        return email.trim().length && password.trim().length;
     }
 
     submitFormHandler = () => {
