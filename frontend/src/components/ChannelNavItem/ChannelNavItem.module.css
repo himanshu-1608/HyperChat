@@ -1,0 +1,29 @@
+.item{
+    height: 30px;
+    width: 100%;
+    display: flex;
+    padding: 0px 0px 0px 40px;
+    cursor: pointer;
+}
+.item:hover{
+    background-color: #fec6ff;
+}
+.symbol{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:#bd18c0;
+
+}
+
+.text{
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 10px;
+    font-family: 'Poppins', sans-serif;
+    color:#bd18c0;
+}

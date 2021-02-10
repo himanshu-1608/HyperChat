@@ -1,10 +1,11 @@
-
 import React, { Component } from 'react';
+import MenuBar from '../../components/MenuBar';
+import NavBar from '../../components/NavBar';
+import styles from './Dashboard.module.css';
+import ChatSection from '../../components/ChatSection'
 import openSocket from 'socket.io-client';
 import { connect } from 'react-redux';
-
 import * as actionCreators from '../../actions/index';
-import classes from './Dashboard.module.css';
 
 class Dashboard extends Component{
 
@@ -27,40 +28,12 @@ class Dashboard extends Component{
     }
 
     render(){
-        const subscribedChannelList = this.state.subscribedChannels.map(channel => {
-            return <div id={channel._id}>{channel.channelName}</div>
-        });
-
-        const friendList = this.state.friends.map(friend => {
-            return <div id={friend._id}>{friend.userName}</div>
-        })
-
         return(
-            <div className={classes.RootContainer}>
-                <div className={classes.Sidebar}>
-                    <button onClick={this.props.setLogout}>Logout</button>
-                    <div>HyperChat</div>
-                    <div>
-                        <h1>Channel List</h1>
-                        {subscribedChannelList}
-                    </div>
-                    <div>
-                        <h1>Friend List</h1>
-                        {friendList}
-                    </div>
-                </div>
-                <div className={classes.ChatPanel}>
-                    Chat
-                    <input 
-                        type='text'
-                        placeholder='type something'
-                        name='message'
-                        value={this.state.message}/>
-                    <button>Send</button>
-                </div>
-                <div >
-                    <div>All Channels</div>
-                    <div>All users</div>
+            <div className={styles.dashboard_page}>
+                <MenuBar />
+                <div className={styles.main_box}>
+                    <NavBar />
+                    <ChatSection />
                 </div>
             </div>
         )

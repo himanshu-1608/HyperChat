@@ -1,0 +1,49 @@
+.message_box{
+    height: fit-content;
+    width: 100%;
+    padding: 10px 20px;
+    /* background-color: seashell; */
+    display: flex;
+}
+.message_box:hover{
+    background-color: rgb(247, 247, 247);
+}
+.user_image{
+    width: 40px;
+    height: 40px;
+    /* background-color: sienna; */
+    background: url('../../assests/images/demo.jpg') no-repeat no-repeat center;
+    background-size: cover;
+    border-radius: 5px;
+}
+.message_section{
+    width: calc(100% - 40px);
+    height: fit-content;
+    /* background-color: silver; */
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.message_info{
+    display: flex;
+    height: 20px; 
+    /* background-color: skyblue; */
+}
+.user_name{
+    padding-right: 10px;
+    font-weight: bolder;
+    font-family: 'Poppins', sans-serif;
+}
+.time{
+    height: 100%;
+    font-size: 12px;
+    /* background-color: slateblue; */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.message{
+    height: fit-content;
+    width: 100%;
+    /* background-color: slategrey; */
+}

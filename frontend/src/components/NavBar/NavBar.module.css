@@ -1,0 +1,30 @@
+.navbar_section {
+    width: 300px;
+    height: 100%;
+    border-right: solid 1px rgb(224, 224, 224);
+    background-color: #fff8ff;
+}
+.title {
+    width: 100%;
+    height: 64px;
+    border-bottom: solid 1px rgb(224, 224, 224);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-weight: bold;
+    color: #711f72;
+    font-family: 'Poppins', sans-serif;
+}
+.nav_items {
+    padding: 10px 0px;
+    height: fit-content;
+    width: 100%;
+    /* background-color: rosybrown; */
+}
+.item {
+    width: 100%;
+    height: 20px;
+    background-color: royalblue;
+    display: flex;
+}
