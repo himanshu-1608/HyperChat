@@ -1,10 +1,12 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const secret = 'learningWebsockets';
+
 exports.registerNewUser = async(req, res, next) => {
-    const { userName, userEmail, userPassword, userConfirmPassword, userProfilePic } = req.body;
+   
     let user,token;
     try {
+        const { userName, userEmail, userPassword, userConfirmPassword, userProfilePic } = req.body;
         user = User({
             userName,
             userEmail,

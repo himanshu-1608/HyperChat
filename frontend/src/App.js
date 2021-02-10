@@ -1,59 +1,58 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import './App.css';
+import * as actionCreators from './actions/index';
 
+import Signup from './containers/Signup/Signup';
 import Login from './containers/Login/Login';
 import Dashboard from './containers/Dashboard/Dashboard';
 
 class App extends Component{
 
-	state = {
-		isLoggedIn: false,
-		token: '',
-		friends: [],
-		subscribedChannels: []
-	}
-
 	componentDidMount(){
-		const isLoggedIn = localStorage.getItem('isLoggedIn');
 		const token = localStorage.getItem('token');
-		if(isLoggedIn)	this.setState({isLoggedIn: true, token: token});
-	}
-
-	setLogin = (token) => {
-		localStorage.setItem('isLoggedIn', true);
-		localStorage.setItem('token', token);
-		this.setState({isLoggedIn: true, token: token})
+		const user = JSON.parse(localStorage.getItem('user'));
+		if( token && user ){
+		  this.props.setLogin(user, token);
+		  this.props.history.push('/login');
+		}
+		else this.props.history.push('/login');
+		
 	}
 
 	handleLogOut = () => {
-		localStorage.removeItem('token');
-        localStorage.removeItem('isLoggedIn');
-		this.setState({isLoggedIn: false, token: ''});
+		this.props.setLogout();
+		this.props.history.push('/login');
 	}
 
 	render(){
-		const { isLoggedIn, token, friends, subscribedChannels } = this.state;
+		const { isAuth } = this.props;
 		return(
 			<div className="app-box">
-				<Router>
-					{ !isLoggedIn ? <Route 
-										path='/' 
-										component={() => <Login 
-											setLogin={(token) => this.setLogin(token)} />} />
-										: null}
-					{ isLoggedIn ? <Route 
-										path='/' 
-										component={() => <Dashboard 
-											friends={friends}
-											subscribedChannels={subscribedChannels}
-											token={token} />}
-										/> : null}
-				</Router>
+				<Switch>
+					{!isAuth ? <Route exact path='/login' component={Login}/> : null}
+					{!isAuth ? <Route exact path='/signup' component={Signup}/> : null}
+					{isAuth ? <Route path='/' component={Dashboard} /> : null}
+				</Switch>
 			</div>
 		)
 	}
 }
 
-export default App;
+const mapStateToProps = state => {
+	return{
+		isAuth: state.auth.isAuth,
+		user: state.auth.user
+	}
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		setLogin: (user, token) => dispatch(actionCreators.setLogin(user, token)),
+		setLogout: () => dispatch(actionCreators.setLogout())
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));

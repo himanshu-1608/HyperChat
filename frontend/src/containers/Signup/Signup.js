@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import * as actionCreators from '../../actions/index';
 
-import styles from './Login.module.css';
+import styles from './Signup.module.css';
 import slack from '../../assests/gifs/slack.gif';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -12,7 +12,7 @@ import { FaFingerprint } from 'react-icons/fa';
 import { HiOutlineMail } from 'react-icons/hi';
 import { BsPeopleCircle } from 'react-icons/bs';
 
-class Login extends Component {
+class Signup extends Component {
     state = {
         name:'',
         email: '',
@@ -32,12 +32,13 @@ class Login extends Component {
         if(!this.isFormDataValid())
             return;
 
-        const { email, password } = this.state;
+        const { name, email, password } = this.state;
         const user = {
+            name: name,
             email: email,
             password: password
         }
-        this.props.loginUser(user);
+        this.props.registerUser(user);
     }
     
     render() {
@@ -46,11 +47,19 @@ class Login extends Component {
                 <div className={styles.text_section}>
                     <img src={slack} alt="slack gif" />
                 </div>
-                <div className={styles.login_section}>
+                <div className={styles.sigin_section}>
                     <div className={styles.login_box}>
                         <Input
-                            name="email"
+                            name="name"
                             type="text"
+                            placeholder="Name"
+                            value={this.state.name}
+                            onChange={this.inputChangeHandler}
+                            icon={<BsPeopleCircle />}
+                        />
+                        <Input
+                            name="email"
+                            type="email"
                             placeholder="Email"
                             value={this.state.email}
                             onChange={this.inputChangeHandler}
@@ -66,11 +75,11 @@ class Login extends Component {
                         />
                         <Button
                             onClick={this.submitFormHandler}
-                            display="Sign In"
+                            display="Sign Up"
                         />
                         <div className={styles.toggle_section}>
-                            Not a member? 
-                            <Link className={styles.link_section} to='/signup'>Sign up now</Link>
+                            Already a member?
+                            <Link className={styles.link_section} to='/login'>Sign In</Link>
                         </div>
                     </div>
                 </div>
@@ -81,8 +90,8 @@ class Login extends Component {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		loginUser: (user) => dispatch(actionCreators.loginUser(user))
+		registerUser: (user) => dispatch(actionCreators.registerUser(user))
 	}
 }
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Signup);
