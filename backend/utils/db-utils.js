@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Message = require('../models/message');
 const HttpError = require('../models/http-error');
 
 exports.createNewUser = async (userName, userEmail, userPassword) => {
@@ -32,3 +33,73 @@ exports.findUserByEmail = async (userEmail) => {
   const user = await User.findOne({ userEmail: userEmail });
   return user;
 };
+
+exports.findUserDetails = async (userId, fields) => {
+    let getChannels = false, getFriends = false;
+    fields.split(",").map( field => {
+        switch(field) {
+            case 'channels': getChannels = true;
+            break;
+            case 'DMs': getFriends = true;
+            break;
+        }
+    });
+    let userData;
+    if(getChannels && getFriends) {
+        userData = await User.findById(userId).populate('userChannelIDs').populate('userFriendIDs').exec();
+        return { id: userData.id, userSubscribedChannels: userData.userChannelIDs, userFriends: userData.userFriendIDs };
+    } else if(getChannels) {
+        userData = await User.findById(userId).populate('userChannelIDs');
+        return { id: userData.id, userSubscribedChannels: userData.userChannelIDs };
+    } else if(getFriends) {
+        userData = await User.findById(userId).populate('userFriendIDs');
+        return { id: userData.id, userFriends: userData.userFriendIDs };
+    }
+    //no condition found
+    if(!userData) {
+        throw new HttpError('Could not find user for the provided id.', 404);
+    }
+}
+
+exports.createNewMessage = async (messageType, isChannelMessage, senderID, recieverID, sentTime, messagePayload) => {
+    try{
+        const message = new Message({
+            messageType,
+            isChannelMessage,
+            senderID,
+            recieverID,
+            sentTime,
+            isEdited: false,
+            isDeleted: false,
+            messagePayload,
+            deliveredTime: [],
+            seenTime: []
+        });
+        await message.save();
+        return message;
+    } catch(err){
+        console.log("Error in creating new message at db-utils.js->createNewMessage: ", err);
+        throw new HttpError('Could not create message, please try again!', 400);
+    }
+}
+
+exports.findMessages = async (person1ID, person2ID, limit, offset) => {
+    try{
+        limit = parseInt(limit);
+        offset = parseInt(offset);
+        const users = [person1ID, person2ID];
+        const messages = await Message.find({senderID: {$in: users}, receiverID: {$in: users}}).hint({ $natural : -1 }).skip(offset).limit(limit);
+        return messages;
+    } catch(err){
+        console.log("Error in creating new message at db-utils.js->findMessages: ", err);
+        throw new HttpError('Could not create message, please try again!', 400);
+    }
+}
+
+exports.findMessageByID = async (messageID) => {
+    const message = await Message.findById(messageID);
+    if (!message) {
+        throw new HttpError('Could not find message for the provided id.',404);
+    }
+    return message;
+}

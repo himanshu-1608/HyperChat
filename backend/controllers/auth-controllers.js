@@ -8,7 +8,6 @@ exports.registerNewUser = async(req, res, next) => {
         const { userName, userEmail, userPassword } = req.body;
 
         existingUser = await findUserByEmail(userEmail);
-        console.log('existingUser: ', existingUser);
         if(existingUser) throw new HttpError('User exists already', 409);
         hashedPassword = await hashPassword(userPassword);
         createdUser = await createNewUser(userName, userEmail, hashedPassword);

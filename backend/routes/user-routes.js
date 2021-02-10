@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.put('/:uid/dm/add', isAuth, userControllers.addNewDM);
 router.get('/:uid', isAuth, userControllers.getUserDetails);
-router.get('/:uid/dm/message', isAuth, userControllers.getUserDmMessages);
+router.get('/:uid/dm/:dmid/message', isAuth, userControllers.getUserDmMessages);
 router.post('/:uid/dm/message', isAuth, userControllers.sendMessageInDM);
 router.put('/:uid/dm/message', isAuth, userControllers.editMessageInDM);
 router.delete('/:uid/dm/message', isAuth, userControllers.deleteMessageInDM);
