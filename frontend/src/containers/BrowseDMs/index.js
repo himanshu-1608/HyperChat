@@ -1,8 +1,13 @@
 import { Component } from 'react';
 import styles from './BrowseDms.module.css';
 import UserDetail from '../../components/UserDetail';
+import { connect } from "react-redux";
+import * as actionCreators from '../../actions/index';
 
 class BrowseDms extends Component {
+    componentDidMount(){
+        this.props.fetchUsers()
+    }
     render() {
         return (
             <div className={styles.browsedm_section}>
@@ -30,4 +35,19 @@ class BrowseDms extends Component {
         );
     }
 }
-export default BrowseDms;
+
+
+
+const mapStateToProps = state => {
+    return {
+        users: state.general.users
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchUsers: () => dispatch(actionCreators.fetchUsers())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BrowseDms);

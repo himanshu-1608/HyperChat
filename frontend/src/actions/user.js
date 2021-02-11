@@ -86,5 +86,21 @@ export const setMessagesInDm = directMessages => {
     }
 }
 
+export const joinChannel = channel => {
+    return {
+        type: actionTypes.JOIN_CHANNEL,
+        payload: {
+            channel: channel
+        }
+    }
+}
 
+export const addNewDM = dm => {
+    return {
+        type: actionTypes.ADD_NEW_DM,
+        payload: {
+            dm: dm
+        }
+    }
+}
 

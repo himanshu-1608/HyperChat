@@ -1,23 +1,23 @@
 import { Component } from "react";
+import axios from '../../axios';
 import styles from './ChannelItem.module.css';
 
 class ChannelItem extends Component{
+
     render(){
+        const { channelName, channelSubscribers } = this.props.channel;
         return(
             <div className={styles.channelitem_box}>
                 <div className={styles.channel_info}>
-                    {/* TODO: channel name */}
                     <div className={styles.channel_name}>
-                        #general
+                        #{channelName}
                     </div>
-                    {/* TODO: channel total subscribers */}
                     <div className={styles.channel_subscribers}>
-                        10 members
+                        {channelSubscribers.length} members
                     </div>
                 </div>
                 <div className={styles.channel_join_box}>
-                    {/* TODO: channel join btn */}
-                    <div className={styles.channel_join_btn}>
+                    <div className={styles.channel_join_btn} onClick={this.props.onClick}>
                         Join
                     </div>
                 </div>
