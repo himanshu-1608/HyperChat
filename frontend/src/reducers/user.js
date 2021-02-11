@@ -45,6 +45,18 @@ const userReducer = (state = initialState, action) => {
                 openDm: {...action.payload.dm },
                 openChannel: null
             }
+
+        case actionTypes.JOIN_CHANNEL:
+            return {
+                ...state,
+                subscribedChannels: [...state.subscribedChannels, action.payload.channel]
+            }
+
+        case actionTypes.ADD_NEW_DM:
+            return {
+                ...state,
+                friends: [...state.friends, action.payload.dm]
+            }
         
         default:
             return state;

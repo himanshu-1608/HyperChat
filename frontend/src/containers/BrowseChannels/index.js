@@ -12,9 +12,10 @@ class BrowseChannels extends Component {
         this.props.fetchChannels();
     }
 
-    joinChannelHandler = (channelId) => {
-        axios.post(`/channels/${channelId}/join`)
-        .then(result => {
+    joinChannelHandler = (channel) => {
+        axios.post(`/channels/${channel._id}/join`)
+        .then(() => {
+            this.props.joinChannel(channel);
             this.props.history.push('/');
         })
         .catch(err => console.log(err));
@@ -23,7 +24,7 @@ class BrowseChannels extends Component {
     render() {
 
         const channelList = this.props.channels.map(channel => {
-            return <ChannelItem key={channel._id} channel={channel} onClick={this.joinChannelHandler}/>
+            return <ChannelItem key={channel._id} channel={channel} onClick={() => this.joinChannelHandler(channel)}/>
         })
 
         return (
@@ -63,7 +64,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchChannels: () => dispatch(actionCreators.fetchChannels())
+        fetchChannels: () => dispatch(actionCreators.fetchChannels()),
+        joinChannel: (channel) => dispatch(actionCreators.fetchChannels(channel))
     }
 }
 
