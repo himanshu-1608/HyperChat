@@ -17,8 +17,7 @@ class MenuBar extends Component {
                         <BiHelpCircle />
                     </div>
                 </div>
-                {/* TODO: logout btn is added */}
-                <div className={styles.logout_btn}>
+                <div className={styles.logout_btn} onClick={this.props.setLogout}>
                     <FiLogOut />
                 </div>
             </div>

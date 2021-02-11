@@ -12,6 +12,10 @@ import BrowseChannels from '../BrowseChannels';
 import BrowseDms from '../BrowseDMs';
 
 class Dashboard extends Component {
+    state = {
+        showSubscribersModal: false,
+    };
+
     componentDidMount() {
         // const socket = openSocket('http://localhost:8080');
     }
@@ -22,18 +26,30 @@ class Dashboard extends Component {
             this.props.history.push('/login');
         }
     }
+    subscribersModalShowHandler = () => {
+        this.setState({ showSubscribersModal: true });
+    };
+
+    subscribersModalHideHandler = () =>
+        this.setState({ showSubscribersModal: false });
 
     render() {
         const {
+            user,
             subscribedChannels,
             friends,
             channelOpened,
             dmOpened,
+            openChannel,
+            openDm,
+            directMessages,
+            channelMessages,
         } = this.props;
+        const { showSubscribersModal } = this.state;
         return (
             <div className={styles.dashboard_page}>
                 <Router>
-                    <MenuBar />
+                    <MenuBar setLogout={this.props.setLogout} />
                     <div className={styles.main_box}>
                         <NavBar
                             subscribedChannels={subscribedChannels}
@@ -41,6 +57,15 @@ class Dashboard extends Component {
                             channelOpened={channelOpened}
                             dmOpened={dmOpened}
                         />
+                        {openChannel || openDm ? (
+                            <ChatSection
+                                user={user}
+                                openChannel={openChannel}
+                                openDm={openDm}
+                                directMessages={directMessages}
+                                channelMessages={channelMessages}
+                            />
+                        ) : null}
 
                         <Switch>
                             <Route
@@ -62,13 +87,11 @@ class Dashboard extends Component {
                     </div>
                 </Router>
 
-                {/* TODO: add the modal useState here  */}
-                {/* <div className={styles.modals}> */}
-                {/* <SubscribersModal /> */}
-                {/* </div> */}
-
-                {/* TODO: Button has been relocated to MenuBar */}
-                {/* <button onClick={this.props.setLogout}>Logout</button> */}
+                {/* {showSubscribersModal ? (
+                    <div className={styles.modals}>
+                        <SubscribersModal onClick={this.subscribersModalShowHandler}/>
+                    </div>
+                ) : null}    */}
             </div>
         );
     }
@@ -76,8 +99,13 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        user: state.auth.user,
         friends: state.user.friends,
         subscribedChannels: state.user.subscribedChannels,
+        openChannel: state.user.openChannel,
+        openDm: state.user.openDm,
+        directMessages: state.user.directMessages,
+        channelMessages: state.user.channelMessages,
     };
 };
 
