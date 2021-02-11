@@ -1,10 +1,31 @@
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import ChannelItem from '../../components/ChannelItem';
 import Search from '../../components/Search';
 import styles from './BrowseChannels.module.css';
+import * as actionCreators from '../../actions/index';
+import axios from '../../axios';
 
 class BrowseChannels extends Component {
+
+    componentDidMount(){
+        this.props.fetchChannels();
+    }
+
+    joinChannelHandler = (channelId) => {
+        axios.post(`/channels/${channelId}/join`)
+        .then(result => {
+            this.props.history.push('/');
+        })
+        .catch(err => console.log(err));
+    }
+
     render() {
+
+        const channelList = this.props.channels.map(channel => {
+            return <ChannelItem key={channel._id} channel={channel} onClick={this.joinChannelHandler}/>
+        })
+
         return (
             <div className={styles.browsechannel_section}>
                 <div className={styles.browsechannel_title}>
@@ -25,13 +46,25 @@ class BrowseChannels extends Component {
                     <div className={styles.search_menu}>
                         <Search />
                     </div>
-                    {/* TODO: channel list */}
                     <div className={styles.channel_list}>
-                        <ChannelItem />
+                        {channelList}
                     </div>
                 </div>
             </div>
         );
     }
 }
-export default BrowseChannels;
+
+const mapStateToProps = state => {
+    return {
+        channels: state.general.channels
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchChannels: () => dispatch(actionCreators.fetchChannels())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BrowseChannels);
