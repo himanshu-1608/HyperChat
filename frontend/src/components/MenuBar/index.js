@@ -2,6 +2,8 @@ import { Component } from 'react';
 import styles from './MenuBar.module.css';
 import { AiOutlineHistory } from 'react-icons/ai';
 import { BiHelpCircle } from 'react-icons/bi';
+import { FiLogOut } from 'react-icons/fi';
+
 class MenuBar extends Component {
     render() {
         return (
@@ -14,6 +16,10 @@ class MenuBar extends Component {
                     <div className={styles.help}>
                         <BiHelpCircle />
                     </div>
+                </div>
+                {/* TODO: logout btn is added */}
+                <div className={styles.logout_btn}>
+                    <FiLogOut />
                 </div>
             </div>
         );
