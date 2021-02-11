@@ -7,11 +7,11 @@ exports.registerNewUser = async(req, res, next) => {
     try {
         const { userName, userEmail, userPassword } = req.body;
 
-        existingUser = await findUserByEmail(userEmail);
+        existingUser = await findUserByEmail(userEmail);    
         if(existingUser) throw new HttpError('User exists already', 409);
-        hashedPassword = await hashPassword(userPassword);
-        createdUser = await createNewUser(userName, userEmail, hashedPassword);
-        token = createToken(createdUser.id);
+        hashedPassword = await hashPassword(userPassword);  
+        createdUser = await createNewUser(userName, userEmail, hashedPassword); 
+        token = createToken(createdUser.id); 
         res.status(201).json({
             message: "User created successfully",
             token: token,
@@ -31,11 +31,11 @@ exports.loginUser = async(req, res, next) => {
     const { userEmail, userPassword } = req.body;
     let existingUser, isValidPassword, token;
     try {
-        existingUser = await findUserByEmail(userEmail);
+        existingUser = await findUserByEmail(userEmail);    
         if (!existingUser) throw new HttpError('Invalid credentials: Email', 403);
-        isValidPassword = await checkPassword(userPassword, existingUser.userPassword);
+        isValidPassword = await checkPassword(userPassword, existingUser.userPassword); 
         if (!isValidPassword) throw new HttpError('Invalid credentials: Password', 403);
-        token = createToken(existingUser.id);
+        token = await createToken(existingUser._id);   
         res.status(200).json({
             message: "User logged in successfully",
             token: token,

@@ -16,6 +16,7 @@ class App extends Component{
 		const user = JSON.parse(localStorage.getItem('user'));
 		if( token && user ){
 		  this.props.setLogin(user, token);
+		  this.props.fetchFriendsAndChannels(user.id);
 		  this.props.history.push('/login');
 		}
 		else this.props.history.push('/login');
@@ -32,9 +33,9 @@ class App extends Component{
 		return(
 			<div className="app-box">
 				<Switch>
-					{!isAuth ? <Route exact path='/login' component={Login}/> : null}
-					{!isAuth ? <Route exact path='/signup' component={Signup}/> : null}
-					{isAuth ? <Route path='/' component={Dashboard} /> : null}
+					<Route exact path='/login' component={Login}/>
+					<Route exact path='/signup' component={Signup}/>
+					<Route path='/' component={Dashboard} /> 
 				</Switch>
 			</div>
 		)
@@ -51,7 +52,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		setLogin: (user, token) => dispatch(actionCreators.setLogin(user, token)),
-		setLogout: () => dispatch(actionCreators.setLogout())
+		setLogout: () => dispatch(actionCreators.setLogout()),
+		fetchFriendsAndChannels: (userId) => dispatch(actionCreators.fetchFriendsAndChannels(userId))
 	}
 }
 
