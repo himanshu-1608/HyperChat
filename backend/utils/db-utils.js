@@ -62,13 +62,46 @@ exports.findUserDetails = async (userId, fields) => {
     }
 }
 
-exports.createNewMessage = async (messageType, isChannelMessage, senderID, recieverID, sentTime, messagePayload) => {
+exports.getUsers = async (limit, offset, fields) => {
+    try{
+        let isNameInclude = false, isIdInclude = false;
+        fields.split(',').map((field)=> {
+            switch(field) {
+                case 'name': isNameInclude = true;
+                break;
+                case 'id': isIdInclude = true;
+                break;
+            }
+        });
+        const users = await User.find().skip(offset).limit(limit);
+        let finalUserList;
+        if(isNameInclude && isIdInclude) {
+            finalUserList = users.map((user)=> {
+                return {id: user._id, name: user.userName}
+            });
+        } else if(isNameInclude) {
+            finalUserList = users.map((user)=> {
+                return {name: user.userName}
+            });
+        } else if(isIdInclude){
+            finalUserList = users.map((user)=> {
+                return {id: user._id}
+            });
+        }
+        return finalUserList;
+    } catch(err){
+        console.log("Error in finding users at db-utils.js->getUsers: ", err);
+        throw new HttpError('Could not find Users, please try again!', 400);
+    }   
+}
+
+exports.createNewMessage = async (messageType, isChannelMessage, senderID, receiverID, sentTime, messagePayload) => {
     try{
         const message = new Message({
             messageType,
             isChannelMessage,
             senderID,
-            recieverID,
+            receiverID,
             sentTime,
             isEdited: false,
             isDeleted: false,
@@ -84,16 +117,24 @@ exports.createNewMessage = async (messageType, isChannelMessage, senderID, recie
     }
 }
 
-exports.findMessages = async (person1ID, person2ID, limit, offset) => {
+exports.findMessagesInDm = async (person1ID, person2ID, limit, offset) => {
     try{
-        limit = parseInt(limit);
-        offset = parseInt(offset);
         const users = [person1ID, person2ID];
-        const messages = await Message.find({senderID: {$in: users}, receiverID: {$in: users}}).hint({ $natural : -1 }).skip(offset).limit(limit);
+        const messages = await Message.find({senderID: {$in: users}, receiverID: {$in: users}}).hint({ $natural : -1 }).skip(offset).limit(limit).populate('senderID');
         return messages;
     } catch(err){
-        console.log("Error in creating new message at db-utils.js->findMessages: ", err);
-        throw new HttpError('Could not create message, please try again!', 400);
+        console.log("Error in finding messages at db-utils.js->findMessagesInDm: ", err);
+        throw new HttpError('Could not find messages, please try again!', 400);
+    }
+}
+
+exports.findMessagesInChannel = async (channelId, limit, offset) => {
+    try{
+        const messages = await Message.find({receiverID: channelId}).hint({ $natural : -1 }).skip(offset).limit(limit).populate('senderID');
+        return messages;
+    } catch(err){
+        console.log("Error in finding messages at db-utils.js->findMessagesInChannel: ", err);
+        throw new HttpError('Could not find messages, please try again!', 400);
     }
 }
 
@@ -128,3 +169,18 @@ exports.createChannel = async (channelName, channelDesc, channelCreatedBy, subsc
         throw new HttpError('Could not create user, please try again!', 400);
     }
 };
+
+exports.findChannelById = async (channelId) => {
+    const channel = await Channel.findById(channelId);
+    return channel;
+}
+
+exports.getSomeChannels = async (limit, offset) => {
+    try{
+        const channels = await Channel.find().skip(offset).limit(limit);
+        return channels;
+    } catch(err){
+        console.log("Error in finding channels at db-utils.js->getSomeChannels: ", err);
+        throw new HttpError('Could not find Channels, please try again!', 400);
+    }
+}
