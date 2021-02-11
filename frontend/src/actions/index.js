@@ -1,5 +1,18 @@
 
+// auth actionCreators
+export { registerUser, 
+    loginUser, 
+    setLogin, 
+    setLogout} from './auth';
 
-export { registerUser, loginUser, setLogin, setLogout} from './auth';
-
-export { fetchFriendsAndChannels, setFriendsAndChannels } from './user';
+// user actionCreators
+export { fetchFriendsAndChannels, 
+    setFriendsAndChannels,
+    dmOpened,
+    channelOpened,
+    fetchMessagesInChannel,
+    fetchMessagesInDm,
+    setMessagesInChannel,
+    setMessagesInDm,
+    setOpenChannel,
+    setOpenDm } from './user';

@@ -6,6 +6,15 @@ import { MdPersonOutline } from 'react-icons/md';
 import { RiUserAddLine } from 'react-icons/ri';
 
 class ChatSection extends Component {
+    
+    state = {
+        message: ''
+    }
+
+    inputChangeHandler = (e) => {
+        this.setState({message: e.target.value})
+    }
+
     render() {
         return (
             <div className={styles.chat_section}>
@@ -36,7 +45,11 @@ class ChatSection extends Component {
                     <div className={styles.send_message_box}>
                         <div className={styles.input_box}>
                             {/* TODO: change the placeholder as per channel name */}
-                            <input placeholder="Message #general" />
+                            <input 
+                                placeholder="Message #general"
+                                name='message'
+                                value={this.state.message}
+                                onChange={this.inputChangeHandler} />
                         </div>
                         <div className={styles.send_icon}>
                             <AiOutlineSend className={styles.icon} />
