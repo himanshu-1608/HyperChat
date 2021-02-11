@@ -9,7 +9,7 @@ export const registerUser = (user) => {
                 userName: user.name,
                 userEmail: user.email,
                 userPassword: user.password,
-                userConfirmPassword: user.password,
+                userConfirmPassword: user.confirmPassword,
                 userProfilePic: ''
             }),
             headers: {

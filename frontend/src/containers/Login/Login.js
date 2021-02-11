@@ -10,7 +10,6 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { FaFingerprint } from 'react-icons/fa';
 import { HiOutlineMail } from 'react-icons/hi';
-import { BsPeopleCircle } from 'react-icons/bs';
 
 class Login extends Component {
     state = {

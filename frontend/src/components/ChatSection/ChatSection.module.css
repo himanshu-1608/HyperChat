@@ -1,22 +1,15 @@
 .chat_section{
     width: calc(100% - 300px);
     height: 100%;
-    /* background-color: aqua; */
 }
-.chat_title{
-    height: 64px;
-    width: 100%;
-    border-bottom: solid 1px rgb(224, 224, 224);
-}
+
 .chat_box{
     height: calc(100% - 144px);
     width: 100%;
-    /* background-color: rosybrown; */
 }
 .chat_send_message{
     height: 80px;
     width: 100%;
-    /* background-color: royalblue; */
     padding:15px 20px;
 }
 .send_message_box{
@@ -49,11 +42,64 @@
     justify-content: center;
     align-items: center;
     font-size: 25px;
-    /* background-color: seagreen; */
 }
 *:focus{
     outline: none;
 }
 .icon{
     cursor: pointer;
+}
+.chat_title{
+    height: 64px;
+    width: 100%;
+    border-bottom: solid 1px rgb(224, 224, 224);
+    display: flex;
+}
+.chat_details{
+    width: 50%;
+    height: 100%;
+    /* background-color: rgb(105, 38, 38); */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 20px;
+    padding-top: 5px;
+}
+.chat_name{
+    font-weight: bolder;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+.chat_desc{
+    font-size: 12px;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    color: rgb(70, 70, 70);
+}
+.divider{
+    color:rgb(201, 201, 201);
+    padding: 0px 5px;
+}
+.icon_person{
+    font-size: 15px;
+    margin-right: 5px;
+}
+.chat_options{
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 20px;
+    font-size: 20px;
+    color: rgb(117, 117, 117);
+}
+.options{
+    padding: 3px 6px;
+    cursor: pointer;
+}
+.options:hover{
+    background-color: rgb(247, 247, 247);
+    border-radius: 3px;
+    color:black;
 }
