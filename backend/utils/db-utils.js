@@ -120,7 +120,7 @@ exports.createNewMessage = async (messageType, isChannelMessage, senderID, recei
 exports.findMessagesInDm = async (person1ID, person2ID, limit, offset) => {
     try{
         const users = [person1ID, person2ID];
-        const messages = await Message.find({senderID: {$in: users}, receiverID: {$in: users}}).hint({ $natural : -1 }).skip(offset).limit(limit);
+        const messages = await Message.find({senderID: {$in: users}, receiverID: {$in: users}}).hint({ $natural : -1 }).skip(offset).limit(limit).populate('senderID');
         return messages;
     } catch(err){
         console.log("Error in finding messages at db-utils.js->findMessagesInDm: ", err);
@@ -130,7 +130,7 @@ exports.findMessagesInDm = async (person1ID, person2ID, limit, offset) => {
 
 exports.findMessagesInChannel = async (channelId, limit, offset) => {
     try{
-        const messages = await Message.find({receiverID: channelId}).hint({ $natural : -1 }).skip(offset).limit(limit);
+        const messages = await Message.find({receiverID: channelId}).hint({ $natural : -1 }).skip(offset).limit(limit).populate('senderID');
         return messages;
     } catch(err){
         console.log("Error in finding messages at db-utils.js->findMessagesInChannel: ", err);
