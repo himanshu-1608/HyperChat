@@ -6,8 +6,8 @@ const initialState = {
     subscribedChannels: [],
     channelMessages: [],
     directMessages: [],
-    openDm: {},
-    openChannel: {}
+    openDm: null,
+    openChannel: null
 }
 
 const userReducer = (state = initialState, action) => {
@@ -35,13 +35,15 @@ const userReducer = (state = initialState, action) => {
         case actionTypes.SET_OPEN_CHANNEL:
             return {
                 ...state,
-                openChannel: {...action.payload.channel }
+                openChannel: {...action.payload.channel },
+                openDm: null
             }
 
         case actionTypes.SET_OPEN_DM:
             return {
                 ...state,
-                openDm: {...action.payload.dm }
+                openDm: {...action.payload.dm },
+                openChannel: null
             }
         
         default:
