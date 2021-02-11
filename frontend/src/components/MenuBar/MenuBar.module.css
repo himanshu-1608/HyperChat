@@ -40,3 +40,17 @@
 .help{
     composes:history;    
 }
+.logout_btn{
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color:white;
+}
+.logout_btn:hover{
+    background-color: #5f1d61;
+}
