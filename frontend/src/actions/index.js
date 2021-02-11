@@ -3,7 +3,8 @@
 export { registerUser, 
     loginUser, 
     setLogin, 
-    setLogout} from './auth';
+    setLogout
+} from './auth';
 
 // user actionCreators
 export { fetchFriendsAndChannels, 
@@ -15,4 +16,11 @@ export { fetchFriendsAndChannels,
     setMessagesInChannel,
     setMessagesInDm,
     setOpenChannel,
-    setOpenDm } from './user';
+    setOpenDm 
+} from './user';
+
+// general actionCreators
+export {
+    fetchChannels,
+    fetchUsers
+} from './general';
