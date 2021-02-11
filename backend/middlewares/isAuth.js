@@ -3,7 +3,7 @@ const  { secret }  = require('../config');
 const HttpError = require('../models/http-error');
 
 module.exports = async(req, res, next) => {
-    const authorized = req.get('authorization');
+    const authorized = req.get('Authorization');
     if(authorized){  
         const token = authorized.split(' ')[1];
         let decodedToken;
