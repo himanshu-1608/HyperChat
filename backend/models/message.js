@@ -1,6 +1,4 @@
-
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 const messageSchema = new Schema({
@@ -17,7 +15,7 @@ const messageSchema = new Schema({
         ref: 'User',
         required: true
     },
-    recieverID: {
+    receiverID: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
@@ -27,6 +25,10 @@ const messageSchema = new Schema({
         required: true
     },
     isEdited: {
+        type: Boolean,
+        default: false
+    },
+    isDeleted: {
         type: Boolean,
         default: false
     },
@@ -55,4 +57,3 @@ const messageSchema = new Schema({
 });
 
 module.exports = mongoose.model('Message', messageSchema);
-
