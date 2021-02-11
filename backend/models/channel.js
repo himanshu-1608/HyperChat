@@ -12,8 +12,7 @@ const channelSchema = new Schema({
     },
     channelCreatedBy: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        ref: 'User'
     },
     channelSubscribers:[{
         type: Schema.Types.ObjectId,

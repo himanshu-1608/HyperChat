@@ -46,4 +46,4 @@ mongoose.connect(mongoUrl)
     console.log('DB Connected!');
     startServer();
 })
-.catch(err => console.log(err));
+.catch(err => console.log("Mongo Connection Error: ", err));
