@@ -10,6 +10,7 @@ import SubscribersModal from '../../components/SubscribersModal';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BrowseChannels from '../BrowseChannels';
 import BrowseDms from '../BrowseDMs';
+import EmptySection from '../../components/EmptySection';
 
 class Dashboard extends Component {
     state = {
@@ -21,7 +22,6 @@ class Dashboard extends Component {
     }
 
     componentWillReceiveProps(newProps) {
-        // console.log('NewProps', newProps);
         if (!newProps.isAuth) {
             this.props.history.push('/login');
         }
@@ -57,21 +57,21 @@ class Dashboard extends Component {
                             channelOpened={channelOpened}
                             dmOpened={dmOpened}
                         />
-                        {openChannel || openDm ? (
-                            <ChatSection
-                                user={user}
-                                openChannel={openChannel}
-                                openDm={openDm}
-                                directMessages={directMessages}
-                                channelMessages={channelMessages}
-                            />
-                        ) : null}
-
                         <Switch>
                             <Route
                                 path="/"
                                 exact
-                                component={() => <ChatSection />}
+                                component={() =>
+                                    openChannel || openDm ? (
+                                        <ChatSection
+                                            user={user}
+                                            openChannel={openChannel}
+                                            openDm={openDm}
+                                            directMessages={directMessages}
+                                            channelMessages={channelMessages}
+                                        />
+                                    ) : <EmptySection />
+                                }
                             />
                             <Route
                                 path="/browse-channels"
