@@ -1,0 +1,94 @@
+.modal {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(27, 27, 27, 0.61);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal_box {
+    padding: 20px 30px;
+    max-height: 550px;
+    width: 600px;
+    background-color: white;
+    overflow-y: auto;
+    border-radius: 10px;
+    box-shadow: 10px 10px 100px rgb(83, 83, 83);
+}
+.modal_inner_box {
+    height: 100%;
+    width: 100%;
+    /* background-color: aqua; */
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+}
+.cancel_btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 22px;
+    color: rgb(124, 124, 124);
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.cancel_btn:hover {
+    background-color: rgb(247, 247, 247);
+    border-radius: 5px;
+    color: black;
+}
+.modal_title {
+    font-size: 25px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bolder;
+}
+.modal_desc {
+    margin-top: 10px;
+    font-size: 14px;
+    color: rgb(112, 112, 112);
+}
+.modal_inputs {
+    margin-top: 30px;
+}
+.input_box {
+    height: 50px;
+    width: 100%;
+    border: solid 1px rgb(224, 224, 224);
+    border-radius: 5px;
+    overflow:hidden
+}
+.input_label {
+    padding: 5px 0px;
+}
+.text {
+    font-size: 13px;
+    color:rgb(112, 112, 112);
+}
+.create_btn_box{
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    cursor: pointer;
+}
+.create_btn{
+    height: fit-content;
+    padding: 8px 12px;
+    background-color: rgb(199, 199, 199);
+    border-radius: 5px;
+    font-weight: bold;
+    color: rgb(49, 49, 49);
+}
+.create_btn:hover{
+    background-color: rgb(218, 218, 218);
+}
+.input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 20px;
+    font-size: 20px;
+}

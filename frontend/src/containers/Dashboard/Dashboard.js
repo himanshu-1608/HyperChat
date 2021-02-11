@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BrowseChannels from '../BrowseChannels';
 import BrowseDms from '../BrowseDMs';
 import EmptySection from '../../components/EmptySection';
+import CreateChannelModal from '../../components/CreateChannelModal';
 
 class Dashboard extends Component {
     state = {
@@ -86,12 +87,13 @@ class Dashboard extends Component {
                         </Switch>
                     </div>
                 </Router>
-
+                {/* TODO: all modals will be display here do it here */}
                 {/* {showSubscribersModal ? (
                     <div className={styles.modals}>
                         <SubscribersModal onClick={this.subscribersModalShowHandler}/>
                     </div>
-                ) : null}    */}
+                ) : null}  */}
+ 
             </div>
         );
     }
