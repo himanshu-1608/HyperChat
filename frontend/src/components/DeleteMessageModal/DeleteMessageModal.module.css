@@ -1,0 +1,117 @@
+.modal {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(27, 27, 27, 0.61);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal_box {
+    padding: 20px 30px;
+    max-height: 550px;
+    width: 560px;
+    background-color: white;
+    overflow-y: auto;
+    border-radius: 10px;
+    box-shadow: 10px 10px 100px rgb(83, 83, 83);
+}
+.modal_inner_box {
+    height: 100%;
+    width: 100%;
+    /* background-color: aqua; */
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+}
+.cancel_btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 22px;
+    color: rgb(124, 124, 124);
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.cancel_btn:hover {
+    background-color: rgb(247, 247, 247);
+    border-radius: 5px;
+    color: black;
+}
+.modal_title {
+    font-size: 25px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bolder;
+}
+.modal_desc {
+    margin-top: 10px;
+    font-size: 14px;
+    color: rgb(112, 112, 112);
+}
+
+.input_label {
+    padding: 5px 0px;
+}
+.text {
+    font-size: 13px;
+    color:rgb(112, 112, 112);
+}
+.btn_box{
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    cursor: pointer;
+}
+.delete_btn{
+    height: fit-content;
+    padding: 8px 12px;
+    background-color: rgb(228, 17, 17);
+    border-radius: 5px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+.delete_btn:hover{
+    background-color: rgb(238, 26, 26);
+}
+.message_box{
+    width: 100%;
+    height: fit-content;
+    border:solid 1px rgb(199, 199, 199);
+    margin-top: 15px;
+    border-radius: 5px;
+    display: flex;
+    padding: 20px;
+}
+.message_user_image{
+    width: 50px;
+    height: 50px;
+    background-color: royalblue;
+}
+.message_info{
+    width: calc(100% - 50px);
+    height: fit-content;
+    padding-left: 10px;
+}
+.message_user_name{
+    font-weight: bolder;
+}
+.message_time{
+    font-weight: normal;
+    font-size: 12px;
+    padding-left: 10px;
+    color: rgb(122, 122, 122);
+}
+.cancel_delete_btn{
+    height: fit-content;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: solid 1px rgb(199, 199, 199);
+    margin-right: 20px;
+    color:black
+}
+.cancel_delete_btn:hover{
+    background-color: rgb(248, 248, 248);
+}

@@ -11,7 +11,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BrowseChannels from '../BrowseChannels';
 import BrowseDms from '../BrowseDMs';
 import EmptySection from '../../components/EmptySection';
-import CreateChannelModal from '../../components/CreateChannelModal';
 
 class Dashboard extends Component {
     state = {
@@ -71,7 +70,9 @@ class Dashboard extends Component {
                                             directMessages={directMessages}
                                             channelMessages={channelMessages}
                                         />
-                                    ) : <EmptySection />
+                                    ) : (
+                                        <EmptySection />
+                                    )
                                 }
                             />
                             <Route
@@ -93,7 +94,6 @@ class Dashboard extends Component {
                         <SubscribersModal onClick={this.subscribersModalShowHandler}/>
                     </div>
                 ) : null}  */}
- 
             </div>
         );
     }
@@ -114,7 +114,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setLogout: () => dispatch(actionCreators.setLogout()),
-        channelOpened: (channel) =>dispatch(actionCreators.channelOpened(channel)),
+        channelOpened: (channel) =>
+            dispatch(actionCreators.channelOpened(channel)),
         dmOpened: (dm) => dispatch(actionCreators.dmOpened(dm)),
     };
 };
