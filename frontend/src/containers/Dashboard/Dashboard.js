@@ -6,6 +6,7 @@ import ChatSection from '../../components/ChatSection'
 import openSocket from 'socket.io-client';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index';
+import SubscribersModal from '../../components/SubscribersModal';
 
 class Dashboard extends Component{
 
@@ -33,6 +34,14 @@ class Dashboard extends Component{
                         dmOpened={dmOpened}/>
                     <ChatSection />
                 </div>
+                
+                {/* TODO: add the modal useState here  */}
+                {/* <div className={styles.modals}> */}
+                    {/* <SubscribersModal /> */}
+                {/* </div> */}
+
+
+                {/* TODO: Button has been relocated to MenuBar */}
                 <button onClick={this.props.setLogout}>Logout</button>
             </div>
         )

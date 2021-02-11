@@ -16,7 +16,8 @@ class Signup extends Component {
     state = {
         name:'',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword:''
     };
 
     componentWillReceiveProps(newProps) {
@@ -38,12 +39,12 @@ class Signup extends Component {
         if(!this.isFormDataValid())
             return;
 
-        const { name, email, password } = this.state;
+        const { name, email, password, confirmPassword } = this.state;
         const user = {
             userName: name,
             userEmail: email,
             userPassword: password,
-            userConfirmPassword: password,
+            userConfirmPassword: confirmPassword,
             userProfilePic: ''
         }
         this.props.registerUser(user);
@@ -78,6 +79,14 @@ class Signup extends Component {
                             type="password"
                             placeholder="Password"
                             value={this.state.password}
+                            onChange={this.inputChangeHandler}
+                            icon={<FaFingerprint />}
+                        />
+                        <Input
+                            name="confirmPassword"
+                            type="password"
+                            placeholder="Confirm Password"
+                            value={this.state.confirmPassword}
                             onChange={this.inputChangeHandler}
                             icon={<FaFingerprint />}
                         />
