@@ -9,7 +9,22 @@ import ChannelNavItem from '../ChannelNavItem';
 import DmNavItem from '../DmNavItem';
 
 class NavBar extends Component {
+
     render() {
+        const subscribedChannelsList = this.props.subscribedChannels.map(channel => {
+            return <ChannelNavItem 
+                key={channel._id} 
+                text={channel.channelName}
+                onClick={() => this.props.channelOpened(channel)} />
+        });
+
+        const dmList = this.props.friends.map(friend => {
+            return <DmNavItem 
+                key={friend._id} 
+                text={friend.userName}
+                onClick={() => this.props.dmOpened(friend)}/>
+        });
+
         return (
             <div className={styles.navbar_section}>
                 <div className={styles.title}>HyperVerge</div>
@@ -19,12 +34,9 @@ class NavBar extends Component {
                     <NavItem text="Mentions & reactions" icon={<FiAtSign />} />
                     <NavItem text="More" icon={<BsThreeDotsVertical />} />
                     <CustomNavItem text="Channels" icon={<RiArrowDownSFill />}/>
-                    {/*TODO: add channels here */}
-                        <ChannelNavItem text="general" />
-                        <ChannelNavItem text="Intern2021" />
+                    {subscribedChannelsList}
                     <CustomNavItem text="DMs" icon={<RiArrowDownSFill />}/>
-                    {/*TODO: add Dms here */}
-                        <DmNavItem text="Rahul Yadav"/>
+                    {dmList}
                 </div>
             </div>
         );
