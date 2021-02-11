@@ -16,9 +16,7 @@ const messageSchema = new Schema({
         required: true
     },
     receiverID: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        type: Schema.Types.ObjectId
     },
     sentTime: {
         type: Date,

@@ -1,4 +1,4 @@
-const { findUserById, findUserDetails, createNewMessage, findMessages, findMessageByID } = require('../utils/db-utils');
+const { findUserById, findUserDetails, createNewMessage, findMessagesInDm, findMessageByID, getUsers } = require('../utils/db-utils');
 const HttpError = require('../models/http-error');
 
 exports.addNewDM = async(req, res, next) => {
@@ -40,7 +40,9 @@ exports.getUserDmMessages = async(req, res, next) => {
         let { limit, offset } = req.query;
         if(!limit || limit>=50) limit = 20;
         if(!offset) offset = 0;
-        const messages = await findMessages(req.userId, req.params.dmid, limit, offset);
+        offset = parseInt(offset);
+        limit = parseInt(limit);
+        const messages = await findMessagesInDm(req.userId, req.params.dmid, limit, offset);
         res.status(200).json({
             message: `List of messages(most recent first): ${offset} to ${offset+limit-1}`,
             "message-list": messages
@@ -54,8 +56,8 @@ exports.getUserDmMessages = async(req, res, next) => {
 
 exports.sendMessageInDM = async(req, res, next) => {
     try {
-        const { messageType, messagePayload, recieverID, sentTime } = req.body;
-        await createNewMessage(messageType, false, req.userId, recieverID, sentTime, messagePayload);
+        const { messageType, messagePayload, receiverID, sentTime } = req.body;
+        await createNewMessage(messageType, false, req.userId, receiverID, sentTime, messagePayload);
         res.status(200).json({
             message: "Message Sent Successfully"
         });
@@ -68,12 +70,12 @@ exports.sendMessageInDM = async(req, res, next) => {
 
 exports.editMessageInDM = async(req, res, next) => {
     try {
-        const { messageID, messagePayload, recieverID } = req.body;
+        const { messageID, messagePayload, receiverID } = req.body;
         const message = await findMessageByID(messageID);
         message.isEdited = true;
         message.messagePayload = messagePayload;
         await message.save();
-        //send socket emit to recieverID
+        //send socket emit to receiverID
         res.status(200).json({
             message: "Message Edited Successfully"
         });
@@ -90,44 +92,34 @@ exports.deleteMessageInDM = async(req, res, next) => {
         const message = await findMessageByID(messageID);
         message.isDeleted = true;
         await message.save();
-        //send socket emit to recieverID
+        //send socket emit to receiverID
         res.status(200).json({
             message: "Message Deleted Successfully"
         });
     } catch(err) {
         if(err.code) return next(err);
-        console.log("Unexpected Error at user-controllers.js->editMessageInDM: ", err);
+        console.log("Unexpected Error at user-controllers.js->deleteMessageInDM: ", err);
         return next(new HttpError(`Could not edit the message, try again`, 400));
     }
 }
 
 exports.getAllUsers = async(req, res, next) => {
-    // try{
-    //     const users = await User.find({_id: {$nin: [req.userId]}}).limit(5);
-    //     res.status(200).json({
-    //         message: "Fetched users successfully",
-    //         users: users
-    //     });
-    // }
-    // catch(err){
-    //     console.log(err);
-    //     const error = new Error(
-    //         'Fetching all users failed.',
-    //         500
-    //     );
-    //     return next(error);
-    // }
-    res.status(200).json({
-        message: "List of users: 21 to 40",
-        users: [{
-            _id: "123",
-            name: "Random Name 1"
-        }, {
-            _id: "234",
-            name: "Random Name 2"
-        }, {
-            _id: "345",
-            name: "Random Name 3"
-        }]
-    });
+    try {
+        let { limit, offset, fields } = req.query;
+        if(!fields) throw new HttpError('Please add fields in the query!', 400);
+        if(!limit || limit>=50) limit = 20;
+        if(!offset) offset = 0;
+        offset = parseInt(offset);
+        limit = parseInt(limit);
+        const users = await getUsers(limit, offset,fields);
+        
+        res.status(200).json({
+            message: `List of users: ${offset} to ${offset+limit-1}`,
+            users: users
+        });
+    } catch(err) {
+        if(err.code) return next(err);
+        console.log("Unexpected Error at user-controllers.js->getAllUsers: ", err);
+        return next(new HttpError(`Could not find users, try again`, 400));
+    }
 }
