@@ -75,8 +75,6 @@ class ChatSection extends Component {
                             {openChannel ? `#${openChannel.channelName}` : `${openDm.userName}`}
                         </div>
                         <div className={styles.chat_desc}>
-
-                            {/* TODO: clicking on this icon(MDPersonOutline) will show the SubscribersModal */}
                             {openChannel ? (
                                 <>
                                     <MdPersonOutline className={styles.icon_person}/>{' '}
@@ -93,13 +91,11 @@ class ChatSection extends Component {
                     </div>
                 </div>
                 <div className={styles.chat_box}>
-                    {/* TODO: all messages will be shown here    */}
                     {messageList}
                 </div>
                 <div className={styles.chat_send_message}>
                     <div className={styles.send_message_box}>
                         <div className={styles.input_box}>
-                            {/* TODO: change the placeholder as per channel name */}
                             <input 
                                 placeholder={openChannel ? `Message #${openChannel.channelName}` : `Message ${openDm.userName}`}
                                 name='message'
