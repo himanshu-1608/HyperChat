@@ -2,6 +2,7 @@ import { Component } from 'react';
 import styles from './CustomNavItem.module.css';
 import { IconContext } from 'react-icons';
 import { AiOutlinePlus } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 class CustomNavItem extends Component {
     render() {
@@ -16,11 +17,13 @@ class CustomNavItem extends Component {
                 </div>
                 <div className={styles.text}>{this.props.text}</div>
                 <div className={styles.add}>
-                    <IconContext.Provider
-                        value={{ className: styles.icon_color }}
-                    >
-                        <AiOutlinePlus/>
-                    </IconContext.Provider>
+                    <Link to={`browse-${this.props.text.toLowerCase()}`}>
+                        <IconContext.Provider
+                            value={{ className: styles.icon_color }}
+                        >
+                            <AiOutlinePlus />
+                        </IconContext.Provider>
+                    </Link>
                 </div>
             </div>
         );

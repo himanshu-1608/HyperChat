@@ -1,0 +1,41 @@
+.channelitem_box{
+    width: 100%;
+    height: 70px;
+    border-bottom: solid 1px rgb(224, 224, 224);
+    padding:  0px 20px 0px 10px;
+    display: flex;
+}
+.channel_name{
+    font-weight: bold;
+}
+.channel_subscribers{
+    font-size: 14px;
+    color:rgb(133, 133, 133);
+}
+.channel_info{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.channel_join_box{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.channel_join_btn{
+    padding: 8px 30px;
+    background-color: rgb(28, 105, 63);
+    color: white;
+    font-weight: bolder;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 5px;
+    display: none;
+    cursor:pointer;
+}
+.channelitem_box:hover .channel_join_btn{
+    display: flex;
+}
