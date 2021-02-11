@@ -3,7 +3,7 @@ import * as actionTypes from './actionTypes';
 import axios from '../axios';
 
 export const registerUser = (user) => dispatch => {
-    axios.post('/user/registerNewUser', user)
+    axios.post('/auth/user/register', user)
     .then(result => {
         const { user, token } = result.data;
         localStorage.setItem('token', token);
@@ -14,7 +14,7 @@ export const registerUser = (user) => dispatch => {
 }
 
 export const loginUser = (user) => dispatch => {
-    axios.post('/user/loginUser', user)
+    axios.post('/auth/user/login', user)
     .then((result) => {
         const { user, token } = result.data;
         localStorage.setItem('token', token);

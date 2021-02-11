@@ -2,8 +2,8 @@
 import axios from '../axios';
 import * as actionTypes from './actionTypes';
 
-export const fetchFriendsAndChannels = () => dispatch => {
-    axios.get('/user/getUserFriendsAndChannels')
+export const fetchFriendsAndChannels = (userId) => dispatch => {
+    axios.get(`/users/${userId}?fields=DMs`)
     .then(result => {
         const { userFriends, userSubscribedChannels } = result.data;
         dispatch(setFriendsAndChannels(userFriends, userSubscribedChannels));

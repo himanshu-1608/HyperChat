@@ -50,10 +50,10 @@ exports.findUserDetails = async (userId, fields) => {
         return { id: userData.id, userSubscribedChannels: userData.userChannelIDs, userFriends: userData.userFriendIDs };
     } else if(getChannels) {
         userData = await User.findById(userId).populate('userChannelIDs');
-        return { id: userData.id, userSubscribedChannels: userData.userChannelIDs };
+        return { id: userData.id, userSubscribedChannels: userData.userChannelIDs, userFriends: [] };
     } else if(getFriends) {
         userData = await User.findById(userId).populate('userFriendIDs');
-        return { id: userData.id, userFriends: userData.userFriendIDs };
+        return { id: userData.id, userSubscribedChannels: [], userFriends: userData.userFriendIDs };
     }
     //no condition found
     if(!userData) {

@@ -16,7 +16,7 @@ class App extends Component{
 		const user = JSON.parse(localStorage.getItem('user'));
 		if( token && user ){
 		  this.props.setLogin(user, token);
-		  this.props.fetchFriendsAndChannels();
+		  this.props.fetchFriendsAndChannels(user.id);
 		  this.props.history.push('/login');
 		}
 		else this.props.history.push('/login');
@@ -53,7 +53,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		setLogin: (user, token) => dispatch(actionCreators.setLogin(user, token)),
 		setLogout: () => dispatch(actionCreators.setLogout()),
-		fetchFriendsAndChannels: () => dispatch(actionCreators.fetchFriendsAndChannels())
+		fetchFriendsAndChannels: (userId) => dispatch(actionCreators.fetchFriendsAndChannels(userId))
 	}
 }
 
