@@ -2,12 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const io = require('./socket');
-const userRoutes = require('./routes/user');
-const channelRoutes = require('./routes/channel');
-const messageRoutes = require('./routes/message');
+const authRoutes = require('./routes/auth-routes');
+const userRoutes = require('./routes/user-routes');
+const channelRoutes = require('./routes/channel-routes');
 
-const { MONGODB_URI } = require('./keyInfo');
+const { mongoUrl } = require('./config');
 
 const app = express();
 
@@ -20,29 +19,31 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.use('/user', userRoutes);
-app.use('/channel', channelRoutes);
-app.use('/message', messageRoutes);
-
+app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
+app.use('/channels', channelRoutes);
 
 app.use((error, req, res, next) => {
-    const status = error.statusCode || 500;
-    const message = error.message;
-    const data = error.data;
+    const status = error.code || 500;
+    const message = error.message || "Internal Server Error";
     res.status(status).json({
-        message: message,
-        data: data
+        errorMessage: message
     });
-})
+});
 
 
-mongoose.connect(MONGODB_URI)
-.then(() => {
+const startServer = ()=> {
     const server = app.listen(8080);
-    const io = require('./socket').init(server);
-    io.on('connection', socket => {
-      console.log('Client connected');
-    });
-    console.log('Connected!');
+    console.log('Server working');
+    // const io = require('./socket').init(server);
+    // io.on('connection', socket => {
+    //   console.log('New client connected: ', socket.id);
+    // });
+}
+
+mongoose.connect(mongoUrl)
+.then(() => {
+    console.log('DB Connected!');
+    startServer();
 })
 .catch(err => console.log(err));
