@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const Message = require('../models/message');
+const Channel = require('../models/channel');
 const HttpError = require('../models/http-error');
 
 exports.createNewUser = async (userName, userEmail, userPassword) => {
@@ -103,3 +104,27 @@ exports.findMessageByID = async (messageID) => {
     }
     return message;
 }
+
+exports.createChannel = async (channelName, channelDesc, channelCreatedBy, subscribedUserIDs) => {
+    try{
+        //There should be a better approach for this:
+        const channel = new Channel({
+            channelName,
+            channelDesc,
+            channelCreatedBy,
+            channelSubscribers: subscribedUserIDs
+        });
+        //The below part save the channel and then put the channel id in all subscriber list and is very time taking. Optimize it in 2nd sprint.
+        await channel.save();
+        const updatedChannel = await Channel.findById(channel.id).populate('channelSubscribers');
+        updatedChannel.channelSubscribers.map(async (channelSubscriber) => {
+            channelSubscriber.userChannelIDs.push(channel.id);
+            await channelSubscriber.save();
+        });
+        await updatedChannel.save();
+        return updatedChannel;
+    } catch(err){
+        console.log("Error in creating new user at db-utils.js->createNewUser: ", err);
+        throw new HttpError('Could not create user, please try again!', 400);
+    }
+};

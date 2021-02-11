@@ -1,6 +1,13 @@
+const { createChannel } = require('../utils/db-utils');
+
 exports.createNewChannel = async(req, res, next) => {
+    let { channelName, channelDesc, subscribedUserIDs } = req.body;
+    if(!subscribedUserIDs || subscribedUserIDs.length===0) subscribedUserIDs = [req.userId];
+    else subscribedUserIDs.push(req.userId);
+    const channel = await createChannel(channelName, channelDesc, req.userId, subscribedUserIDs);
     res.status(200).json({
-        message: "Added Channel Successfully"
+        message: "Added Channel Successfully",
+        channel: channel
     });
 }
 
