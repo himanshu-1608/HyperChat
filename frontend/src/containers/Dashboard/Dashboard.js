@@ -9,36 +9,28 @@ import * as actionCreators from '../../actions/index';
 
 class Dashboard extends Component{
 
-    state={
-        message: '',
-        friends: [],
-        subscribedChannels: []
-    }
-
     componentDidMount(){
-        const socket = openSocket('http://localhost:8080');
+        // const socket = openSocket('http://localhost:8080');
     }
 
     componentWillReceiveProps(newProps) {
+        // console.log('NewProps', newProps);
         if (!newProps.isAuth) {
           this.props.history.push('/login');
         }
     }
 
-    inputChangeHandler = (e) => {
-        this.setState({[e.target.name]: e.target.value});
-    }
-
-    sendMessageHandler = () => {
-        
-    }
-
     render(){
+        const { subscribedChannels, friends, channelOpened, dmOpened } = this.props;
         return(
             <div className={styles.dashboard_page}>
                 <MenuBar />
                 <div className={styles.main_box}>
-                    <NavBar />
+                    <NavBar 
+                        subscribedChannels={subscribedChannels} 
+                        friends={friends}
+                        channelOpened={channelOpened}
+                        dmOpened={dmOpened}/>
                     <ChatSection />
                 </div>
                 <button onClick={this.props.setLogout}>Logout</button>
@@ -49,14 +41,16 @@ class Dashboard extends Component{
 
 const mapStateToProps = state => {
 	return{
-        user: state.auth.user,
-        token: state.auth.token
+        friends: state.user.friends,
+        subscribedChannels: state.user.subscribedChannels
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-        setLogout: () => dispatch(actionCreators.setLogout())
+        setLogout: () => dispatch(actionCreators.setLogout()),
+        channelOpened: (channel) => dispatch(actionCreators.channelOpened(channel)),
+        dmOpened: (dm) => dispatch(actionCreators.dmOpened(dm))
 	}
 }
 

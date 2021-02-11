@@ -4,7 +4,7 @@ import styles from './DmNavItem.module.css';
 class DmNavItem extends Component {
     render() {
         return (
-            <div className={styles.item}>
+            <div className={styles.item} onClick={this.props.onClick}>
                 <div className={styles.image}></div>
                 <div className={styles.text}>{this.props.text}</div>
             </div>
