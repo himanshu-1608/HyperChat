@@ -6,6 +6,7 @@ import ChatSection from '../../components/ChatSection'
 import openSocket from 'socket.io-client';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index';
+import SubscribersModal from '../../components/SubscribersModal';
 
 class Dashboard extends Component{
 
@@ -30,10 +31,15 @@ class Dashboard extends Component{
     render(){
         return(
             <div className={styles.dashboard_page}>
-                <MenuBar />
-                <div className={styles.main_box}>
-                    <NavBar />
-                    <ChatSection />
+                <div className={styles.dashboard_box}>
+                    <MenuBar />
+                    <div className={styles.main_box}>
+                        <NavBar />
+                        <ChatSection />
+                    </div>
+                </div>
+                <div className={styles.modals}>
+                    <SubscribersModal />
                 </div>
             </div>
         )

@@ -1,0 +1,23 @@
+.modal{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(27, 27, 27, 0.61);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal_box{
+    padding: 20px 30px;
+    height: 550px;
+    width: 500px;
+    background-color: white;
+    overflow-y: auto;
+    border-radius: 10px;
+    box-shadow: 10px 10px 100px rgb(116, 116, 116);
+}
+.modal_inner_box{
+    height: 100%;
+    width: 100%;
+    background-color: aqua;
+    position: relative;
+}
