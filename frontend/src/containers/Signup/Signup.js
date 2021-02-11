@@ -20,6 +20,12 @@ class Signup extends Component {
         confirmPassword:''
     };
 
+    componentWillReceiveProps(newProps) {
+        if (newProps.isAuth) {
+          this.props.history.push('/');
+        }
+    }
+
     inputChangeHandler = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     }
@@ -35,10 +41,11 @@ class Signup extends Component {
 
         const { name, email, password, confirmPassword } = this.state;
         const user = {
-            name: name,
-            email: email,
-            password: password,
-            confirmPassword:confirmPassword
+            userName: name,
+            userEmail: email,
+            userPassword: password,
+            userConfirmPassword: confirmPassword,
+            userProfilePic: ''
         }
         this.props.registerUser(user);
     }
@@ -98,10 +105,16 @@ class Signup extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        isAuth: state.auth.isAuth
+    }
+}
+
 const mapDispatchToProps = dispatch => {
 	return {
 		registerUser: (user) => dispatch(actionCreators.registerUser(user))
 	}
 }
 
-export default connect(null, mapDispatchToProps)(Signup);
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

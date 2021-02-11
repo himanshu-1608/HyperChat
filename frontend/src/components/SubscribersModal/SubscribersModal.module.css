@@ -8,16 +8,52 @@
 }
 .modal_box{
     padding: 20px 30px;
-    height: 550px;
+    max-height: 550px;
     width: 500px;
     background-color: white;
     overflow-y: auto;
     border-radius: 10px;
-    box-shadow: 10px 10px 100px rgb(116, 116, 116);
+    box-shadow: 10px 10px 100px rgb(83, 83, 83);
 }
 .modal_inner_box{
     height: 100%;
     width: 100%;
-    background-color: aqua;
+    /* background-color: aqua; */
     position: relative;
+    font-family: 'Poppins', sans-serif;
+}
+.total_members{
+    font-size: 18px;
+    font-weight: bold;
+}
+.modal_name{
+    font-size: 18px;
+    font-weight: bold;
+}
+.hash{
+    font-weight: normal;
+    font-size: 18px;
+}
+.member_names{
+    margin-top: 20px;
+    height: fit-content;
+    width: 100%;
+    /* background-color: aquamarine; */
+}
+.cancel_btn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 22px;
+    color:rgb(124, 124, 124);
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.cancel_btn:hover{
+    background-color: rgb(247, 247, 247);
+    border-radius: 5px;
+    color: black;
 }

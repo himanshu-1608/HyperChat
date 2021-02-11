@@ -13,6 +13,8 @@ class ChatSection extends Component {
                     <div className={styles.chat_details}>
                         <div className={styles.chat_name}>#general</div>
                         <div className={styles.chat_desc}>
+
+                            {/* TODO: clicking on this icon(MDPersonOutline) will show the SubscribersModal */}
                             <MdPersonOutline className={styles.icon_person} />{' '}
                             20<span className={styles.divider}> | </span>
                             Add a topic
@@ -25,7 +27,7 @@ class ChatSection extends Component {
                     </div>
                 </div>
                 <div className={styles.chat_box}>
-                    {/* TODO: message box   */}
+                    {/* TODO: all messages will be shown here    */}
                     <Message />
                     <Message />
                     <Message />
