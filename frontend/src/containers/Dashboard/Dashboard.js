@@ -57,7 +57,7 @@ class Dashboard extends Component {
                             channelOpened={channelOpened}
                             dmOpened={dmOpened}
                         />
-                        {openChannel || openDm ? (
+                        {(openDm || openChannel) ? (
                             <ChatSection
                                 user={user}
                                 openChannel={openChannel}
@@ -112,8 +112,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setLogout: () => dispatch(actionCreators.setLogout()),
-        channelOpened: (channel) =>
-            dispatch(actionCreators.channelOpened(channel)),
+        channelOpened: (channel) =>dispatch(actionCreators.channelOpened(channel)),
         dmOpened: (dm) => dispatch(actionCreators.dmOpened(dm)),
     };
 };
