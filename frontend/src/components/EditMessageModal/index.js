@@ -56,14 +56,14 @@ class EditMessageModal extends Component {
                                 <div className={styles.message_user_name}>
                                     {editMessage.senderID.userName}
                                     <span className={styles.message_time}>
-                                        9:30 PM
+                                        {editMessage.sentTime}
                                     </span>
                                 </div>
                                 <div className={styles.message}>
                                     <textarea 
-                                    name='message'
-                                    value={this.state.message}
-                                    onChange={this.inputChangeHandler}/>
+                                        name='message'
+                                        value={this.state.message}
+                                        onChange={this.inputChangeHandler}/>
                                 </div>
                             </div>
                         </div>

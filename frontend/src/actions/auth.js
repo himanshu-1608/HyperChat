@@ -9,7 +9,6 @@ export const registerUser = (user) => dispatch => {
         const { user, token } = result.data;
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
-        setAuthorizationHeader(token);
         dispatch(setLogin(user, token));
     })
     .catch(err => console.log(err));
@@ -21,13 +20,13 @@ export const loginUser = (user) => dispatch => {
         const { user, token } = result.data;
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
-        setAuthorizationHeader(token);
         dispatch(setLogin(user, token));
     })
     .catch((err) => console.log(err));;
 }
 
 export const setLogin = (user, token) => {
+    setAuthorizationHeader(token);
     return {
         type: actionTypes.SET_LOGIN,
         payload: {

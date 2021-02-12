@@ -1,7 +1,6 @@
 
 import * as actionTypes from './actionTypes';
 import axios from '../axios';
-console.log('Axios is:', axios);
 
 export const fetchChannels = () => dispatch => {
     axios.get('/channels?limit=20&offset=0')

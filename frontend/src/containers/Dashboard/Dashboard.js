@@ -12,13 +12,15 @@ import BrowseChannels from '../BrowseChannels';
 import BrowseDms from '../BrowseDMs';
 import EmptySection from '../../components/EmptySection';
 import EditMessageModal from '../../components/EditMessageModal';
+import DeleteMessageModal from '../../components/DeleteMessageModal';
 
 class Dashboard extends Component {
     state = {
         showSubscribersModal: false,
         showEditMessageModal: false,
         showDeleteMessageModal: false,
-        editMessage: {}
+        editMessage: {},
+        deleteMessage: {}
     };
 
     componentDidMount() {
@@ -44,6 +46,13 @@ class Dashboard extends Component {
         });
     }
 
+    deleteMessageModalToggleHandler = (deleteMessage = {}) => {
+        this.setState({
+            showDeleteMessageModal: !this.state.showDeleteMessageModal,
+            deleteMessage: deleteMessage
+        });
+    }
+
     render() {
         const {
             user,
@@ -60,7 +69,8 @@ class Dashboard extends Component {
             showSubscribersModal, 
             showEditMessageModal, 
             showDeleteMessageModal,
-            editMessage } = this.state;
+            editMessage,
+            deleteMessage } = this.state;
         return (
             <div className={styles.dashboard_page}>
                 <Router>
@@ -86,6 +96,7 @@ class Dashboard extends Component {
                                             channelMessages={channelMessages}
                                             showSubscribersModal={this.subscribersModalToggleHandler}
                                             showEditMessageModal={this.editMessageModalToggleHandler}
+                                            showDeleteMessageModal={this.deleteMessageModalToggleHandler}
                                         />
                                     ) : (
                                         <EmptySection />
@@ -121,7 +132,17 @@ class Dashboard extends Component {
                             openChannel={openChannel}
                             openDm={openDm}/>
                     </div>
-                ) : null} 
+                ) : null}
+                {showDeleteMessageModal ? (
+                    <div className={styles.modals}>
+                        <DeleteMessageModal 
+                            hideModal={this.deleteMessageModalToggleHandler} 
+                            deleteMessage={deleteMessage}
+                            user={user}
+                            openChannel={openChannel}
+                            openDm={openDm}/>
+                    </div>
+                ) : null}  
             </div>
         );
     }
