@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-// const { setSocket } = require('./socket');
+const { setSocket } = require('./socket');
 const authRoutes = require('./routes/auth-routes');
 const userRoutes = require('./routes/user-routes');
 const channelRoutes = require('./routes/channel-routes');
@@ -40,8 +40,8 @@ const connection = (socket) => {
 const startServer = ()=> {
     const server = app.listen(8080);
     console.log('Server working');
-    // io = require('socket.io')(server);
-    // io.on('connection', connection);
+    io = require('socket.io')(server);
+    io.on('connection', connection);
 }
 
 mongoose.connect(mongoUrl)

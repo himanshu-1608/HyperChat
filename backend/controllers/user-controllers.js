@@ -1,6 +1,6 @@
 const { findUserById, findUserDetails, createNewMessage, findMessagesInDm, findMessageByID, getUsers } = require('../utils/db-utils');
 const HttpError = require('../models/http-error');
-// const { getSocket } = require('../socket');
+const { getSocket } = require('../socket');
 
 exports.addNewDM = async(req, res, next) => {
     try {
@@ -59,10 +59,10 @@ exports.sendMessageInDM = async(req, res, next) => {
     try {
         const { messageType, messagePayload, receiverID, sentTime } = req.body;
         const message = await createNewMessage(messageType, false, req.userId, receiverID, sentTime, messagePayload);
-        // const socket = getSocket();
-        // socket.emit('testSendMessageInDm',message);
+        const socket = getSocket();
+        socket.emit('',message);
         res.status(200).json({
-            message: "Message Sent Successfully",
+            response: "Message Sent Successfully",
             message: message
         });
     } catch(err) {
@@ -81,7 +81,7 @@ exports.editMessageInDM = async(req, res, next) => {
         await message.save();
         //send socket emit to receiverID
         res.status(200).json({
-            message: "Message Edited Successfully",
+            response: "Message Edited Successfully",
             message: message
         });
     } catch(err) {
@@ -99,7 +99,7 @@ exports.deleteMessageInDM = async(req, res, next) => {
         await message.save();
         //send socket emit to receiverID
         res.status(200).json({
-            message: "Message Deleted Successfully",
+            response: "Message Deleted Successfully",
             message: message
         });
     } catch(err) {
