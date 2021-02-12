@@ -5,15 +5,10 @@ import Message from '../Message';
 import { MdPersonOutline } from 'react-icons/md';
 import { RiUserAddLine } from 'react-icons/ri';
 
-<<<<<<< HEAD
-import axios from '../../axios';
-// const io = require("socket.io-client");
-=======
 import {
     sendMessageInDm,
     sendMessageInChannel
 } from '../../utils/message';
->>>>>>> origin/master
 
 class ChatSection extends Component {
     
