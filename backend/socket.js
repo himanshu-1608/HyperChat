@@ -1,13 +1,7 @@
-// module.exports = {
-//   init: httpServer => {
-//     return require('socket.io')(httpServer);
-//   }
-// };
+let io;
 
-let socket;
-
-exports.setSocket = (currSocket) => {
-  socket = currSocket;
+exports.setIo = (currIo) => {
+  io = currIo;
 }
 
-exports.getSocket = () => socket;
+exports.getIo = () => io;

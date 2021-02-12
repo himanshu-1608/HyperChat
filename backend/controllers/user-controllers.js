@@ -1,6 +1,6 @@
 const { findUserById, findUserDetails, createNewMessage, findMessagesInDm, findMessageByID, getUsers } = require('../utils/db-utils');
 const HttpError = require('../models/http-error');
-const { getSocket } = require('../socket');
+const { getIo } = require('../socket');
 
 exports.addNewDM = async(req, res, next) => {
     try {
@@ -59,8 +59,8 @@ exports.sendMessageInDM = async(req, res, next) => {
     try {
         const { messageType, messagePayload, receiverID, sentTime } = req.body;
         const message = await createNewMessage(messageType, false, req.userId, receiverID, sentTime, messagePayload);
-        const socket = getSocket();
-        socket.emit('',message);
+        const io = getIo();
+        io.to(receiverID).emit('DIRECT_MESSAGE', message);
         res.status(200).json({
             response: "Message Sent Successfully",
             message: message
