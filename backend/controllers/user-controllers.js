@@ -60,7 +60,7 @@ exports.sendMessageInDM = async(req, res, next) => {
         const { messageType, messagePayload, receiverID, sentTime } = req.body;
         const message = await createNewMessage(messageType, false, req.userId, receiverID, sentTime, messagePayload);
         const socket = getSocket();
-        socket.emit('',message);
+        // socket.emit('',message);
         res.status(200).json({
             response: "Message Sent Successfully",
             message: message

@@ -11,6 +11,11 @@ const initialState = {
 }
 
 const userReducer = (state = initialState, action) => {
+
+    let updatedChannelMessages = [];
+    let updatedDirectMessages = [];
+    let newMessage = {};
+
     switch(action.type){
 
         case actionTypes.SET_FRIENDS_AND_CHANNELS:
@@ -56,6 +61,70 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 friends: [...state.friends, action.payload.dm]
+            }
+
+        case actionTypes.ADD_MESSAGE_IN_CHANNEL:
+            return {
+                ...state,
+                channelMessages: [...state.channelMessages, action.payload.channelMessage]
+            }
+
+        case actionTypes.ADD_MESSAGE_IN_DM:
+            return {
+                ...state,
+                directMessages: [...state.directMessages, action.payload.directMessage]
+            }
+
+        case actionTypes.EDIT_MESSAGE_IN_CHANNEL:
+            updatedChannelMessages = state.channelMessages.map(message => {
+                if(message._id == action.payload.editedMessage._id)
+                    return {
+                        ...message,
+                        messagePayload: action.payload.editedMessage.messagePayload
+                    }
+                return message;
+            })
+            return {
+                ...state,
+                channelMessages: updatedChannelMessages
+            }
+
+        case actionTypes.EDIT_MESSAGE_IN_DM:
+            updatedDirectMessages = state.directMessages.map(message => {
+                if(message._id == action.payload.editedMessage._id){
+                    return {
+                        ...message,
+                        messagePayload: action.payload.editedMessage.messagePayload
+                    }
+                }
+                return message;
+            })
+            return {
+                ...state,
+                directMessages: updatedDirectMessages
+            }
+
+        case actionTypes.DELETE_MESSAGE_IN_CHANNEL:
+            updatedChannelMessages = state.channelMessages.filter(message => {
+                if(message._id == action.payload.deletedMessage._id)
+                    return action.payload.deletedMessage;
+                return message;
+            })
+            return {
+                ...state,
+                channelMessages: updatedChannelMessages
+            }
+
+        case actionTypes.DELETE_MESSAGE_IN_DM:
+            updatedDirectMessages = state.directMessages.map(message => {
+                if(message._id == action.payload.deletedMessage._id){
+                    return action.payload.deletedMessage;
+                }        
+                return message;
+            })
+            return {
+                ...state,
+                directMessages: updatedDirectMessages
             }
 
         case actionTypes.CLEAR_USER_DATA:

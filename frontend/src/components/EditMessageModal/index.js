@@ -3,8 +3,8 @@ import styles from './EditMessageModal.module.css';
 import { VscChromeClose } from 'react-icons/vsc';
 import moment from 'moment';
 
-import { editMessageInDm,
-editMessageInChannel } from '../../utils/message';
+import { editMessageInDm as editMessageInDmUtil,
+editMessageInChannel as editMessageInChannelUtil} from '../../utils/message';
 
 
 class EditMessageModal extends Component {
@@ -32,14 +32,14 @@ class EditMessageModal extends Component {
                 messageID: this.props.editMessage._id,
                 messagePayload: this.state.message
             };
-            editMessageInDm(user._id, message, hideModal);
+            editMessageInDmUtil(user._id, message, hideModal, this.props.editMessageInDm);
         }
         else if(openChannel){
             const message = {
                 messageID: this.props.editMessage._id,
                 messagePayload: this.state.message
             }
-            editMessageInChannel(openChannel._id, message, hideModal);
+            editMessageInChannelUtil(openChannel._id, message, hideModal, this.props.editMessageInChannel);
         }
     }
 

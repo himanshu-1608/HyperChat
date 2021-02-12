@@ -4,8 +4,8 @@ import { VscChromeClose } from 'react-icons/vsc';
 import moment from 'moment';
 
 import {
-    deleteMessageInDm,
-    deleteMessageInChannel
+    deleteMessageInDm as deleteMessageInDmUtil,
+    deleteMessageInChannel as deleteMessageInChannelUtil
 } from '../../utils/message';
 
 class DeleteMessageModal extends Component {
@@ -13,16 +13,12 @@ class DeleteMessageModal extends Component {
     deleteMessageClickHandler = () => {
         const { openChannel, openDm, user, hideModal } = this.props;
         if(openDm){
-            const message = {
-                messageID: this.props.deleteMessage._id
-            };
-            deleteMessageInDm(user._id, message, hideModal);
+            const messageId = this.props.deleteMessage._id;
+            deleteMessageInDmUtil(user._id, messageId, hideModal, this.props.deleteMessageInDm);
         }
         else if(openChannel){
-            const message = {
-                messageID: this.props.deleteMessage._id
-            }
-            deleteMessageInChannel(openChannel._id, message, hideModal);
+            const messageId = this.props.deleteMessage._id; 
+            deleteMessageInChannelUtil(openChannel._id, messageId, hideModal, this.props.deleteMessageInChannel);
         }
     }
 

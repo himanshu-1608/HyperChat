@@ -86,6 +86,60 @@ export const setMessagesInDm = directMessages => {
     }
 }
 
+export const addMessageInChannel = message => {
+    return {
+        type: actionTypes.ADD_MESSAGE_IN_CHANNEL,
+        payload: {
+            channelMessage: message
+        }
+    }
+}
+
+export const addMessageInDm = message => {
+    return {
+        type: actionTypes.ADD_MESSAGE_IN_DM,
+        payload: {
+            directMessage: message
+        }
+    }
+}
+
+export const editMessageInChannel = message => {
+    return {
+        type: actionTypes.EDIT_MESSAGE_IN_CHANNEL,
+        payload: {
+            editedMessage: message
+        }
+    }
+}
+
+export const editMessageInDm = message => {
+    return {
+        type: actionTypes.EDIT_MESSAGE_IN_DM,
+        payload: {
+            editedMessage: message
+        }
+    }
+}
+
+export const deleteMessageInChannel = message => {
+    return {
+        type: actionTypes.DELETE_MESSAGE_IN_CHANNEL,
+        payload: {
+            deletedMessage: message
+        }
+    }
+}
+
+export const deleteMessageInDm = message => {
+    return {
+        type: actionTypes.DELETE_MESSAGE_IN_DM,
+        payload: {
+            deletedMessage: message
+        }
+    }
+}
+
 export const clearUserData = () => {
     return {
         type: actionTypes.CLEAR_USER_DATA
