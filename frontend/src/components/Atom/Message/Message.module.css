@@ -84,3 +84,7 @@
     color: rgb(87, 87, 87);
     padding-left: 10px;
 }
+.deleted_message{
+    font-style: italic;
+    color: rgb(168, 168, 168);
+}
