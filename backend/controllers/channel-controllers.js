@@ -1,5 +1,6 @@
 const { createChannel, findChannelById, findUserById, findMessagesInChannel, createNewMessage, findMessageByID, getSomeChannels } = require('../utils/db-utils');
 const HttpError = require('../models/http-error');
+const { getIo } = require('../socket');
 
 exports.createNewChannel = async(req, res, next) => {
     try {
@@ -66,6 +67,8 @@ exports.sendMessageInChannel = async(req, res, next) => {
         const { messageType, messagePayload, sentTime } = req.body;
         const receiverId = req.params.cid;
         const message = await createNewMessage(messageType, true, req.userId, receiverId, sentTime, messagePayload);
+        const io = getIo();
+        io.to(receiverId).emit('CHANNEL_MESSAGE', message);
         res.status(200).json({
             response: "Message Sent Successfully",
             message: message
@@ -80,12 +83,13 @@ exports.sendMessageInChannel = async(req, res, next) => {
 exports.editMessageInChannel = async(req, res, next) => {
     try {
         const { messageID, messagePayload } = req.body;
-        const receiverID = req.query.cid;
+        const receiverId = req.query.cid;
         const message = await findMessageByID(messageID);
         message.isEdited = true;
         message.messagePayload = messagePayload;
         await message.save();
-        //send socket emit to receiverID
+        const io = getIo();
+        io.to(receiverId).emit('EDIT_MESSAGE_CHANNEL', message);
         res.status(200).json({
             response: "Message Edited Successfully",
             message: message
@@ -100,11 +104,12 @@ exports.editMessageInChannel = async(req, res, next) => {
 exports.deleteMessageInChannel = async(req, res, next) => {
     try {
         const messageID = req.params.mid;
-        const receiverID = req.query.cid;
+        const receiverId = req.query.cid;
         const message = await findMessageByID(messageID);
         message.isDeleted = true;
         await message.save();
-        //send socket emit to receiverID
+        const io = getIo();
+        io.to(receiverId).emit('DELETE_MESSAGE_CHANNEL', message);
         res.status(200).json({
             response: "Message deleted Successfully",
             message: message
