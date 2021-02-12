@@ -77,11 +77,11 @@ exports.getUsers = async (limit, offset, fields) => {
         let isNameInclude = false, isIdInclude = false, isPhotoInclude = false;
         fields.split(',').map((field)=> {
             switch(field) {
-                case 'name': isNameInclude = true;
+                case 'userName': isNameInclude = true;
                 break;
                 case 'id': isIdInclude = true;
                 break;
-                case 'pic': isPhotoInclude = true;
+                case 'userProfilePicURL': isPhotoInclude = true;
                 break;
             }
         });
@@ -91,23 +91,23 @@ exports.getUsers = async (limit, offset, fields) => {
         let finalUserList;
         if(isNameInclude && isIdInclude && isPhotoInclude) {
             finalUserList = users.map((user)=> {
-                return {id: user._id, name: user.userName, pic: user.userProfilePicURL};
+                return {id: user._id, userName: user.userName, userProfilePicURL: user.userProfilePicURL};
             });
         } else if(isNameInclude && isIdInclude) {
             finalUserList = users.map((user)=> {
-                return {id: user._id, name: user.userName};
+                return {id: user._id, userName: user.userName};
             });
         } else if(isIdInclude && isPhotoInclude){
             finalUserList = users.map((user)=> {
-                return {id: user._id, pic: user.userProfilePicURL};
+                return {id: user._id, userProfilePicURL: user.userProfilePicURL};
             });
         } else if(isNameInclude && isPhotoInclude){
             finalUserList = users.map((user)=> {
-                return {name: user.userName, pic: user.userProfilePicURL};
+                return {userName: user.userName, userProfilePicURL: user.userProfilePicURL};
             });
         } else if(isNameInclude) {
             finalUserList = users.map((user)=> {
-                return {name: user.userName};
+                return {userName: user.userName};
             });
         } else if(isIdInclude){
             finalUserList = users.map((user)=> {
@@ -115,7 +115,7 @@ exports.getUsers = async (limit, offset, fields) => {
             });
         } else if(isPhotoInclude){
             finalUserList = users.map((user)=> {
-                return {pic: user.userProfilePicURL};
+                return {userProfilePicURL: user.userProfilePicURL};
             });
         }
         return finalUserList;
