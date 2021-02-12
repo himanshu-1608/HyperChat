@@ -1,6 +1,7 @@
 
 import * as actionTypes from './actionTypes';
-import axios from '../axios';
+import axios, { setAuthorizationHeader } from '../axios';
+import { clearUserData, clearGeneralData } from './index';
 
 export const registerUser = (user) => dispatch => {
     axios.post('/auth/user/register', user)
@@ -8,6 +9,7 @@ export const registerUser = (user) => dispatch => {
         const { user, token } = result.data;
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
+        setAuthorizationHeader(token);
         dispatch(setLogin(user, token));
     })
     .catch(err => console.log(err));
@@ -19,6 +21,7 @@ export const loginUser = (user) => dispatch => {
         const { user, token } = result.data;
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
+        setAuthorizationHeader(token);
         dispatch(setLogin(user, token));
     })
     .catch((err) => console.log(err));;
@@ -34,11 +37,21 @@ export const setLogin = (user, token) => {
     }
 }
 
-export const setLogout = () => {
+export const setLogout = () => dispatch => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    dispatch(clearAuthData());
+    dispatch(clearUserData());
+    dispatch(clearGeneralData());
+}
+
+export const clearAuthData = () => {
     return {
-        type: actionTypes.SET_LOGOUT
+        type: actionTypes.CLEAR_AUTH_DATA
     }
 }
+
+
+
+
 

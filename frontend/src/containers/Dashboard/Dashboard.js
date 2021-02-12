@@ -11,10 +11,14 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BrowseChannels from '../BrowseChannels';
 import BrowseDms from '../BrowseDMs';
 import EmptySection from '../../components/EmptySection';
+import EditMessageModal from '../../components/EditMessageModal';
 
 class Dashboard extends Component {
     state = {
         showSubscribersModal: false,
+        showEditMessageModal: false,
+        showDeleteMessageModal: false,
+        editMessage: {}
     };
 
     componentDidMount() {
@@ -26,12 +30,19 @@ class Dashboard extends Component {
             this.props.history.push('/login');
         }
     }
-    subscribersModalShowHandler = () => {
-        this.setState({ showSubscribersModal: true });
-    };
 
-    subscribersModalHideHandler = () =>
-        this.setState({ showSubscribersModal: false });
+    subscribersModalToggleHandler = () => {
+        this.setState({
+            showSubscribersModal: !this.state.showSubscribersModal
+        })
+    }
+
+    editMessageModalToggleHandler = (editMessage = {}) => {
+        this.setState({
+            showEditMessageModal: !this.state.showEditMessageModal,
+            editMessage: editMessage
+        });
+    }
 
     render() {
         const {
@@ -45,7 +56,11 @@ class Dashboard extends Component {
             directMessages,
             channelMessages,
         } = this.props;
-        const { showSubscribersModal } = this.state;
+        const { 
+            showSubscribersModal, 
+            showEditMessageModal, 
+            showDeleteMessageModal,
+            editMessage } = this.state;
         return (
             <div className={styles.dashboard_page}>
                 <Router>
@@ -69,7 +84,8 @@ class Dashboard extends Component {
                                             openDm={openDm}
                                             directMessages={directMessages}
                                             channelMessages={channelMessages}
-                                            showSubscribersModal={this.subscribersModalShowHandler}
+                                            showSubscribersModal={this.subscribersModalToggleHandler}
+                                            showEditMessageModal={this.editMessageModalToggleHandler}
                                         />
                                     ) : (
                                         <EmptySection />
@@ -92,7 +108,18 @@ class Dashboard extends Component {
                 {/* TODO: all modals will be display here do it here */}
                 {showSubscribersModal ? (
                     <div className={styles.modals}>
-                        <SubscribersModal hideModal={this.subscribersModalHideHandler} />
+                        <SubscribersModal 
+                            hideModal={this.subscribersModalToggleHandler} />
+                    </div>
+                ) : null} 
+                {showEditMessageModal ? (
+                    <div className={styles.modals}>
+                        <EditMessageModal 
+                            hideModal={this.editMessageModalToggleHandler} 
+                            editMessage={editMessage}
+                            user={user}
+                            openChannel={openChannel}
+                            openDm={openDm}/>
                     </div>
                 ) : null} 
             </div>

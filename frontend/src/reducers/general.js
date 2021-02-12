@@ -21,6 +21,9 @@ const generalReducer = (state = initialState, action) => {
                 users: action.payload.users
             }
 
+        case actionTypes.CLEAR_GENERAL_DATA:
+            return initialState;
+
         default:
             return state;
     }
