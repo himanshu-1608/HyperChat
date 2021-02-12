@@ -64,7 +64,7 @@ exports.sendMessageInChannel = async(req, res, next) => {
         const receiverId = req.params.cid;
         const message = await createNewMessage(messageType, true, req.userId, receiverId, sentTime, messagePayload);
         res.status(200).json({
-            message: "Message Sent Successfully",
+            response: "Message Sent Successfully",
             message: message
         });
     } catch(err) {
@@ -84,7 +84,7 @@ exports.editMessageInChannel = async(req, res, next) => {
         await message.save();
         //send socket emit to receiverID
         res.status(200).json({
-            message: "Message Edited Successfully",
+            response: "Message Edited Successfully",
             message: message
         });
     } catch(err) {
@@ -103,7 +103,7 @@ exports.deleteMessageInChannel = async(req, res, next) => {
         await message.save();
         //send socket emit to receiverID
         res.status(200).json({
-            message: "Message deleted Successfully",
+            response: "Message deleted Successfully",
             message: message
         });
     } catch(err) {
