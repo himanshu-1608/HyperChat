@@ -2,8 +2,31 @@ import { Component } from 'react';
 import styles from './DeleteMessageModal.module.css';
 import { VscChromeClose } from 'react-icons/vsc';
 
+import {
+    deleteMessageInDm,
+    deleteMessageInChannel
+} from '../../utils/message';
+
 class DeleteMessageModal extends Component {
+
+    deleteMessageClickHandler = () => {
+        const { openChannel, openDm, user, hideModal } = this.props;
+        if(openDm){
+            const message = {
+                messageID: this.props.deleteMessage._id
+            };
+            deleteMessageInDm(user._id, message, hideModal);
+        }
+        else if(openChannel){
+            const message = {
+                messageID: this.props.deleteMessage._id
+            }
+            deleteMessageInChannel(openChannel._id, message, hideModal);
+        }
+    }
+
     render() {
+        const { hideModal, deleteMessage } = this.props;
         return (
             <div className={styles.modal}>
                 <div className={styles.modal_box}>
@@ -14,32 +37,27 @@ class DeleteMessageModal extends Component {
                             cannot be undone.
                         </div>
                         <div className={styles.message_box}>
-                            {/* TODO: user image should be added in src */}
                             <div className={styles.message_user_image}>
-                                <img src="" alt="user" />
+                                <img src={deleteMessage.senderID.userProfilePicURL} alt="user" />
                             </div>
                             <div className={styles.message_info}>
-                                {/* TODO: user name */}
                                 <div className={styles.message_user_name}>
-                                    Rahul Yadav
+                                    {deleteMessage.senderID.userName}
                                     <span className={styles.message_time}>
-                                        9:30 PM
+                                        {deleteMessage.sentTime}
                                     </span>
                                 </div>
-                                {/* TODO: delete message display */}
                                 <div className={styles.message}>
-                                    Hi theres flasd fjskd
+                                    {deleteMessage.messagePayload}
                                 </div>
                             </div>
                         </div>
                         <div className={styles.btn_box}>
-                            {/* TODO: cancel btn in DeleteMessageModal */}
-                            <div className={styles.cancel_delete_btn}>Cancel</div>
+                            <div className={styles.cancel_delete_btn} onClick={hideModal}>Cancel</div>
                             {/* TODO: delete btn in DeleteMessageModal */}
-                            <div className={styles.delete_btn}>Delete</div>
+                            <div className={styles.delete_btn} onClick={this.deleteMessageClickHandler}>Delete</div>
                         </div>
-                        {/* TODO: cancel the modal  */}
-                        <div className={styles.cancel_btn}>
+                        <div className={styles.cancel_btn} onClick={hideModal}>
                             <VscChromeClose />
                         </div>
                     </div>

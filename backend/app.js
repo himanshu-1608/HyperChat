@@ -7,12 +7,9 @@ const authRoutes = require('./routes/auth-routes');
 const userRoutes = require('./routes/user-routes');
 const channelRoutes = require('./routes/channel-routes');
 
-// const { sendMessage } = require("./controllers/user-controllers");
-
 const { mongoUrl } = require('./config');
 
 const app = express();
-// let io;
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -35,11 +32,10 @@ app.use((error, req, res, next) => {
     });
 });
 
-// const connection = (socket) => {
-//     console.log('New client connected: ', socket.id);
-//     // setSocket(socket);
-//     // sendMessage(io, socket);
-// }
+const connection = (socket) => {
+    console.log('New client connected: ', socket.id);
+    setSocket(socket);
+}
 
 const startServer = ()=> {
     const server = app.listen(8080);
