@@ -16,11 +16,13 @@ export { fetchFriendsAndChannels,
     setMessagesInChannel,
     setMessagesInDm,
     setOpenChannel,
-    setOpenDm 
+    setOpenDm,
+    clearUserData 
 } from './user';
 
 // general actionCreators
 export {
     fetchChannels,
-    fetchUsers
+    fetchUsers,
+    clearGeneralData
 } from './general';

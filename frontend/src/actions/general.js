@@ -1,6 +1,7 @@
 
 import * as actionTypes from './actionTypes';
 import axios from '../axios';
+console.log('Axios is:', axios);
 
 export const fetchChannels = () => dispatch => {
     axios.get('/channels?limit=20&offset=0')
@@ -21,7 +22,7 @@ export const setChannels = channels => {
 }
 
 export const fetchUsers = () => dispatch => {
-    axios.get('/users?limit=20&offset=0&fields=name,id')
+    axios.get('/users?limit=20&offset=0&fields=name,id,pic')
     .then(result => {
         const { users } = result.data;
         dispatch(setUsers(users));
@@ -35,5 +36,11 @@ export const setUsers = users => {
         payload: {
             users: users
         }
+    }
+}
+
+export const clearGeneralData = () => {
+    return {
+        type: actionTypes.CLEAR_GENERAL_DATA
     }
 }

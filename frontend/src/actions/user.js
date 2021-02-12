@@ -86,5 +86,9 @@ export const setMessagesInDm = directMessages => {
     }
 }
 
-
+export const clearUserData = () => {
+    return {
+        type: actionTypes.CLEAR_USER_DATA
+    }
+}
 

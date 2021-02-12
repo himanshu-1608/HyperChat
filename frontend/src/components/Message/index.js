@@ -4,7 +4,6 @@ import styles from './Message.module.css';
 class Message extends Component {
     render() {
         const { senderID, messagePayload, sentTime } = this.props.message;
-        // console.log(senderID);
         return (
             <div className={styles.message_box}>
                 <div className={styles.user_image}>

@@ -16,11 +16,16 @@ class App extends Component{
 		const user = JSON.parse(localStorage.getItem('user'));
 		if( token && user ){
 		  this.props.setLogin(user, token);
-		  this.props.fetchFriendsAndChannels(user.id);
-		  this.props.history.push('/login');
+		  this.props.fetchFriendsAndChannels(user._id);
+		  this.props.history.push('/');
 		}
-		else this.props.history.push('/login');
-		
+		else this.props.history.push('/login');	
+	}
+
+	componentWillReceiveProps(newProps){
+		if(!this.props.isAuth && newProps.isAuth){
+			this.props.fetchFriendsAndChannels(newProps.user._id);
+		}		
 	}
 
 	handleLogOut = () => {

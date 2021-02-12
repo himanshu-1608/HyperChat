@@ -26,8 +26,7 @@ class Login extends Component {
         if (newProps.isAuth) {
           this.props.history.push('/');
         }
-    }
-    
+    } 
 
     inputChangeHandler = (e) => {
         this.setState({ [e.target.name]: e.target.value });

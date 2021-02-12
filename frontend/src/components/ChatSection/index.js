@@ -36,7 +36,7 @@ class ChatSection extends Component {
                 sentTime: new Date()
             })
             .then(result => {
-                console.log(result);
+                // console.log(result);
             })
             .catch(err => console.log(err));
         }

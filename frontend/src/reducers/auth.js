@@ -17,7 +17,7 @@ const reducer = (state = initialState, action) => {
                 token: action.payload.token
             }
 
-        case actionTypes.SET_LOGOUT:
+        case actionTypes.CLEAR_AUTH_DATA:
             return{
                 ...state,
                 isAuth: false,
