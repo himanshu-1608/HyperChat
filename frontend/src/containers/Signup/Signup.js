@@ -6,8 +6,8 @@ import * as actionCreators from '../../actions/index';
 
 import styles from './Signup.module.css';
 import slack from '../../assests/gifs/slack.gif';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import Input from '../../components/Atom/Input';
+import Button from '../../components/Atom/Button';
 import { FaFingerprint } from 'react-icons/fa';
 import { HiOutlineMail } from 'react-icons/hi';
 import { BsPeopleCircle } from 'react-icons/bs';

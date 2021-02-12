@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import MenuBar from '../../components/MenuBar';
-import NavBar from '../../components/NavBar';
+import MenuBar from '../../components/Organisms/MenuBar';
+import NavBar from '../../components/Organisms/NavBar';
 import styles from './Dashboard.module.css';
-import ChatSection from '../../components/ChatSection';
+import ChatSection from '../../components/Organisms/ChatSection';
 import openSocket from 'socket.io-client';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index';
-import SubscribersModal from '../../components/SubscribersModal';
+import SubscribersModal from '../../components/Modals/SubscribersModal';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BrowseChannels from '../BrowseChannels';
 import BrowseDms from '../BrowseDMs';
-import EmptySection from '../../components/EmptySection';
-import EditMessageModal from '../../components/EditMessageModal';
-import DeleteMessageModal from '../../components/DeleteMessageModal';
-import CreateChannelModal from '../../components/CreateChannelModal';
+import EmptySection from '../../components/Organisms/EmptySection';
+import EditMessageModal from '../../components/Modals/EditMessageModal';
+import DeleteMessageModal from '../../components/Modals/DeleteMessageModal';
+import CreateChannelModal from '../../components/Modals/CreateChannelModal';
 
 class Dashboard extends Component {
     state = {

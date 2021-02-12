@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import styles from './LastSeenModal.module.css';
 import { VscChromeClose } from 'react-icons/vsc';
-import LastSeenItem from '../LastSeenItem';
+import LastSeenItem from '../../Atom/LastSeenItem';
 
 class LastSeenModal extends Component {
     render() {

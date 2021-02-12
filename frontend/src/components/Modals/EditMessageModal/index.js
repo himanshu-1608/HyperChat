@@ -4,7 +4,7 @@ import { VscChromeClose } from 'react-icons/vsc';
 import moment from 'moment';
 
 import { editMessageInDm as editMessageInDmUtil,
-editMessageInChannel as editMessageInChannelUtil} from '../../utils/message';
+editMessageInChannel as editMessageInChannelUtil} from '../../../utils/message';
 
 
 class EditMessageModal extends Component {

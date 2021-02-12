@@ -6,7 +6,7 @@ import moment from 'moment';
 import {
     deleteMessageInDm as deleteMessageInDmUtil,
     deleteMessageInChannel as deleteMessageInChannelUtil
-} from '../../utils/message';
+} from '../../../utils/message';
 
 class DeleteMessageModal extends Component {
 

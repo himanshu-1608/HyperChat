@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import UserDetail from '../UserDetail';
+import UserDetail from '../../Atom/UserDetail';
 import styles from './SubscribersModal.module.css';
 import { VscChromeClose } from 'react-icons/vsc';
 

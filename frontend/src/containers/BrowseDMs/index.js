@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import styles from './BrowseDms.module.css';
-import UserDetail from '../../components/UserDetail';
+import UserDetail from '../../components/Atom/UserDetail';
 import { connect } from "react-redux";
 import * as actionCreators from '../../actions/index';
 

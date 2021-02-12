@@ -17,7 +17,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background:url('../../assests/images/demo.jpg') no-repeat no-repeat center;
+    background:url('../../../assests/images/demo.jpg') no-repeat no-repeat center;
     background-size: cover;
 
 }
