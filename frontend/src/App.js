@@ -28,6 +28,10 @@ class App extends Component{
             socket.emit('USER_JOINED', user._id);
             socket.on('DIRECT_MESSAGE', message => {
 				console.log("DIRECT_MESSAGE came at room: ", user._id, message);
+			});
+			
+			socket.on('EDIT_MESSAGE_DM', message => {
+				console.log("EDIT_MESSAGE_DM came at room: ", user._id, message);
             });
         });	
 	}
