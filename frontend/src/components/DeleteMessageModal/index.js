@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import styles from './DeleteMessageModal.module.css';
 import { VscChromeClose } from 'react-icons/vsc';
+import moment from 'moment';
 
 import {
     deleteMessageInDm,
@@ -44,7 +45,7 @@ class DeleteMessageModal extends Component {
                                 <div className={styles.message_user_name}>
                                     {deleteMessage.senderID.userName}
                                     <span className={styles.message_time}>
-                                        {deleteMessage.sentTime}
+                                        {moment(deleteMessage.sentTime).format('LT')}
                                     </span>
                                 </div>
                                 <div className={styles.message}>
