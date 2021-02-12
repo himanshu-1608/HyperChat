@@ -7,11 +7,11 @@ import { HiOutlineDotsVertical } from 'react-icons/hi';
 class Message extends Component {
     render() {
         const { senderID, messagePayload, sentTime } = this.props.message;
+        // console.log(senderID);
         return (
             <div className={styles.message_box}>
-                {/* TODO: image url should be added here */}
                 <div className={styles.user_image}>
-                    <img src="" alt="User" />
+                    <img src={senderID.userProfilePicURL} alt="User"/>
                 </div>
                 <div className={styles.message_section}>
                     <div className={styles.message_info}>

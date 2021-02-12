@@ -3,7 +3,7 @@ import axios from '../axios';
 import * as actionTypes from './actionTypes';
 
 export const fetchFriendsAndChannels = userId => dispatch => {
-    axios.get(`/users/${userId}?fields=DMs`)
+    axios.get(`/users/${userId}?fields=channels,DMs`)
     .then(result => {
         const { userFriends, userSubscribedChannels } = result.data;
         dispatch(setFriendsAndChannels(userFriends, userSubscribedChannels));
@@ -86,21 +86,5 @@ export const setMessagesInDm = directMessages => {
     }
 }
 
-export const joinChannel = channel => {
-    return {
-        type: actionTypes.JOIN_CHANNEL,
-        payload: {
-            channel: channel
-        }
-    }
-}
 
-export const addNewDM = dm => {
-    return {
-        type: actionTypes.ADD_NEW_DM,
-        payload: {
-            dm: dm
-        }
-    }
-}
 

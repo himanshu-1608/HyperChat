@@ -54,7 +54,7 @@ class ChatSection extends Component {
     }
 
     render() {
-        const { openChannel, openDm, directMessages, channelMessages } = this.props;
+        const { openChannel, openDm, directMessages, channelMessages, showSubscribersModal } = this.props;
         let messageList;
         if(openChannel){
             messageList = channelMessages.map(message => {
@@ -77,7 +77,7 @@ class ChatSection extends Component {
                         <div className={styles.chat_desc}>
                             {openChannel ? (
                                 <>
-                                    <MdPersonOutline className={styles.icon_person}/>{' '}
+                                    <MdPersonOutline className={styles.icon_person} onClick={showSubscribersModal}/>{' '}
                                     {openChannel.channelSubscribers.length}<span className={styles.divider}> | </span>
                                     {openChannel.channelDesc}
                                 </>
