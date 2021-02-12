@@ -21,7 +21,7 @@ export const setChannels = channels => {
 }
 
 export const fetchUsers = () => dispatch => {
-    axios.get('/users?limit=20&offset=0&fields=name,id')
+    axios.get('/users?limit=20&offset=0&fields=name,id,pic')
     .then(result => {
         const { users } = result.data;
         dispatch(setUsers(users));
@@ -35,5 +35,11 @@ export const setUsers = users => {
         payload: {
             users: users
         }
+    }
+}
+
+export const clearGeneralData = () => {
+    return {
+        type: actionTypes.CLEAR_GENERAL_DATA
     }
 }

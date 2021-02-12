@@ -5,8 +5,15 @@ import Message from '../Message';
 import { MdPersonOutline } from 'react-icons/md';
 import { RiUserAddLine } from 'react-icons/ri';
 
+<<<<<<< HEAD
 import axios from '../../axios';
 // const io = require("socket.io-client");
+=======
+import {
+    sendMessageInDm,
+    sendMessageInChannel
+} from '../../utils/message';
+>>>>>>> origin/master
 
 class ChatSection extends Component {
     
@@ -29,41 +36,49 @@ class ChatSection extends Component {
         this.setState({message: ''});    
         const { openChannel, openDm, user } = this.props;
         if(openDm){
-            axios.post(`/users/${user._id}/dm/message`, {
+            const message = {
                 messageType: 'text',
                 messagePayload: this.state.message,
                 receiverID: openDm._id,
                 sentTime: new Date()
-            })
-            .then(result => {
-                console.log(result);
-            })
-            .catch(err => console.log(err));
+            };
+            sendMessageInDm(user._id, message);
         }
         else if(openChannel){
-            axios.post(`/${openChannel._id}/dm/message`, {
+            const message = {
                 messageType: 'text',
                 messagePayload: this.state.message,
                 sentTime: new Date()
-            })
-            .then(result => {
-                console.log(result);
-            })
-            .catch(err => console.log(err));
+            }
+            sendMessageInChannel(openChannel._id, message);
         }
     }
 
     render() {
-        const { openChannel, openDm, directMessages, channelMessages, showSubscribersModal } = this.props;
+        const { openChannel, 
+            openDm, 
+            directMessages, 
+            channelMessages, 
+            showSubscribersModal,
+            showEditMessageModal,
+            showDeleteMessageModal } = this.props;
         let messageList;
         if(openChannel){
             messageList = channelMessages.map(message => {
-                return <Message key={message._id} message={message}/>
+                return <Message 
+                    key={message._id} 
+                    message={message}
+                    showEditMessageModal={showEditMessageModal}
+                    showDeleteMessageModal={showDeleteMessageModal}/>
             })
         }
         else if(openDm){
             messageList = directMessages.map(message => {
-                return <Message key={message._id} message={message}/>
+                return <Message 
+                    key={message._id} 
+                    message={message}
+                    showEditMessageModal={showEditMessageModal}
+                    showDeleteMessageModal={showDeleteMessageModal}/>
             })
         }
 

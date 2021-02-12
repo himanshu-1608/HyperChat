@@ -57,6 +57,9 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 friends: [...state.friends, action.payload.dm]
             }
+
+        case actionTypes.CLEAR_USER_DATA:
+            return initialState;
         
         default:
             return state;
