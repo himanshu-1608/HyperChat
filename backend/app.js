@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const { setSocket } = require('./socket');
+const { setIo } = require('./socket');
 const authRoutes = require('./routes/auth-routes');
 const userRoutes = require('./routes/user-routes');
 const channelRoutes = require('./routes/channel-routes');
@@ -34,7 +34,10 @@ app.use((error, req, res, next) => {
 
 const connection = (socket) => {
     console.log('New client connected: ', socket.id);
-    setSocket(socket);
+    socket.on('USER_JOINED', (userID) => {
+        socket.join(userID);
+    });
+    setIo(io);
 }
 
 const startServer = ()=> {

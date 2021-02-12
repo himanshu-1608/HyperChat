@@ -9,6 +9,8 @@ import Signup from './containers/Signup/Signup';
 import Login from './containers/Login/Login';
 import Dashboard from './containers/Dashboard/Dashboard';
 
+const io = require('socket.io-client');
+
 class App extends Component{
 
 	componentDidMount(){
@@ -19,7 +21,15 @@ class App extends Component{
 		  this.props.fetchFriendsAndChannels(user._id);
 		  this.props.history.push('/');
 		}
-		else this.props.history.push('/login');	
+		else this.props.history.push('/login');
+		const socket = io('http://localhost:8080/');
+        socket.on('connect', ()=> {
+            console.log('socket-id: ', socket.id);
+            socket.emit('USER_JOINED', user._id);
+            socket.on('DIRECT_MESSAGE', message => {
+				console.log("DIRECT_MESSAGE came at room: ", user._id, message);
+            });
+        });	
 	}
 
 	componentWillReceiveProps(newProps){
