@@ -47,7 +47,17 @@ exports.findUserDetails = async (userId, fields) => {
     });
     let userData;
     if(getChannels && getFriends) {
-        userData = await User.findById(userId).populate('userChannelIDs').populate('userFriendIDs').exec();
+        userData = 
+        await User.findById(userId)
+        .populate('userChannelIDs')
+        .populate({ 
+            path: 'userChannelIDs', 
+            populate: { 
+                path: 'channelSubscribers' 
+            }
+        })
+        .populate('userFriendIDs').exec();
+
         return { id: userData.id, userSubscribedChannels: userData.userChannelIDs, userFriends: userData.userFriendIDs };
     } else if(getChannels) {
         userData = await User.findById(userId).populate('userChannelIDs');
