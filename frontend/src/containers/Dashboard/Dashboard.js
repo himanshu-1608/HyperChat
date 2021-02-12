@@ -12,13 +12,14 @@ import BrowseChannels from '../BrowseChannels';
 import BrowseDms from '../BrowseDMs';
 import EmptySection from '../../components/EmptySection';
 import EditMessageModal from '../../components/EditMessageModal';
+import LastSeenModal from '../../components/LastSeenModal';
 
 class Dashboard extends Component {
     state = {
         showSubscribersModal: false,
         showEditMessageModal: false,
         showDeleteMessageModal: false,
-        editMessage: {}
+        editMessage: {},
     };
 
     componentDidMount() {
@@ -33,16 +34,16 @@ class Dashboard extends Component {
 
     subscribersModalToggleHandler = () => {
         this.setState({
-            showSubscribersModal: !this.state.showSubscribersModal
-        })
-    }
+            showSubscribersModal: !this.state.showSubscribersModal,
+        });
+    };
 
     editMessageModalToggleHandler = (editMessage = {}) => {
         this.setState({
             showEditMessageModal: !this.state.showEditMessageModal,
-            editMessage: editMessage
+            editMessage: editMessage,
         });
-    }
+    };
 
     render() {
         const {
@@ -56,11 +57,12 @@ class Dashboard extends Component {
             directMessages,
             channelMessages,
         } = this.props;
-        const { 
-            showSubscribersModal, 
-            showEditMessageModal, 
+        const {
+            showSubscribersModal,
+            showEditMessageModal,
             showDeleteMessageModal,
-            editMessage } = this.state;
+            editMessage,
+        } = this.state;
         return (
             <div className={styles.dashboard_page}>
                 <Router>
@@ -84,8 +86,14 @@ class Dashboard extends Component {
                                             openDm={openDm}
                                             directMessages={directMessages}
                                             channelMessages={channelMessages}
-                                            showSubscribersModal={this.subscribersModalToggleHandler}
-                                            showEditMessageModal={this.editMessageModalToggleHandler}
+                                            showSubscribersModal={
+                                                this
+                                                    .subscribersModalToggleHandler
+                                            }
+                                            showEditMessageModal={
+                                                this
+                                                    .editMessageModalToggleHandler
+                                            }
                                         />
                                     ) : (
                                         <EmptySection />
@@ -108,20 +116,22 @@ class Dashboard extends Component {
                 {/* TODO: all modals will be display here do it here */}
                 {showSubscribersModal ? (
                     <div className={styles.modals}>
-                        <SubscribersModal 
-                            hideModal={this.subscribersModalToggleHandler} />
+                        <SubscribersModal
+                            hideModal={this.subscribersModalToggleHandler}
+                        />
                     </div>
-                ) : null} 
+                ) : null}
                 {showEditMessageModal ? (
                     <div className={styles.modals}>
-                        <EditMessageModal 
-                            hideModal={this.editMessageModalToggleHandler} 
+                        <EditMessageModal
+                            hideModal={this.editMessageModalToggleHandler}
                             editMessage={editMessage}
                             user={user}
                             openChannel={openChannel}
-                            openDm={openDm}/>
+                            openDm={openDm}
+                        />
                     </div>
-                ) : null} 
+                ) : null}
             </div>
         );
     }
