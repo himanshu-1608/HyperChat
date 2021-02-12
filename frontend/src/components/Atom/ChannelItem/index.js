@@ -1,5 +1,5 @@
 import { Component } from "react";
-import axios from '../../axios';
+import axios from '../../../axios';
 import styles from './ChannelItem.module.css';
 
 class ChannelItem extends Component{

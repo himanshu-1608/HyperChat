@@ -1,12 +1,12 @@
 import { Component } from 'react';
-import NavItem from '../NavItem';
+import NavItem from '../../Atom/NavItem';
 import styles from './NavBar.module.css';
 import { BsChatSquareDots,BsThreeDotsVertical } from 'react-icons/bs';
 import { RiWechatLine,RiArrowDownSFill } from 'react-icons/ri';
 import { FiAtSign } from 'react-icons/fi';  
-import CustomNavItem from '../NavItem/CustomNavItem';
-import ChannelNavItem from '../ChannelNavItem';
-import DmNavItem from '../DmNavItem';
+import CustomNavItem from '../../Atom/NavItem/CustomNavItem';
+import ChannelNavItem from '../../Atom/ChannelNavItem';
+import DmNavItem from '../../Atom/DmNavItem';
 
 class NavBar extends Component {
 
