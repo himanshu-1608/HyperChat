@@ -6,6 +6,8 @@
 .chat_box{
     height: calc(100% - 144px);
     width: 100%;
+    overflow-y: auto;
+    z-index: 10;
 }
 .chat_send_message{
     height: 80px;
@@ -84,6 +86,7 @@
 .icon_person{
     font-size: 15px;
     margin-right: 5px;
+    cursor: pointer;
 }
 .chat_options{
     width: 50%;
