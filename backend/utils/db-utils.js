@@ -64,28 +64,48 @@ exports.findUserDetails = async (userId, fields) => {
 
 exports.getUsers = async (limit, offset, fields) => {
     try{
-        let isNameInclude = false, isIdInclude = false;
+        let isNameInclude = false, isIdInclude = false, isPhotoInclude = false;
         fields.split(',').map((field)=> {
             switch(field) {
                 case 'name': isNameInclude = true;
                 break;
                 case 'id': isIdInclude = true;
                 break;
+                case 'pic': isPhotoInclude = true;
+                break;
             }
         });
+
+        //Make this easier in phase 2 through aggregation->project
         const users = await User.find().skip(offset).limit(limit);
         let finalUserList;
-        if(isNameInclude && isIdInclude) {
+        if(isNameInclude && isIdInclude && isPhotoInclude) {
             finalUserList = users.map((user)=> {
-                return {id: user._id, name: user.userName}
+                return {id: user._id, name: user.userName, pic: user.userProfilePicURL};
+            });
+        } else if(isNameInclude && isIdInclude) {
+            finalUserList = users.map((user)=> {
+                return {id: user._id, name: user.userName};
+            });
+        } else if(isIdInclude && isPhotoInclude){
+            finalUserList = users.map((user)=> {
+                return {id: user._id, pic: user.userProfilePicURL};
+            });
+        } else if(isNameInclude && isPhotoInclude){
+            finalUserList = users.map((user)=> {
+                return {name: user.userName, pic: user.userProfilePicURL};
             });
         } else if(isNameInclude) {
             finalUserList = users.map((user)=> {
-                return {name: user.userName}
+                return {name: user.userName};
             });
         } else if(isIdInclude){
             finalUserList = users.map((user)=> {
-                return {id: user._id}
+                return {id: user._id};
+            });
+        } else if(isPhotoInclude){
+            finalUserList = users.map((user)=> {
+                return {pic: user.userProfilePicURL};
             });
         }
         return finalUserList;
