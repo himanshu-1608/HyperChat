@@ -7,7 +7,7 @@ import moment from 'moment';
 
 class Message extends Component {
     render() {
-        const { senderID, messagePayload, sentTime } = this.props.message;
+        const { senderID, messagePayload, sentTime, isEdited, isDeleted } = this.props.message;
         const { showEditMessageModal, showDeleteMessageModal } = this.props;
         return (
             <div className={styles.message_box}>
@@ -24,9 +24,8 @@ class Message extends Component {
                         </div>
                     </div>
                     <div className={styles.message}>
-                        {messagePayload}
-                        {/* TODO: show message is edited or not */}
-                        <div className={styles.message_edited}>(edited)</div>
+                        { isDeleted ? `This message was deleted` : `${messagePayload}`} 
+                        { isEdited ? (<div className={styles.message_edited}>(edited)</div>) : null }   
                     </div>
                 </div>
                 <div className={styles.message_options}>

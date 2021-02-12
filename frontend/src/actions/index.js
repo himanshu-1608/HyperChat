@@ -17,6 +17,12 @@ export { fetchFriendsAndChannels,
     setMessagesInDm,
     setOpenChannel,
     setOpenDm,
+    addMessageInChannel,
+    addMessageInDm,
+    editMessageInChannel,
+    editMessageInDm,
+    deleteMessageInChannel,
+    deleteMessageInDm,
     clearUserData 
 } from './user';
 

@@ -32,14 +32,15 @@ class ChatSection extends Component {
                 receiverID: openDm._id,
                 sentTime: new Date(),
             };
-            sendMessageInDm(user._id, message);
-        } else if (openChannel) {
+            sendMessageInDm(user._id, message, this.props.addMessageInDm);
+        }
+        else if(openChannel){
             const message = {
                 messageType: 'text',
                 messagePayload: this.state.message,
-                sentTime: new Date(),
-            };
-            sendMessageInChannel(openChannel._id, message);
+                sentTime: new Date()
+            }
+            sendMessageInChannel(openChannel._id, message, this.props.addMessageInChannel);
         }
     };
 

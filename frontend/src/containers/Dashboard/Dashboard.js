@@ -64,6 +64,12 @@ class Dashboard extends Component {
             openDm,
             directMessages,
             channelMessages,
+            addMessageInChannel,
+            addMessageInDm,
+            editMessageInChannel,
+            editMessageInDm,
+            deleteMessageInChannel,
+            deleteMessageInDm
         } = this.props;
         const {
             showSubscribersModal,
@@ -94,6 +100,8 @@ class Dashboard extends Component {
                                             openDm={openDm}
                                             directMessages={directMessages}
                                             channelMessages={channelMessages}
+                                            addMessageInChannel={addMessageInChannel}
+                                            addMessageInDm={addMessageInDm}
                                             showSubscribersModal={this.subscribersModalToggleHandler}
                                             showEditMessageModal={this.editMessageModalToggleHandler}
                                             showDeleteMessageModal={this.deleteMessageModalToggleHandler}
@@ -132,6 +140,8 @@ class Dashboard extends Component {
                             user={user}
                             openChannel={openChannel}
                             openDm={openDm}
+                            editMessageInChannel={editMessageInChannel}
+                            editMessageInDm={editMessageInDm}
                         />
                     </div>
                 ) : null}
@@ -142,7 +152,9 @@ class Dashboard extends Component {
                             deleteMessage={deleteMessage}
                             user={user}
                             openChannel={openChannel}
-                            openDm={openDm}/>
+                            openDm={openDm}
+                            deleteMessageInChannel={deleteMessageInChannel}
+                            deleteMessageInDm={deleteMessageInDm} />
                     </div>
                 ) : null}  
             </div>
@@ -165,9 +177,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setLogout: () => dispatch(actionCreators.setLogout()),
-        channelOpened: (channel) =>
-            dispatch(actionCreators.channelOpened(channel)),
+        channelOpened: (channel) => dispatch(actionCreators.channelOpened(channel)),
         dmOpened: (dm) => dispatch(actionCreators.dmOpened(dm)),
+        addMessageInChannel: (message) => dispatch(actionCreators.addMessageInChannel(message)),
+        addMessageInDm: (message) => dispatch(actionCreators.addMessageInDm(message)),
+        editMessageInChannel: (message) => dispatch(actionCreators.editMessageInChannel(message)),
+        editMessageInDm: (message) => dispatch(actionCreators.editMessageInDm(message)),
+        deleteMessageInChannel: (message) => dispatch(actionCreators.deleteMessageInChannel(message)),
+        deleteMessageInDm: (message) => dispatch(actionCreators.deleteMessageInDm(message))
     };
 };
 
