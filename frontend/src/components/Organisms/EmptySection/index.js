@@ -1,6 +1,6 @@
 import { Component } from "react";
 import styles from './EmptySection.module.css';
-import logo from '../../assests/images/hyperverge.jpg'
+import logo from '../../../assests/images/hyperverge.jpg'
 
 class EmptySection extends Component{
     render(){

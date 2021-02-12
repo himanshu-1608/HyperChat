@@ -1,11 +1,11 @@
 import { Component } from 'react';
 import styles from './ChatSection.module.css';
 import { AiOutlineSend } from 'react-icons/ai';
-import Message from '../Message';
+import Message from '../../Atom/Message';
 import { MdPersonOutline } from 'react-icons/md';
 import { RiUserAddLine } from 'react-icons/ri';
 
-import { sendMessageInDm, sendMessageInChannel } from '../../utils/message';
+import { sendMessageInDm, sendMessageInChannel } from '../../../utils/message';
 
 class ChatSection extends Component {
     state = {

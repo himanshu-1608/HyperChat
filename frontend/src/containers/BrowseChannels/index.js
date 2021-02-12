@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import ChannelItem from '../../components/ChannelItem';
-import Search from '../../components/Search';
+import ChannelItem from '../../components/Atom/ChannelItem';
+import Search from '../../components/Atom/Search';
 import styles from './BrowseChannels.module.css';
 import * as actionCreators from '../../actions/index';
 import axios from '../../axios';
