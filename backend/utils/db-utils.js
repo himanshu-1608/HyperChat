@@ -141,7 +141,7 @@ exports.findMessagesInDm = async (person1ID, person2ID, limit, offset) => {
     try{
         const users = [person1ID, person2ID];
         const messages = await Message.find({senderID: {$in: users}, receiverID: {$in: users}}).hint({ $natural : -1 }).skip(offset).limit(limit).populate('senderID');
-        return messages;
+        return messages.reverse();
     } catch(err){
         console.log("Error in finding messages at db-utils.js->findMessagesInDm: ", err);
         throw new HttpError('Could not find messages, please try again!', 400);
@@ -151,7 +151,7 @@ exports.findMessagesInDm = async (person1ID, person2ID, limit, offset) => {
 exports.findMessagesInChannel = async (channelId, limit, offset) => {
     try{
         const messages = await Message.find({receiverID: channelId}).hint({ $natural : -1 }).skip(offset).limit(limit).populate('senderID');
-        return messages;
+        return messages.reverse();
     } catch(err){
         console.log("Error in finding messages at db-utils.js->findMessagesInChannel: ", err);
         throw new HttpError('Could not find messages, please try again!', 400);

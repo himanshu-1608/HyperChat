@@ -58,12 +58,12 @@ exports.getUserDmMessages = async(req, res, next) => {
 exports.sendMessageInDM = async(req, res, next) => {
     try {
         const { messageType, messagePayload, receiverID, sentTime } = req.body;
-        await createNewMessage(messageType, false, req.userId, receiverID, sentTime, messagePayload);
+        const message = await createNewMessage(messageType, false, req.userId, receiverID, sentTime, messagePayload);
         // const socket = getSocket();
-        // socket.emit("check", "lol");
-        // console.log('socket: ', socket);
+        // socket.emit('testSendMessageInDm',message);
         res.status(200).json({
-            message: "Message Sent Successfully"
+            message: "Message Sent Successfully",
+            message: message
         });
     } catch(err) {
         if(err.code) return next(err);
@@ -81,7 +81,8 @@ exports.editMessageInDM = async(req, res, next) => {
         await message.save();
         //send socket emit to receiverID
         res.status(200).json({
-            message: "Message Edited Successfully"
+            message: "Message Edited Successfully",
+            message: message
         });
     } catch(err) {
         if(err.code) return next(err);
@@ -92,13 +93,14 @@ exports.editMessageInDM = async(req, res, next) => {
 
 exports.deleteMessageInDM = async(req, res, next) => {
     try {
-        const { messageID } = req.body;
+        const messageID = req.params.mid;
         const message = await findMessageByID(messageID);
         message.isDeleted = true;
         await message.save();
         //send socket emit to receiverID
         res.status(200).json({
-            message: "Message Deleted Successfully"
+            message: "Message Deleted Successfully",
+            message: message
         });
     } catch(err) {
         if(err.code) return next(err);

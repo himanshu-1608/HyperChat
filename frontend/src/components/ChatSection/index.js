@@ -28,7 +28,6 @@ class ChatSection extends Component {
     sendMessageHandler = () => {
         if(!this.isMessageValid())
             return;
-
         this.setState({message: ''});    
         const { openChannel, openDm, user } = this.props;
         if(openDm){
