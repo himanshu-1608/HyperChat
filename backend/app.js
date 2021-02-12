@@ -34,8 +34,10 @@ app.use((error, req, res, next) => {
 
 const connection = (socket) => {
     console.log('New client connected: ', socket.id);
-    socket.on('USER_JOINED', (userID) => {
+    socket.on('USER_JOINED', (data) => {
+        const { userID, channelIDs } = data;
         socket.join(userID);
+        if(channelIDs) channelIDs.map(channelID => socket.join(''+channelID));
     });
     setIo(io);
 }

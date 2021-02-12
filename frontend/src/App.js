@@ -25,7 +25,10 @@ class App extends Component{
 		const socket = io('http://localhost:8080/');
         socket.on('connect', ()=> {
             console.log('socket-id: ', socket.id);
-            socket.emit('USER_JOINED', user._id);
+            socket.emit('USER_JOINED', {
+				userID: user._id,
+				channelIDs: null 
+			});
             socket.on('DIRECT_MESSAGE', message => {
 				console.log("DIRECT_MESSAGE came at room: ", user._id, message);
 			});
