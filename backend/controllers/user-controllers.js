@@ -81,7 +81,8 @@ exports.editMessageInDM = async(req, res, next) => {
         await message.save();
         //send socket emit to receiverID
         res.status(200).json({
-            message: "Message Edited Successfully"
+            message: "Message Edited Successfully",
+            message: message
         });
     } catch(err) {
         if(err.code) return next(err);
@@ -98,7 +99,8 @@ exports.deleteMessageInDM = async(req, res, next) => {
         await message.save();
         //send socket emit to receiverID
         res.status(200).json({
-            message: "Message Deleted Successfully"
+            message: "Message Deleted Successfully",
+            message: message
         });
     } catch(err) {
         if(err.code) return next(err);
