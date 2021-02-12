@@ -21,7 +21,7 @@ export const setChannels = channels => {
 }
 
 export const fetchUsers = () => dispatch => {
-    axios.get('/users?limit=20&offset=0&fields=name,id,pic')
+    axios.get('/users?limit=20&offset=0&fields=userName,id,userProfilePicURL')
     .then(result => {
         const { users } = result.data;
         dispatch(setUsers(users));
