@@ -196,8 +196,8 @@ exports.createChannel = async (channelName, channelDesc, channelCreatedBy, subsc
         await updatedChannel.save();
         return updatedChannel;
     } catch(err){
-        console.log("Error in creating new user at db-utils.js->createNewUser: ", err);
-        throw new HttpError('Could not create user, please try again!', 400);
+        console.log("Error in creating new user at db-utils.js->createChannel: ", err);
+        throw new HttpError('Could not create channel, please try again!', 400);
     }
 };
 

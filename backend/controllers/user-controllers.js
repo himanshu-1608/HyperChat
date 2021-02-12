@@ -54,7 +54,7 @@ exports.getUserDmMessages = async(req, res, next) => {
     } catch(err) {
         if(err.code) return next(err);
         console.log("Unexpected Error at user-controllers.js->getUserDmMessages: ", err);
-        return next(new HttpError(`Could not get user's details, try again`, 400));
+        return next(new HttpError(`Could not get user's DMs, try again`, 400));
     }
 }
 
@@ -113,7 +113,7 @@ exports.deleteMessageInDM = async(req, res, next) => {
     } catch(err) {
         if(err.code) return next(err);
         console.log("Unexpected Error at user-controllers.js->deleteMessageInDM: ", err);
-        return next(new HttpError(`Could not edit the message, try again`, 400));
+        return next(new HttpError(`Could not delete the message, try again`, 400));
     }
 }
 
