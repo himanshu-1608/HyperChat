@@ -70,7 +70,9 @@ class Dashboard extends Component {
                                             directMessages={directMessages}
                                             channelMessages={channelMessages}
                                         />
-                                    ) : <EmptySection />
+                                    ) : (
+                                        <EmptySection />
+                                    )
                                 }
                             />
                             <Route
@@ -86,12 +88,12 @@ class Dashboard extends Component {
                         </Switch>
                     </div>
                 </Router>
-
+                {/* TODO: all modals will be display here do it here */}
                 {/* {showSubscribersModal ? (
                     <div className={styles.modals}>
                         <SubscribersModal onClick={this.subscribersModalShowHandler}/>
                     </div>
-                ) : null}    */}
+                ) : null}  */}
             </div>
         );
     }
@@ -112,7 +114,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setLogout: () => dispatch(actionCreators.setLogout()),
-        channelOpened: (channel) =>dispatch(actionCreators.channelOpened(channel)),
+        channelOpened: (channel) =>
+            dispatch(actionCreators.channelOpened(channel)),
         dmOpened: (dm) => dispatch(actionCreators.dmOpened(dm)),
     };
 };
