@@ -6,6 +6,7 @@ import { MdPersonOutline } from 'react-icons/md';
 import { RiUserAddLine } from 'react-icons/ri';
 
 import axios from '../../axios';
+// const io = require("socket.io-client");
 
 class ChatSection extends Component {
     
@@ -25,7 +26,14 @@ class ChatSection extends Component {
     sendMessageHandler = () => {
         if(!this.isMessageValid())
             return;
-
+        // testing sockets
+        // const socket = io("http://localhost:8080/");
+        // socket.on("connect", () => {
+        //     console.log("socket-id: ", socket.id);
+        //     socket.on(" ", (resMessage) => {
+        //         console.log("socket-response: ", resMessage);
+        //     });
+        // });
         this.setState({message: ''});    
         const { openChannel, openDm, user } = this.props;
         if(openDm){
