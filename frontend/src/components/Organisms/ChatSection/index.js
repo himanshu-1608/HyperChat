@@ -53,7 +53,9 @@ class ChatSection extends Component {
             showSubscribersModal,
             showEditMessageModal,
             showDeleteMessageModal,
+            showLastSeenModal
         } = this.props;
+    
         let messageList;
         if (openChannel) {
             messageList = channelMessages.map((message) => {
@@ -63,6 +65,7 @@ class ChatSection extends Component {
                         message={message}
                         showEditMessageModal={showEditMessageModal}
                         showDeleteMessageModal={showDeleteMessageModal}
+                        showLastSeenModal={showLastSeenModal}
                     />
                 );
             });
@@ -74,6 +77,7 @@ class ChatSection extends Component {
                         message={message}
                         showEditMessageModal={showEditMessageModal}
                         showDeleteMessageModal={showDeleteMessageModal}
+                        showLastSeenModal={showLastSeenModal}
                     />
                 );
             });
@@ -99,11 +103,11 @@ class ChatSection extends Component {
                                     <span className={styles.divider}> | </span>
                                     {openChannel.channelDesc}
                                 </>
-                            ) : (
-                                // TODO: online status should be update here
-                                <div className={styles.user_status}>
-                                    Online
-                                </div>
+                            ) : (  openDm ? (
+                                    <div className={styles.user_status}>
+                                        {openDm.lastSeen}
+                                    </div>
+                                ) : null    
                             )}
                         </div>
                     </div>
