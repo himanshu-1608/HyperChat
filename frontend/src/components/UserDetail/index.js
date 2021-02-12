@@ -4,7 +4,7 @@ import styles from './UserDetail.module.css';
 class UserDetail extends Component{
     render(){
         return(
-            <div className={styles.user_detail_box}>
+            <div className={styles.user_detail_box} onClick={this.props.onClick}>
                 <div className={styles.inner_box}>
                     <div className={styles.user_image}>
 

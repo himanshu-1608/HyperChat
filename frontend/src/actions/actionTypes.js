@@ -8,3 +8,9 @@ export const SET_MESSAGES_IN_CHANNEL = 'SET_MESSAGES_IN_CHANNEL';
 export const SET_MESSAGES_IN_DM = 'SET_MESSAGES_IN_DM';
 export const SET_OPEN_CHANNEL = 'SET_OPEN_CHANNEL';
 export const SET_OPEN_DM = 'SET_OPEN_DM';
+export const JOIN_CHANNEL = 'JOIN_CHANNEL';
+export const ADD_NEW_DM = 'ADD_NEW_DM';
+
+// general actions
+export const SET_CHANNELS = 'SET_CHANNELS';
+export const SET_USERS = 'SET_USERS';
