@@ -6,6 +6,9 @@ exports.addNewDM = async(req, res, next) => {
     try {
         const { DmID } = req.body;
         const user = await findUserById(req.userId);
+        if(user.userFriendIDs.find(userFriendID => userFriendID == DmID)) {
+            throw new HttpError('User already inside DM list!', 409);
+        }
         if(user.userFriendIDs.length<10) {
             user.userFriendIDs.push({$each: [DmID], $position: 0});
         } else {
@@ -98,8 +101,8 @@ exports.deleteMessageInDM = async(req, res, next) => {
         const message = await findMessageByID(messageID);
         message.isDeleted = true;
         await message.save();
-        // const io = getIo();
-        // io.to(receiverID).emit('EDIT_MESSAGE_DM', message);
+        const io = getIo();
+        io.to(message.receiverID).emit('DIRECT_MESSAGE', message);
         res.status(200).json({
             response: "Message Deleted Successfully",
             message: message
