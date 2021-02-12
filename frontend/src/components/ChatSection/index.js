@@ -26,14 +26,6 @@ class ChatSection extends Component {
     sendMessageHandler = () => {
         if(!this.isMessageValid())
             return;
-        // testing sockets
-        // const socket = io("http://localhost:8080/");
-        // socket.on("connect", () => {
-        //     console.log("socket-id: ", socket.id);
-        //     socket.on(" ", (resMessage) => {
-        //         console.log("socket-response: ", resMessage);
-        //     });
-        // });
         this.setState({message: ''});    
         const { openChannel, openDm, user } = this.props;
         if(openDm){
