@@ -20,9 +20,9 @@ class SubscribersModal extends Component {
                         </div>
                         <div className={styles.member_names}>
                             {/* TODO: user details */}
-                            <UserDetail />
+                            {/* <UserDetail /> */}
                         </div>
-                        <div className={styles.cancel_btn}>
+                        <div className={styles.cancel_btn} onClick={this.props.hideModal}>
                             <VscChromeClose />
                         </div>
                     </div>

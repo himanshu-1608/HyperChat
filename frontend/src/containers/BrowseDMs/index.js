@@ -9,6 +9,9 @@ class BrowseDms extends Component {
         this.props.fetchUsers()
     }
     render() {
+        const usersList = this.props.users.map(user => {
+            return <UserDetail key={user._id} user={user}/>
+        })
         return (
             <div className={styles.browsedm_section}>
                 <div className={styles.browsedm_title}>
@@ -29,7 +32,7 @@ class BrowseDms extends Component {
                 <div className={styles.user_list}>
                     {/* TODO: user list add onclick on with respective function*/}
                     {/* <UserDetail onclick={this.props.something}/> */}
-                    <UserDetail />
+                    {usersList}
                 </div>
             </div>
         );

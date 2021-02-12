@@ -69,6 +69,7 @@ class Dashboard extends Component {
                                             openDm={openDm}
                                             directMessages={directMessages}
                                             channelMessages={channelMessages}
+                                            showSubscribersModal={this.subscribersModalShowHandler}
                                         />
                                     ) : (
                                         <EmptySection />
@@ -89,11 +90,11 @@ class Dashboard extends Component {
                     </div>
                 </Router>
                 {/* TODO: all modals will be display here do it here */}
-                {/* {showSubscribersModal ? (
+                {showSubscribersModal ? (
                     <div className={styles.modals}>
-                        <SubscribersModal onClick={this.subscribersModalShowHandler}/>
+                        <SubscribersModal hideModal={this.subscribersModalHideHandler} />
                     </div>
-                ) : null}  */}
+                ) : null} 
             </div>
         );
     }
