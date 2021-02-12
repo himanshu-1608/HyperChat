@@ -32,6 +32,10 @@ class App extends Component{
 			
 			socket.on('EDIT_MESSAGE_DM', message => {
 				console.log("EDIT_MESSAGE_DM came at room: ", user._id, message);
+			});
+			
+			socket.on('DELETE_MESSAGE_DM', message => {
+				console.log("DELETE_MESSAGE_DM came at room: ", user._id, message);
             });
         });	
 	}

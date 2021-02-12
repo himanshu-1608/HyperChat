@@ -31,8 +31,7 @@ const messageSchema = new Schema({
         default: false
     },
     messagePayload: {
-        type: String,
-        required: true
+        type: String
     },
     deliveredTime: [{
         userID: {
