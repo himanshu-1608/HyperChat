@@ -140,6 +140,25 @@ export const deleteMessageInDm = message => {
     }
 }
 
+export const createChannel = (channel, hideModal) => dispatch => {
+    axios.post('/channels', channel)
+    .then(result => {
+        const { channel } = result.data;
+        dispatch(addCreatedChannelToStore(channel));
+        hideModal();
+    })
+    .catch(err => console.log(err));
+}
+
+export const addCreatedChannelToStore = channel => {
+    return {
+        type: actionTypes.CREATE_CHANNEL,
+        payload: {
+            channel: channel
+        }
+    }
+}
+
 export const clearUserData = () => {
     return {
         type: actionTypes.CLEAR_USER_DATA
