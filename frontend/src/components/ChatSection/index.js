@@ -96,7 +96,10 @@ class ChatSection extends Component {
                     </div>
                     <div className={styles.chat_options}>
                         <div className={styles.options}>
-                            <RiUserAddLine />
+                            {openChannel?
+                                <RiUserAddLine />:
+                                null
+                            }
                         </div>
                     </div>
                 </div>

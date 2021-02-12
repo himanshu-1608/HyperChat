@@ -43,6 +43,8 @@
 .message {
     height: fit-content;
     width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 .message_options{
     width: fit-content;
@@ -74,4 +76,11 @@
 }
 .message_box:hover .message_options{
     display: flex;
+}
+.message_edited{
+    display: flex;
+    align-items: flex-end;
+    font-size: 12px;
+    color: rgb(87, 87, 87);
+    padding-left: 10px;
 }

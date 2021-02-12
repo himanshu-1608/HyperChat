@@ -35,16 +35,16 @@ class Dashboard extends Component {
 
     subscribersModalToggleHandler = () => {
         this.setState({
-            showSubscribersModal: !this.state.showSubscribersModal
-        })
-    }
+            showSubscribersModal: !this.state.showSubscribersModal,
+        });
+    };
 
     editMessageModalToggleHandler = (editMessage = {}) => {
         this.setState({
             showEditMessageModal: !this.state.showEditMessageModal,
-            editMessage: editMessage
+            editMessage: editMessage,
         });
-    }
+    };
 
     deleteMessageModalToggleHandler = (deleteMessage = {}) => {
         this.setState({
@@ -65,9 +65,9 @@ class Dashboard extends Component {
             directMessages,
             channelMessages,
         } = this.props;
-        const { 
-            showSubscribersModal, 
-            showEditMessageModal, 
+        const {
+            showSubscribersModal,
+            showEditMessageModal,
             showDeleteMessageModal,
             editMessage,
             deleteMessage } = this.state;
@@ -119,18 +119,20 @@ class Dashboard extends Component {
                 {/* TODO: all modals will be display here do it here */}
                 {showSubscribersModal ? (
                     <div className={styles.modals}>
-                        <SubscribersModal 
-                            hideModal={this.subscribersModalToggleHandler} />
+                        <SubscribersModal
+                            hideModal={this.subscribersModalToggleHandler}
+                        />
                     </div>
-                ) : null} 
+                ) : null}
                 {showEditMessageModal ? (
                     <div className={styles.modals}>
-                        <EditMessageModal 
-                            hideModal={this.editMessageModalToggleHandler} 
+                        <EditMessageModal
+                            hideModal={this.editMessageModalToggleHandler}
                             editMessage={editMessage}
                             user={user}
                             openChannel={openChannel}
-                            openDm={openDm}/>
+                            openDm={openDm}
+                        />
                     </div>
                 ) : null}
                 {showDeleteMessageModal ? (

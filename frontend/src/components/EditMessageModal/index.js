@@ -1,9 +1,11 @@
 import { Component } from 'react';
 import styles from './EditMessageModal.module.css';
 import { VscChromeClose } from 'react-icons/vsc';
+import moment from 'moment';
 
 import { editMessageInDm,
 editMessageInChannel } from '../../utils/message';
+
 
 class EditMessageModal extends Component {
 
@@ -56,7 +58,7 @@ class EditMessageModal extends Component {
                                 <div className={styles.message_user_name}>
                                     {editMessage.senderID.userName}
                                     <span className={styles.message_time}>
-                                        {editMessage.sentTime}
+                                        {moment(editMessage.sentTime).format('LT')}
                                     </span>
                                 </div>
                                 <div className={styles.message}>
