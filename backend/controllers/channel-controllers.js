@@ -1,10 +1,10 @@
 const { createChannel, findChannelById, findUserById, findMessagesInChannel, createNewMessage, findMessageByID, getSomeChannels } = require('../utils/db-utils');
+const HttpError = require('../models/http-error');
 
 exports.createNewChannel = async(req, res, next) => {
     try {
-        let { channelName, channelDesc, subscribedUserIDs } = req.body;
-        if(!subscribedUserIDs || subscribedUserIDs.length===0) subscribedUserIDs = [req.userId];
-        else subscribedUserIDs.push(req.userId);
+        let { channelName, channelDesc } = req.body;
+        const subscribedUserIDs = [ req.userId ];
         const channel = await createChannel(channelName, channelDesc, req.userId, subscribedUserIDs);
         res.status(200).json({
             message: "Added Channel Successfully",
@@ -24,6 +24,9 @@ exports.joinChannelByID = async(req, res, next) => {
         const user = await findUserById(req.userId);
         if(!channel) throw new HttpError(`Could not find channel by provided id, try again`, 404);
         if(!user) throw new HttpError(`Could not find user, try again`, 404);
+        if(user.userChannelIDs.find(userChannelID => userChannelID == cid)) {
+            throw new HttpError(`Already part of current group`, 409);
+        }
         user.userChannelIDs.push(cid);
         channel.channelSubscribers.push(req.userId);
         await user.save();
