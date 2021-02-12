@@ -24,8 +24,8 @@ class Message extends Component {
                         </div>
                     </div>
                     <div className={styles.message}>
-                        { isDeleted ? `This message was deleted` : `${messagePayload}`} 
-                        { isEdited ? (<div className={styles.message_edited}>(edited)</div>) : null }   
+                        { isDeleted ? <div className={styles.deleted_message}>This message was deleted</div> : `${messagePayload}`} 
+                        { isEdited ^ isDeleted ? (<div className={styles.message_edited}>(edited)</div>) : null }   
                     </div>
                 </div>
                 <div className={styles.message_options}>
