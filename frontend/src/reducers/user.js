@@ -134,6 +134,12 @@ const userReducer = (state = initialState, action) => {
                 directMessages: updatedDirectMessages
             }
 
+        case actionTypes.CREATE_CHANNEL:
+            return {
+                ...state,
+                subscribedChannels: [...state.subscribedChannels, action.payload.channel]
+            }
+
         case actionTypes.CLEAR_USER_DATA:
             return initialState;
         

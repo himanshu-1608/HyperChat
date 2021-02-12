@@ -23,7 +23,9 @@ class BrowseChannels extends Component {
 
     render() {
 
-        const channelList = this.props.channels.map(channel => {
+        const { showCreateChannelModal, channels } = this.props;
+
+        const channelList = channels.map(channel => {
             return <ChannelItem key={channel._id} channel={channel} onClick={() => this.joinChannelHandler(channel)}/>
         })
 
@@ -36,8 +38,7 @@ class BrowseChannels extends Component {
                         </div>
                     </div>
                     <div className={styles.browsechannel_options}>
-                        {/* TODO: create channel btn will trigger createChannelModal */}
-                        <div className={styles.create_channel}>
+                        <div className={styles.create_channel} onClick={showCreateChannelModal}>
                             Create Channel
                         </div>
                     </div>

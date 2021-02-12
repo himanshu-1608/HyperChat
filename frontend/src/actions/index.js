@@ -23,7 +23,8 @@ export { fetchFriendsAndChannels,
     editMessageInDm,
     deleteMessageInChannel,
     deleteMessageInDm,
-    clearUserData 
+    clearUserData,
+    createChannel
 } from './user';
 
 // general actionCreators

@@ -13,12 +13,14 @@ import BrowseDms from '../BrowseDMs';
 import EmptySection from '../../components/EmptySection';
 import EditMessageModal from '../../components/EditMessageModal';
 import DeleteMessageModal from '../../components/DeleteMessageModal';
+import CreateChannelModal from '../../components/CreateChannelModal';
 
 class Dashboard extends Component {
     state = {
         showSubscribersModal: false,
         showEditMessageModal: false,
         showDeleteMessageModal: false,
+        showCreateChannelModal: false,
         editMessage: {},
         deleteMessage: {}
     };
@@ -51,7 +53,13 @@ class Dashboard extends Component {
             showDeleteMessageModal: !this.state.showDeleteMessageModal,
             deleteMessage: deleteMessage
         });
-    }
+    };
+
+    createChannelModalToggleHandler = () => {
+        this.setState({
+            showCreateChannelModal: !this.state.showCreateChannelModal,
+        });
+    };
 
     render() {
         const {
@@ -69,12 +77,14 @@ class Dashboard extends Component {
             editMessageInChannel,
             editMessageInDm,
             deleteMessageInChannel,
-            deleteMessageInDm
+            deleteMessageInDm,
+            createChannel
         } = this.props;
         const {
             showSubscribersModal,
             showEditMessageModal,
             showDeleteMessageModal,
+            showCreateChannelModal,
             editMessage,
             deleteMessage } = this.state;
         return (
@@ -114,7 +124,7 @@ class Dashboard extends Component {
                             <Route
                                 path="/browse-channels"
                                 exact
-                                component={() => <BrowseChannels />}
+                                component={() => <BrowseChannels showCreateChannelModal={this.createChannelModalToggleHandler}/>}
                             />
                             <Route
                                 path="/browse-dms"
@@ -157,6 +167,14 @@ class Dashboard extends Component {
                             deleteMessageInDm={deleteMessageInDm} />
                     </div>
                 ) : null}  
+                {showCreateChannelModal ? (
+                    <div className={styles.modals}>
+                        <CreateChannelModal
+                            hideModal={this.createChannelModalToggleHandler}
+                            createChannel={createChannel}
+                        />
+                    </div>
+                ) : null}
             </div>
         );
     }
@@ -170,21 +188,22 @@ const mapStateToProps = (state) => {
         openChannel: state.user.openChannel,
         openDm: state.user.openDm,
         directMessages: state.user.directMessages,
-        channelMessages: state.user.channelMessages,
+        channelMessages: state.user.channelMessages
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         setLogout: () => dispatch(actionCreators.setLogout()),
-        channelOpened: (channel) => dispatch(actionCreators.channelOpened(channel)),
-        dmOpened: (dm) => dispatch(actionCreators.dmOpened(dm)),
-        addMessageInChannel: (message) => dispatch(actionCreators.addMessageInChannel(message)),
-        addMessageInDm: (message) => dispatch(actionCreators.addMessageInDm(message)),
-        editMessageInChannel: (message) => dispatch(actionCreators.editMessageInChannel(message)),
-        editMessageInDm: (message) => dispatch(actionCreators.editMessageInDm(message)),
-        deleteMessageInChannel: (message) => dispatch(actionCreators.deleteMessageInChannel(message)),
-        deleteMessageInDm: (message) => dispatch(actionCreators.deleteMessageInDm(message))
+        channelOpened: channel => dispatch(actionCreators.channelOpened(channel)),
+        dmOpened: dm => dispatch(actionCreators.dmOpened(dm)),
+        addMessageInChannel: message => dispatch(actionCreators.addMessageInChannel(message)),
+        addMessageInDm: message => dispatch(actionCreators.addMessageInDm(message)),
+        editMessageInChannel: message => dispatch(actionCreators.editMessageInChannel(message)),
+        editMessageInDm: message => dispatch(actionCreators.editMessageInDm(message)),
+        deleteMessageInChannel: message => dispatch(actionCreators.deleteMessageInChannel(message)),
+        deleteMessageInDm: message => dispatch(actionCreators.deleteMessageInDm(message)),
+        createChannel: (channel, hideModal) => dispatch(actionCreators.createChannel(channel, hideModal))
     };
 };
 
