@@ -6,14 +6,15 @@ import ChatSection from '../../components/Organisms/ChatSection';
 import openSocket from 'socket.io-client';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index';
-import SubscribersModal from '../../components/Modals/SubscribersModal';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BrowseChannels from '../BrowseChannels';
 import BrowseDms from '../BrowseDMs';
 import EmptySection from '../../components/Organisms/EmptySection';
+import SubscribersModal from '../../components/Modals/SubscribersModal';
 import EditMessageModal from '../../components/Modals/EditMessageModal';
 import DeleteMessageModal from '../../components/Modals/DeleteMessageModal';
 import CreateChannelModal from '../../components/Modals/CreateChannelModal';
+import LastSeenModal from '../../components/Modals/LastSeenModal';
 
 class Dashboard extends Component {
     state = {
@@ -21,6 +22,7 @@ class Dashboard extends Component {
         showEditMessageModal: false,
         showDeleteMessageModal: false,
         showCreateChannelModal: false,
+        showLastSeenModal: false,
         editMessage: {},
         deleteMessage: {}
     };
@@ -61,6 +63,12 @@ class Dashboard extends Component {
         });
     };
 
+    lastSeenModalToggleHandler = () => {
+        this.setState({
+            showLastSeenModal: !this.state.showLastSeenModal,
+        });
+    };
+
     render() {
         const {
             user,
@@ -85,6 +93,7 @@ class Dashboard extends Component {
             showEditMessageModal,
             showDeleteMessageModal,
             showCreateChannelModal,
+            showLastSeenModal,
             editMessage,
             deleteMessage } = this.state;
         return (
@@ -115,6 +124,7 @@ class Dashboard extends Component {
                                             showSubscribersModal={this.subscribersModalToggleHandler}
                                             showEditMessageModal={this.editMessageModalToggleHandler}
                                             showDeleteMessageModal={this.deleteMessageModalToggleHandler}
+                                            showLastSeenModal={this.lastSeenModalToggleHandler}
                                         />
                                     ) : (
                                         <EmptySection />
@@ -172,6 +182,13 @@ class Dashboard extends Component {
                         <CreateChannelModal
                             hideModal={this.createChannelModalToggleHandler}
                             createChannel={createChannel}
+                        />
+                    </div>
+                ) : null}
+                {showLastSeenModal ? (
+                    <div className={styles.modals}>
+                        <LastSeenModal
+                            hideModal={this.lastSeenModalToggleHandler}
                         />
                     </div>
                 ) : null}

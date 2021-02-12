@@ -53,6 +53,7 @@ class ChatSection extends Component {
             showSubscribersModal,
             showEditMessageModal,
             showDeleteMessageModal,
+            showLastSeenModal
         } = this.props;
         let messageList;
         if (openChannel) {
@@ -63,6 +64,7 @@ class ChatSection extends Component {
                         message={message}
                         showEditMessageModal={showEditMessageModal}
                         showDeleteMessageModal={showDeleteMessageModal}
+                        showLastSeenModal={showLastSeenModal}
                     />
                 );
             });
@@ -74,6 +76,7 @@ class ChatSection extends Component {
                         message={message}
                         showEditMessageModal={showEditMessageModal}
                         showDeleteMessageModal={showDeleteMessageModal}
+                        showLastSeenModal={showLastSeenModal}
                     />
                 );
             });
