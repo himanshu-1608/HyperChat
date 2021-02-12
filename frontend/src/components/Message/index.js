@@ -3,6 +3,7 @@ import styles from './Message.module.css';
 import { BiEdit } from 'react-icons/bi';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { HiOutlineDotsVertical } from 'react-icons/hi';
+import moment from 'moment';
 
 class Message extends Component {
     render() {
@@ -18,7 +19,7 @@ class Message extends Component {
                         <div className={styles.user_name}>
                             {senderID.userName}
                         </div>
-                        <div className={styles.time}>{sentTime}</div>
+                        <div className={styles.time}>{moment(sentTime).format('LT')}</div>
                     </div>
                     <div className={styles.message}>{messagePayload}</div>
                 </div>
