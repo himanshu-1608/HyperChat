@@ -100,9 +100,12 @@ exports.deleteMessageInDM = async(req, res, next) => {
         const messageID = req.params.mid;
         const message = await findMessageByID(messageID);
         message.isDeleted = true;
+        message.messagePayload = '';
+        message.deliveredTime = [];
+        message.seenTime = [];
         await message.save();
         const io = getIo();
-        io.to(message.receiverID).emit('DIRECT_MESSAGE', message);
+        io.to(message.receiverID).emit('DELETE_MESSAGE_DM', message);
         res.status(200).json({
             response: "Message Deleted Successfully",
             message: message

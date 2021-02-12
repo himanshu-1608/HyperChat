@@ -3,9 +3,8 @@ const HttpError = require('../models/http-error');
 
 exports.createNewChannel = async(req, res, next) => {
     try {
-        let { channelName, channelDesc, subscribedUserIDs } = req.body;
-        if(!subscribedUserIDs || subscribedUserIDs.length===0) subscribedUserIDs = [req.userId];
-        else subscribedUserIDs.push(req.userId);
+        let { channelName, channelDesc } = req.body;
+        const subscribedUserIDs = [ req.userId ];
         const channel = await createChannel(channelName, channelDesc, req.userId, subscribedUserIDs);
         res.status(200).json({
             message: "Added Channel Successfully",
