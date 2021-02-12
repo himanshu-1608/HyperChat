@@ -105,9 +105,13 @@ const userReducer = (state = initialState, action) => {
             }
 
         case actionTypes.DELETE_MESSAGE_IN_CHANNEL:
-            updatedChannelMessages = state.channelMessages.filter(message => {
-                if(message._id == action.payload.deletedMessage._id)
-                    return action.payload.deletedMessage;
+            updatedChannelMessages = state.channelMessages.map(message => {
+                if(message._id == action.payload.deletedMessage._id){
+                    return {
+                        ...message,
+                        isDeleted: action.payload.deletedMessage.isDeleted
+                    }
+                }    
                 return message;
             })
             return {
@@ -118,7 +122,10 @@ const userReducer = (state = initialState, action) => {
         case actionTypes.DELETE_MESSAGE_IN_DM:
             updatedDirectMessages = state.directMessages.map(message => {
                 if(message._id == action.payload.deletedMessage._id){
-                    return action.payload.deletedMessage;
+                    return {
+                        ...message,
+                        isDeleted: action.payload.deletedMessage.isDeleted
+                    }
                 }        
                 return message;
             })

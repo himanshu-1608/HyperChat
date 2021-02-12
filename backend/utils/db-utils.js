@@ -130,7 +130,8 @@ exports.createNewMessage = async (messageType, isChannelMessage, senderID, recei
             seenTime: []
         });
         await message.save();
-        return message;
+        const newMessage = Message.findById(message.id).populate('senderID');
+        return newMessage;
     } catch(err){
         console.log("Error in creating new message at db-utils.js->createNewMessage: ", err);
         throw new HttpError('Could not create message, please try again!', 400);

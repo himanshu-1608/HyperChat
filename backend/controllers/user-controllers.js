@@ -1,6 +1,6 @@
 const { findUserById, findUserDetails, createNewMessage, findMessagesInDm, findMessageByID, getUsers } = require('../utils/db-utils');
 const HttpError = require('../models/http-error');
-const { getSocket } = require('../socket');
+const { getIo } = require('../socket');
 
 exports.addNewDM = async(req, res, next) => {
     try {
@@ -59,8 +59,8 @@ exports.sendMessageInDM = async(req, res, next) => {
     try {
         const { messageType, messagePayload, receiverID, sentTime } = req.body;
         const message = await createNewMessage(messageType, false, req.userId, receiverID, sentTime, messagePayload);
-        const socket = getSocket();
-        // socket.emit('',message);
+        const io = getIo();
+        io.to(receiverID).emit('DIRECT_MESSAGE', message);
         res.status(200).json({
             response: "Message Sent Successfully",
             message: message
@@ -74,12 +74,13 @@ exports.sendMessageInDM = async(req, res, next) => {
 
 exports.editMessageInDM = async(req, res, next) => {
     try {
-        const { messageID, messagePayload, receiverID } = req.body;
+        const { messageID, messagePayload } = req.body;
         const message = await findMessageByID(messageID);
         message.isEdited = true;
         message.messagePayload = messagePayload;
         await message.save();
-        //send socket emit to receiverID
+        const io = getIo();
+        io.to(message.receiverID).emit('EDIT_MESSAGE_DM', message);
         res.status(200).json({
             response: "Message Edited Successfully",
             message: message
@@ -97,7 +98,8 @@ exports.deleteMessageInDM = async(req, res, next) => {
         const message = await findMessageByID(messageID);
         message.isDeleted = true;
         await message.save();
-        //send socket emit to receiverID
+        // const io = getIo();
+        // io.to(receiverID).emit('EDIT_MESSAGE_DM', message);
         res.status(200).json({
             response: "Message Deleted Successfully",
             message: message
