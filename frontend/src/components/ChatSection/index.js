@@ -5,7 +5,6 @@ import Message from '../Message';
 import { MdPersonOutline } from 'react-icons/md';
 import { RiUserAddLine } from 'react-icons/ri';
 
-import axios from '../../axios';
 import {
     sendMessageInDm,
     sendMessageInChannel
@@ -57,14 +56,16 @@ class ChatSection extends Component {
             directMessages, 
             channelMessages, 
             showSubscribersModal,
-            showEditMessageModal } = this.props;
+            showEditMessageModal,
+            showDeleteMessageModal } = this.props;
         let messageList;
         if(openChannel){
             messageList = channelMessages.map(message => {
                 return <Message 
                     key={message._id} 
                     message={message}
-                    showEditMessageModal={showEditMessageModal}/>
+                    showEditMessageModal={showEditMessageModal}
+                    showDeleteMessageModal={showDeleteMessageModal}/>
             })
         }
         else if(openDm){
@@ -72,7 +73,8 @@ class ChatSection extends Component {
                 return <Message 
                     key={message._id} 
                     message={message}
-                    showEditMessageModal={showEditMessageModal}/>
+                    showEditMessageModal={showEditMessageModal}
+                    showDeleteMessageModal={showDeleteMessageModal}/>
             })
         }
 

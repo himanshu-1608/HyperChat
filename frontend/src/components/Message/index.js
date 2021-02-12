@@ -8,7 +8,7 @@ import moment from 'moment';
 class Message extends Component {
     render() {
         const { senderID, messagePayload, sentTime } = this.props.message;
-        const { showEditMessageModal } = this.props;
+        const { showEditMessageModal, showDeleteMessageModal } = this.props;
         return (
             <div className={styles.message_box}>
                 <div className={styles.user_image}>
@@ -29,7 +29,7 @@ class Message extends Component {
                         <BiEdit />
                     </div>
                     {/* TODO: delete option */}
-                    <div className={styles.option}>
+                    <div className={styles.option} onClick={() => showDeleteMessageModal(this.props.message)}>
                         <AiOutlineDelete />
                     </div>
                     <div className={styles.option}>
