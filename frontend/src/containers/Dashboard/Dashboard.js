@@ -144,11 +144,12 @@ class Dashboard extends Component {
                         </Switch>
                     </div>
                 </Router>
-                {/* TODO: all modals will be display here do it here */}
+
                 {showSubscribersModal ? (
                     <div className={styles.modals}>
                         <SubscribersModal
                             hideModal={this.subscribersModalToggleHandler}
+                            channel={openChannel}
                         />
                     </div>
                 ) : null}
