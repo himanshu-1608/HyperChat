@@ -2,7 +2,6 @@ const User = require('../models/user');
 const Message = require('../models/message');
 const Channel = require('../models/channel');
 const HttpError = require('../models/http-error');
-const { populate } = require('../models/user');
 
 exports.createNewUser = async (userName, userEmail, userPassword) => {
     try{
