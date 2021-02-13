@@ -10,8 +10,12 @@ class BrowseDms extends Component {
     }
     render() {
         const usersList = this.props.users.map(user => {
-            return <DmItem key={user._id} user={user}/>
+            return <DmItem 
+                key={user.id} 
+                user={user} 
+                addDm={() => this.props.addDm(user, this.props.user._id)}/>
         })
+
         return (
             <div className={styles.browsedm_section}>
                 <div className={styles.browsedm_title}>
@@ -37,17 +41,17 @@ class BrowseDms extends Component {
     }
 }
 
-
-
 const mapStateToProps = state => {
     return {
+        user: state.auth.user,
         users: state.general.users
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchUsers: () => dispatch(actionCreators.fetchUsers())
+        fetchUsers: () => dispatch(actionCreators.fetchUsers()),
+        addDm: (dm, userId) => dispatch(actionCreators.addDm(dm, userId))
     }
 }
 

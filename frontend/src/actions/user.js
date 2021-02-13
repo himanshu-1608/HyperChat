@@ -1,4 +1,5 @@
 
+
 import axios from '../axios';
 import * as actionTypes from './actionTypes';
 
@@ -62,6 +63,43 @@ export const dmOpened = dm => dispatch => {
 export const setOpenDm = dm => {
     return {
         type: actionTypes.SET_OPEN_DM,
+        payload: {
+            dm: dm
+        }
+    }
+}
+
+export const joinChannel = channelId => dispatch => {
+    axios.post(`/channels/${channelId}/join`)
+    .then(result => {
+        const { channel } = result.data;
+        dispatch(addJoinedChannelInReduxStore(channel));
+        dispatch(setOpenChannel(channel));
+    })
+    .catch(err => console.log(err));
+}
+
+export const addJoinedChannelInReduxStore = channel => {
+    return {
+        type: actionTypes.JOIN_CHANNEL,
+        payload: {
+            channel: channel
+        }
+    }
+}
+
+export const addDm = (dm, userId) => dispatch => {
+    axios.put(`/users/${userId}/dm/add`, { DmID: dm.id })
+    .then(result => {
+        dispatch(setOpenDm(dm));
+        dispatch(addDmInReduxStore(dm));
+    })
+    .catch(err => console.log(err));
+}
+
+export const addDmInReduxStore = dm => {
+    return {
+        type: actionTypes.ADD_NEW_DM,
         payload: {
             dm: dm
         }

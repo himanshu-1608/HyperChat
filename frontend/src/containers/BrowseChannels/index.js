@@ -4,7 +4,6 @@ import ChannelItem from '../../components/Atom/ChannelItem';
 import Search from '../../components/Atom/Search';
 import styles from './BrowseChannels.module.css';
 import * as actionCreators from '../../actions/index';
-import axios from '../../axios';
 
 class BrowseChannels extends Component {
 
@@ -12,21 +11,12 @@ class BrowseChannels extends Component {
         this.props.fetchChannels();
     }
 
-    joinChannelHandler = (channel) => {
-        axios.post(`/channels/${channel._id}/join`)
-        .then(() => {
-            this.props.joinChannel(channel);
-            this.props.history.push('/');
-        })
-        .catch(err => console.log(err));
-    }
-
     render() {
 
-        const { showCreateChannelModal, channels } = this.props;
+        const { showCreateChannelModal, channels, joinChannel } = this.props;
 
         const channelList = channels.map(channel => {
-            return <ChannelItem key={channel._id} channel={channel} onClick={() => this.joinChannelHandler(channel)}/>
+            return <ChannelItem key={channel._id} channel={channel} onClick={() => joinChannel(channel._id)}/>
         })
 
         return (
@@ -66,7 +56,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchChannels: () => dispatch(actionCreators.fetchChannels()),
-        joinChannel: (channel) => dispatch(actionCreators.fetchChannels(channel))
+        joinChannel: channelId => dispatch(actionCreators.joinChannel(channelId))
     }
 }
 
