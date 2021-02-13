@@ -50,6 +50,7 @@ class ChatSection extends Component {
 
     render() {
         const {
+            user,
             openChannel,
             openDm,
             directMessages,
@@ -66,10 +67,12 @@ class ChatSection extends Component {
                 return (
                     <Message
                         key={message._id}
+                        user={user}
                         message={message}
                         showEditMessageModal={showEditMessageModal}
                         showDeleteMessageModal={showDeleteMessageModal}
                         showLastSeenModal={showLastSeenModal}
+
                     />
                 );
             });
@@ -78,6 +81,7 @@ class ChatSection extends Component {
                 return (
                     <Message
                         key={message._id}
+                        user={user}
                         message={message}
                         showEditMessageModal={showEditMessageModal}
                         showDeleteMessageModal={showDeleteMessageModal}
