@@ -40,6 +40,9 @@ const connection = (socket) => {
         if(channelIDs) channelIDs.map(channelID => socket.join(''+channelID));
         updateUserDeliveredTimes(userID);
     });
+    socket.on('disconnect', (reason) => {
+        console.log('why disconnect: ', reason);
+    })
     setIo(io);
 }
 
