@@ -151,7 +151,14 @@ exports.createNewMessage = async (messageType, isChannelMessage, senderID, recei
 exports.findMessagesInDm = async (person1ID, person2ID, limit, offset) => {
     try{
         const users = [person1ID, person2ID];
-        const messages = await Message.find({senderID: {$in: users}, receiverID: {$in: users}}).hint({ $natural : -1 }).skip(offset).limit(limit).populate('senderID');
+        const messages = await Message
+        .find({senderID: {$in: users}, receiverID: {$in: users}})
+        .hint({ $natural : -1 })
+        .skip(offset).limit(limit)
+        .populate('senderID')
+        .populate({path: 'deliveredTime', populate: {path: 'userID'}})
+        .populate({path: 'seenTime', populate: {path: 'userID'}})
+        .exec();
         return messages.reverse();
     } catch(err){
         console.log("Error in finding messages at db-utils.js->findMessagesInDm: ", err);
@@ -161,7 +168,14 @@ exports.findMessagesInDm = async (person1ID, person2ID, limit, offset) => {
 
 exports.findMessagesInChannel = async (channelId, limit, offset) => {
     try{
-        const messages = await Message.find({receiverID: channelId}).hint({ $natural : -1 }).skip(offset).limit(limit).populate('senderID');
+        const messages = await Message
+        .find({receiverID: channelId})
+        .hint({ $natural : -1 })
+        .skip(offset).limit(limit)
+        .populate('senderID')
+        .populate({path: 'deliveredTime', populate: {path: 'userID'}})
+        .populate({path: 'seenTime', populate: {path: 'userID'}})
+        .exec();
         return messages.reverse();
     } catch(err){
         console.log("Error in finding messages at db-utils.js->findMessagesInChannel: ", err);
@@ -215,3 +229,29 @@ exports.getSomeChannels = async (limit, offset) => {
         throw new HttpError('Could not find Channels, please try again!', 400);
     }
 }
+
+exports.updateUserDeliveredTimes = async (userId) => {
+    const currUser = await User.findById(userId);
+    const messages = await Message
+    .find({receiverID: {$in: [userId, ...currUser.userChannelIDs]}});
+    if(!messages) return;
+    messages.map(async (message) => {
+        if(!message.deliveredTime.find(timeObj => timeObj.userID == userId)) {
+            message.deliveredTime.push({userID: userId, deliveredTime: new Date().toString()});
+            await message.save();
+        }
+    });
+}
+
+// exports.updateUserSeenTimes = async (userId, receiverId) => {
+//     const currUser = await User.findById(userId);
+//     const messages = await Message
+//     .find({receiverID: {$in: [userId, ...currUser.userChannelIDs]}});
+//     if(!messages) return;
+//     messages.map(async (message) => {
+//         if(!message.deliveredTime.find(timeObj => timeObj.userID == userId)) {
+//             message.deliveredTime.push({userID: userId, deliveredTime: new Date().toString()});
+//             await message.save();
+//         }
+//     });
+// }
