@@ -8,7 +8,7 @@ import moment from 'moment';
 class Message extends Component {
     render() {
         const { senderID, messagePayload, sentTime, isEdited, isDeleted } = this.props.message;
-        const { showEditMessageModal, showDeleteMessageModal } = this.props;
+        const { showEditMessageModal, showDeleteMessageModal, showLastSeenModal } = this.props;
         return (
             <div className={styles.message_box}>
                 <div className={styles.user_image}>
@@ -25,7 +25,7 @@ class Message extends Component {
                     </div>
                     <div className={styles.message}>
                         { isDeleted ? <div className={styles.deleted_message}>This message was deleted</div> : `${messagePayload}`} 
-                        { isEdited ^ isDeleted ? (<div className={styles.message_edited}>(edited)</div>) : null }   
+                        { !isDeleted && isEdited ? (<div className={styles.message_edited}>(edited)</div>) : null }   
                     </div>
                 </div>
                 <div className={styles.message_options}>
@@ -38,8 +38,7 @@ class Message extends Component {
                     <div className={styles.option} onClick={() => showDeleteMessageModal(this.props.message)}>
                         <AiOutlineDelete />
                     </div>
-                    {/* TODO: last seen option */}
-                    <div className={styles.option}>
+                    <div className={styles.option} onClick={showLastSeenModal}>
                         <BiShow />
                     </div>
                     <div className={styles.option}>

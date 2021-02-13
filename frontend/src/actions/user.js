@@ -5,6 +5,7 @@ import * as actionTypes from './actionTypes';
 export const fetchFriendsAndChannels = userId => dispatch => {
     axios.get(`/users/${userId}?fields=channels,DMs`)
     .then(result => {
+        console.log(result.data);
         const { userFriends, userSubscribedChannels } = result.data;
         dispatch(setFriendsAndChannels(userFriends, userSubscribedChannels));
     })

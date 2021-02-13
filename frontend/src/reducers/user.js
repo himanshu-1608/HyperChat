@@ -80,6 +80,7 @@ const userReducer = (state = initialState, action) => {
                 if(message._id === action.payload.editedMessage._id)
                     return {
                         ...message,
+                        isEdited: action.payload.editedMessage.isEdited,
                         messagePayload: action.payload.editedMessage.messagePayload
                     }
                 return message;
@@ -94,6 +95,7 @@ const userReducer = (state = initialState, action) => {
                 if(message._id === action.payload.editedMessage._id){
                     return {
                         ...message,
+                        isEdited: action.payload.editedMessage.isEdited,
                         messagePayload: action.payload.editedMessage.messagePayload
                     }
                 }
