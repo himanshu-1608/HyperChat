@@ -51,7 +51,6 @@ class DeleteMessageModal extends Component {
                         </div>
                         <div className={styles.btn_box}>
                             <div className={styles.cancel_delete_btn} onClick={hideModal}>Cancel</div>
-                            {/* TODO: delete btn in DeleteMessageModal */}
                             <div className={styles.delete_btn} onClick={this.deleteMessageClickHandler}>Delete</div>
                         </div>
                         <div className={styles.cancel_btn} onClick={hideModal}>

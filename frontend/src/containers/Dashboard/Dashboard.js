@@ -144,7 +144,6 @@ class Dashboard extends Component {
                         </Switch>
                     </div>
                 </Router>
-
                 {showSubscribersModal ? (
                     <div className={styles.modals}>
                         <SubscribersModal
