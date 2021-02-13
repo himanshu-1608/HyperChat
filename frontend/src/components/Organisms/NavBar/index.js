@@ -20,7 +20,7 @@ class NavBar extends Component {
 
         const dmList = this.props.friends.map(friend => {
             return <DmNavItem 
-                key={friend.id} 
+                key={friend._id} 
                 text={friend.userName}
                 onClick={() => this.props.dmOpened(friend)}/>
         });

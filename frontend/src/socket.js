@@ -42,7 +42,7 @@ export const init = (
             console.log('Reconnected');
         })
 
-        socket.on('disconnect', console.log('Socket disconnected'));
+        // socket.on('disconnect', console.log('Socket disconnected'));
     });
 }
 
@@ -92,11 +92,10 @@ const setEvents = (
 
 export const disconnectSocket = () => {
     if(socket){
-        console.log('Socketid in disconnect', socket.id);
-        // console.log(socket);
-        // console.log(socket.disconnect());
+        console.log('Socketid before disconnect', socket.id);
+        socket.disconnect();
+        console.log('Socketid after disconnect', socket.id);
     }
-        // socket.disconnect();
 }
 
 export const getSocket = () => socket;
