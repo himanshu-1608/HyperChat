@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import styles from './BrowseDms.module.css';
-import UserDetail from '../../components/Atom/UserDetail';
 import { connect } from "react-redux";
 import * as actionCreators from '../../actions/index';
+import DmItem from '../../components/Atom/DmItem';
 
 class BrowseDms extends Component {
     componentDidMount(){
@@ -10,7 +10,7 @@ class BrowseDms extends Component {
     }
     render() {
         const usersList = this.props.users.map(user => {
-            return <UserDetail key={user._id} user={user}/>
+            return <DmItem key={user._id} user={user}/>
         })
         return (
             <div className={styles.browsedm_section}>
@@ -30,8 +30,6 @@ class BrowseDms extends Component {
                     />
                 </div>
                 <div className={styles.user_list}>
-                    {/* TODO: user list add onclick on with respective function*/}
-                    {/* <UserDetail onclick={this.props.something}/> */}
                     {usersList}
                 </div>
             </div>
