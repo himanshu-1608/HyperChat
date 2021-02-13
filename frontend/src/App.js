@@ -15,22 +15,6 @@ class App extends Component{
 
 	componentDidMount(){
 		console.log('CDM APP.JS');
-		const { 
-			addMessageInChannel,
-			addMessageInDm, 
-			editMessageInChannel,
-			editMessageInDm, 
-			deleteMessageInChannel,
-			deleteMessageInDm,
-			subscribedChannels } = this.props;
-			
-		init(addMessageInChannel, 
-			addMessageInDm, 
-			editMessageInChannel,
-			editMessageInDm, 
-			deleteMessageInChannel,
-			deleteMessageInDm,
-			subscribedChannels);
 
 		const token = localStorage.getItem('token');
 		const user = JSON.parse(localStorage.getItem('user'));
@@ -45,6 +29,22 @@ class App extends Component{
 	componentWillReceiveProps(newProps){
 		if(!this.props.isAuth && newProps.isAuth){
 			this.props.fetchFriendsAndChannels(newProps.user._id);
+			const { 
+				addMessageInChannel,
+				addMessageInDm, 
+				editMessageInChannel,
+				editMessageInDm, 
+				deleteMessageInChannel,
+				deleteMessageInDm,
+				subscribedChannels } = this.props;
+				
+			init(addMessageInChannel, 
+				addMessageInDm, 
+				editMessageInChannel,
+				editMessageInDm, 
+				deleteMessageInChannel,
+				deleteMessageInDm,
+				subscribedChannels);
 		}		
 	}
 

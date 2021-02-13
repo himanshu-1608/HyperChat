@@ -26,11 +26,6 @@ class Dashboard extends Component {
         deleteMessage: {}
     };
 
-    componentDidMount() {
-        // const socket = openSocket('http://localhost:8080');
-        // console.log('Dashboard: ', this.props);
-    }
-
     componentWillReceiveProps(newProps) {
         if (!newProps.isAuth) {
             this.props.history.push('/login');

@@ -19,7 +19,7 @@ class DmItem extends Component{
                         </div>
                     </div>
                     {/* TODO: message to any person in dm list */}
-                    <div className={styles.message_btn}>
+                    <div className={styles.message_btn} onClick={this.props.addDm}>
                         Message
                     </div>
                 </div>
