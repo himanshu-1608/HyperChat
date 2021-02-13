@@ -3,7 +3,6 @@ import MenuBar from '../../components/Organisms/MenuBar';
 import NavBar from '../../components/Organisms/NavBar';
 import styles from './Dashboard.module.css';
 import ChatSection from '../../components/Organisms/ChatSection';
-import openSocket from 'socket.io-client';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -29,6 +28,7 @@ class Dashboard extends Component {
 
     componentDidMount() {
         // const socket = openSocket('http://localhost:8080');
+        // console.log('Dashboard: ', this.props);
     }
 
     componentWillReceiveProps(newProps) {
