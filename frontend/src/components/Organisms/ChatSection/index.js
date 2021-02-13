@@ -20,6 +20,10 @@ class ChatSection extends Component {
         const { message } = this.state;
         return message.trim().length;
     };
+    componentDidMount(){
+        const chat_box = document.getElementsByClassName(`${styles.chat_box}`)[0];
+        chat_box.scrollTop = chat_box.scrollHeight;
+    }
 
     sendMessageHandler = () => {
         if (!this.isMessageValid()) return;
