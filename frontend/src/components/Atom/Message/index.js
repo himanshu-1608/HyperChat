@@ -35,7 +35,6 @@ class Message extends Component {
                     >
                         <BiEdit />
                     </div>
-                    {/* TODO: delete option */}
                     <div className={styles.option} onClick={() => showDeleteMessageModal(this.props.message)}>
                         <AiOutlineDelete />
                     </div>

@@ -71,7 +71,6 @@ class EditMessageModal extends Component {
                         </div>
                         <div className={styles.btn_box}>
                             <div className={styles.cancel_edit_btn} onClick={hideModal}>Cancel</div>
-                            {/* TODO: edit btn in EditMessageModal */}
                             <div className={styles.edit_btn} onClick={this.editMessageClickHandler}>Edit</div>
                         </div>
                         <div className={styles.cancel_btn} onClick={hideModal}>

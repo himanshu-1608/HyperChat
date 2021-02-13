@@ -77,7 +77,7 @@ const userReducer = (state = initialState, action) => {
 
         case actionTypes.EDIT_MESSAGE_IN_CHANNEL:
             updatedChannelMessages = state.channelMessages.map(message => {
-                if(message._id == action.payload.editedMessage._id)
+                if(message._id === action.payload.editedMessage._id)
                     return {
                         ...message,
                         messagePayload: action.payload.editedMessage.messagePayload
@@ -91,7 +91,7 @@ const userReducer = (state = initialState, action) => {
 
         case actionTypes.EDIT_MESSAGE_IN_DM:
             updatedDirectMessages = state.directMessages.map(message => {
-                if(message._id == action.payload.editedMessage._id){
+                if(message._id === action.payload.editedMessage._id){
                     return {
                         ...message,
                         messagePayload: action.payload.editedMessage.messagePayload
@@ -106,7 +106,7 @@ const userReducer = (state = initialState, action) => {
 
         case actionTypes.DELETE_MESSAGE_IN_CHANNEL:
             updatedChannelMessages = state.channelMessages.map(message => {
-                if(message._id == action.payload.deletedMessage._id){
+                if(message._id === action.payload.deletedMessage._id){
                     return {
                         ...message,
                         isDeleted: action.payload.deletedMessage.isDeleted
@@ -121,7 +121,7 @@ const userReducer = (state = initialState, action) => {
 
         case actionTypes.DELETE_MESSAGE_IN_DM:
             updatedDirectMessages = state.directMessages.map(message => {
-                if(message._id == action.payload.deletedMessage._id){
+                if(message._id === action.payload.deletedMessage._id){
                     return {
                         ...message,
                         isDeleted: action.payload.deletedMessage.isDeleted
