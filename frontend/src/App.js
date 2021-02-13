@@ -14,8 +14,6 @@ import { init } from './socket';
 class App extends Component{
 
 	componentDidMount(){
-		console.log('CDM APP.JS');
-
 		const token = localStorage.getItem('token');
 		const user = JSON.parse(localStorage.getItem('user'));
 		if( token && user ){
