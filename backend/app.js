@@ -6,7 +6,7 @@ const { setIo } = require('./socket');
 const authRoutes = require('./routes/auth-routes');
 const userRoutes = require('./routes/user-routes');
 const channelRoutes = require('./routes/channel-routes');
-
+const { updateUserDeliveredTimes } = require('./utils/db-utils');
 const { mongoUrl } = require('./config');
 
 const app = express();
@@ -38,6 +38,7 @@ const connection = (socket) => {
         const { userID, channelIDs } = data;
         socket.join(userID);
         if(channelIDs) channelIDs.map(channelID => socket.join(''+channelID));
+        updateUserDeliveredTimes(userID);
     });
     setIo(io);
 }
