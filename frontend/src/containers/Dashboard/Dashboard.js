@@ -194,6 +194,7 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        isAuth: state.auth.isAuth,
         user: state.auth.user,
         friends: state.user.friends,
         subscribedChannels: state.user.subscribedChannels,
