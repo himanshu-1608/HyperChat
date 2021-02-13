@@ -7,8 +7,19 @@ import moment from 'moment';
 
 class Message extends Component {
     render() {
-        const { senderID, messagePayload, sentTime, isEdited, isDeleted } = this.props.message;
-        const { showEditMessageModal, showDeleteMessageModal, showLastSeenModal } = this.props;
+        const {
+            senderID,
+            messagePayload,
+            sentTime,
+            isEdited,
+            isDeleted,
+        } = this.props.message;
+        const {
+            user,
+            showEditMessageModal,
+            showDeleteMessageModal,
+            showLastSeenModal,
+        } = this.props;
         return (
             <div className={styles.message_box}>
                 <div className={styles.user_image}>
@@ -24,27 +35,51 @@ class Message extends Component {
                         </div>
                     </div>
                     <div className={styles.message}>
-                        { isDeleted ? <div className={styles.deleted_message}>This message was deleted</div> : `${messagePayload}`} 
-                        { !isDeleted && isEdited ? (<div className={styles.message_edited}>(edited)</div>) : null }   
+                        {isDeleted ? (
+                            <div className={styles.deleted_message}>
+                                This message was deleted
+                            </div>
+                        ) : (
+                            `${messagePayload}`
+                        )}
+                        {!isDeleted && isEdited ? (
+                            <div className={styles.message_edited}>
+                                (edited)
+                            </div>
+                        ) : null}
                     </div>
                 </div>
-                <div className={styles.message_options}>
-                    <div
-                        className={styles.option}
-                        onClick={() => showEditMessageModal(this.props.message)}
-                    >
-                        <BiEdit />
-                    </div>
-                    <div className={styles.option} onClick={() => showDeleteMessageModal(this.props.message)}>
-                        <AiOutlineDelete />
-                    </div>
-                    <div className={styles.option} onClick={showLastSeenModal}>
-                        <BiShow />
-                    </div>
-                    <div className={styles.option}>
-                        <HiOutlineDotsVertical />
-                    </div>
-                </div>
+                {!isDeleted ? (
+                    user.userName === senderID.userName ? (
+                        <div className={styles.message_options}>
+                            <div
+                                className={styles.option}
+                                onClick={() =>
+                                    showEditMessageModal(this.props.message)
+                                }
+                            >
+                                <BiEdit />
+                            </div>
+                            <div
+                                className={styles.option}
+                                onClick={() =>
+                                    showDeleteMessageModal(this.props.message)
+                                }
+                            >
+                                <AiOutlineDelete />
+                            </div>
+                            <div
+                                className={styles.option}
+                                onClick={showLastSeenModal}
+                            >
+                                <BiShow />
+                            </div>
+                            <div className={styles.option}>
+                                <HiOutlineDotsVertical />
+                            </div>
+                        </div>
+                    ) : null
+                ) : null}
             </div>
         );
     }
