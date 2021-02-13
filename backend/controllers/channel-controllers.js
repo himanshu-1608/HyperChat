@@ -33,7 +33,8 @@ exports.joinChannelByID = async(req, res, next) => {
         await user.save();
         await channel.save();
         res.status(200).json({
-            message: "Subscribed to channel Successfully"
+            message: "Subscribed to channel Successfully",
+            channel: channel
         });
     } catch(err) {
         if(err.code) return next(err);

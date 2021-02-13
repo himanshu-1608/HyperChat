@@ -19,45 +19,84 @@ export const init = (
     const channelIDs = subscribedChannels.map(channel => channel._id);
 
     socket.on('connect', () => {
-        socket.emit('USER_JOINED', {
-			userID: user._id,
-			channelIDs: channelIDs
-        });
+        console.log('Socketid in connect', socket.id);
+
+        setEvents(addMessageInChannel, 
+            addMessageInDm, 
+            editMessageInChannel, 
+            editMessageInDm, 
+            deleteMessageInChannel,
+            deleteMessageInDm,
+            user
+        );
         
-		socket.on('DIRECT_MESSAGE', message => {
-            // console.log("DIRECT_MESSAGE came at room: ", user._id, message);
-            addMessageInDm(message);
-		});
-			
-		socket.on('EDIT_MESSAGE_DM', message => {
-            // console.log("EDIT_MESSAGE_DM came at room: ", user._id, message);
-            editMessageInDm(message);
-		});
-			
-		socket.on('DELETE_MESSAGE_DM', message => {
-            // console.log("DELETE_MESSAGE_DM came at room: ", user._id, message);
-            deleteMessageInDm(message);
-        });
-        
-        socket.on('CHANNEL_MESSAGE', message => {
-            console.log("CHANNEL_MESSAGE came at room: ", message);
-            addMessageInChannel(message);
-        });
-        
-        socket.on('EDIT_MESSAGE_CHANNEL', message => {
-            console.log("EDIT_MESSAGE_CHANNEL came at room: ", message);
-            editMessageInChannel(message);
-        });
-        
-        socket.on('DELETE_MESSAGE_CHANNEL', message => {
-            console.log("DELETE_MESSAGE_CHANNEL came at room: ", message);
-            deleteMessageInChannel(message);
-        });
+        socket.on('reconnect', () => {
+            setEvents(addMessageInChannel, 
+                addMessageInDm, 
+                editMessageInChannel, 
+                editMessageInDm, 
+                deleteMessageInChannel,
+                deleteMessageInDm,
+                user
+            );
+            console.log('Reconnected');
+        })
 
         socket.on('disconnect', console.log('Socket disconnected'));
     });
 }
 
-export const disconnectSocket = () => socket.disconnect();
+const setEvents = (
+    addMessageInChannel, 
+    addMessageInDm, 
+    editMessageInChannel, 
+    editMessageInDm, 
+    deleteMessageInChannel,
+    deleteMessageInDm,
+    user
+) => {
+    socket.emit('USER_JOINED', {
+        userID: user._id
+    });
+    
+    socket.on('DIRECT_MESSAGE', message => {
+        // console.log("DIRECT_MESSAGE came at room: ", user._id, message);
+        addMessageInDm(message);
+    });
+        
+    socket.on('EDIT_MESSAGE_DM', message => {
+        // console.log("EDIT_MESSAGE_DM came at room: ", user._id, message);
+        editMessageInDm(message);
+    });
+
+    socket.on('DELETE_MESSAGE_DM', message => {
+        // console.log("DELETE_MESSAGE_DM came at room: ", user._id, message);
+        deleteMessageInDm(message);
+    });
+    
+    socket.on('CHANNEL_MESSAGE', message => {
+        console.log("CHANNEL_MESSAGE came at room: ", message);
+        addMessageInChannel(message);
+    });
+
+    socket.on('EDIT_MESSAGE_CHANNEL', message => {
+        console.log("EDIT_MESSAGE_CHANNEL came at room: ", message);
+        editMessageInChannel(message);
+    });
+    
+    socket.on('DELETE_MESSAGE_CHANNEL', message => {
+        console.log("DELETE_MESSAGE_CHANNEL came at room: ", message);
+        deleteMessageInChannel(message);
+    });
+}
+
+export const disconnectSocket = () => {
+    if(socket){
+        console.log('Socketid in disconnect', socket.id);
+        // console.log(socket);
+        // console.log(socket.disconnect());
+    }
+        // socket.disconnect();
+}
 
 export const getSocket = () => socket;

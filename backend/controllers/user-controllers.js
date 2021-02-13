@@ -4,8 +4,8 @@ const { getIo } = require('../socket');
 
 exports.addNewDM = async(req, res, next) => {
     try {
-        const { DmID } = req.body;
-        const user = await findUserById(req.userId);
+        const { DmID } = req.body; 
+        const user = await findUserById(req.userId);    
         if(user.userFriendIDs.find(userFriendID => userFriendID == DmID)) {
             throw new HttpError('User already inside DM list!', 409);
         }

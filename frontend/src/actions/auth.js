@@ -2,6 +2,7 @@
 import * as actionTypes from './actionTypes';
 import axios, { setAuthorizationHeader } from '../axios';
 import { clearUserData, clearGeneralData } from './index';
+import { disconnectSocket } from '../socket';
 
 export const registerUser = (user) => dispatch => {
     axios.post('/auth/user/register', user)
@@ -42,6 +43,7 @@ export const setLogout = () => dispatch => {
     dispatch(clearAuthData());
     dispatch(clearUserData());
     dispatch(clearGeneralData());
+    disconnectSocket();
 }
 
 export const clearAuthData = () => {
