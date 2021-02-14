@@ -34,15 +34,21 @@ class App extends Component{
 				editMessageInDm, 
 				deleteMessageInChannel,
 				deleteMessageInDm,
-				subscribedChannels } = this.props;
+				setTypingInDm,
+				setTypingInChannel,
+				unsetTypingInDm,
+				unsetTypingInChannel } = this.props;
 				
-			init(addMessageInChannel, 
+			init(addMessageInChannel,
 				addMessageInDm, 
 				editMessageInChannel,
 				editMessageInDm, 
 				deleteMessageInChannel,
 				deleteMessageInDm,
-				subscribedChannels);
+				setTypingInDm,
+				setTypingInChannel,
+				unsetTypingInDm,
+				unsetTypingInChannel);
 		}		
 	}
 
@@ -67,8 +73,7 @@ class App extends Component{
 const mapStateToProps = state => {
 	return{
 		isAuth: state.auth.isAuth,
-		user: state.auth.user,
-		subscribedChannels: state.user.subscribedChannels
+		user: state.auth.user
 	}
 }
 
@@ -82,7 +87,11 @@ const mapDispatchToProps = dispatch => {
 		editMessageInChannel: message => dispatch(actionCreators.editMessageInChannel(message)),
 		editMessageInDm: message => dispatch(actionCreators.editMessageInDm(message)),
 		deleteMessageInChannel: message => dispatch(actionCreators.deleteMessageInChannel(message)),
-		deleteMessageInDm: message => dispatch(actionCreators.deleteMessageInDm(message))
+		deleteMessageInDm: message => dispatch(actionCreators.deleteMessageInDm(message)),
+		setTypingInChannel: (channelId, typedBy) => dispatch(actionCreators.setTypingInOpenChannel(channelId, typedBy)),
+		setTypingInDm: dmId => dispatch(actionCreators.setTypingInOpenDm(dmId)),
+		unsetTypingInChannel: channelId => dispatch(actionCreators.unsetTypingInOpenChannel(channelId)),
+		unsetTypingInDm: dmId => dispatch(actionCreators.unsetTypingInOpenDm(dmId))
 	}
 }
 

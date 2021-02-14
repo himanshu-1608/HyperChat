@@ -1,5 +1,6 @@
 
 import openSocket from 'socket.io-client';
+// import { unsetTypingInDm, unsetTypingInChannel } from './actions/index';
 
 let socket;
 export const init = (  
@@ -9,14 +10,15 @@ export const init = (
     editMessageInDm, 
     deleteMessageInChannel,
     deleteMessageInDm,
-    subscribedChannels ) => {
+    setTypingInDm,
+    setTypingInChannel,
+    unsetTypingInDm,
+    unsetTypingInChannel ) => {
 
     socket = openSocket('http://localhost:8080');
     const user = JSON.parse(localStorage.getItem('user'));
     if( !user )
         return;
-
-    const channelIDs = subscribedChannels.map(channel => channel._id);
 
     socket.on('connect', () => {
         console.log('Socketid in connect', socket.id);
@@ -27,6 +29,10 @@ export const init = (
             editMessageInDm, 
             deleteMessageInChannel,
             deleteMessageInDm,
+            setTypingInDm,
+            setTypingInChannel,
+            unsetTypingInDm,
+            unsetTypingInChannel,
             user
         );
         
@@ -37,6 +43,10 @@ export const init = (
                 editMessageInDm, 
                 deleteMessageInChannel,
                 deleteMessageInDm,
+                setTypingInDm,
+                setTypingInChannel,
+                unsetTypingInDm,
+                unsetTypingInChannel,
                 user
             );
             console.log('Reconnected');
@@ -53,8 +63,13 @@ const setEvents = (
     editMessageInDm, 
     deleteMessageInChannel,
     deleteMessageInDm,
+    setTypingInDm,
+    setTypingInChannel,
+    unsetTypingInDm,
+    unsetTypingInChannel,
     user
 ) => {
+   
     socket.emit('USER_JOINED', user._id);
     
     socket.on('DIRECT_MESSAGE', message => {
@@ -88,7 +103,20 @@ const setEvents = (
     });
 
     socket.on('TYPING', data => {
-        console.log('Typing back', data);
+        // console.log('Typing back', data);
+        if(!data.isChannel)
+            setTypingInDm(data.senderID);
+        else if(data.isChannel && data.senderID != user._id )
+            setTypingInChannel(data.receiverID, data.senderName);
+        
+    });
+
+    socket.on('STOP_TYPING', data => {
+        // console.log('Stop Typing back', data);
+        if(!data.isChannel)
+            unsetTypingInDm(data.senderID);
+        else if(data.isChannel && data.senderID != user._id)
+            unsetTypingInChannel(data.receiverID);
     })
 }
 

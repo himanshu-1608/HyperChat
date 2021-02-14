@@ -206,6 +206,54 @@ const userReducer = (state = initialState, action) => {
                 ...state,
                 friends: updatedFriends
             }
+
+        case actionTypes.SET_TYPING_IN_OPEN_CHANNEL:
+            if(state.openChannel && action.payload.channelId == state.openChannel._id)
+                return {
+                    ...state,
+                    openChannel: {
+                        ...state.openChannel,
+                        isTyping: true,
+                        typingInfo: {
+                            userName: action.payload.userName,
+                        }
+                    }
+                }
+            return state;
+
+        case actionTypes.SET_TYPING_IN_OPEN_DM:
+            if(state.openDm && action.payload.dmId == state.openDm._id)  
+                return {
+                    ...state,
+                    openDm: {
+                        ...state.openDm,
+                        isTyping: true
+                    }
+                }
+            return state;
+
+        case actionTypes.UNSET_TYPING_IN_OPEN_CHANNEL:
+            if(state.openChannel && action.payload.channelId == state.openChannel._id)
+                return {
+                    ...state,
+                    openChannel: {
+                        ...state.openChannel,
+                        isTyping: false,
+                        typingInfo: null
+                    }
+                }
+            return state;
+
+        case actionTypes.UNSET_TYPING_IN_OPEN_DM:
+            if( state.openDm && action.payload.dmId == state.openDm._id)
+                return {
+                    ...state,
+                    openDm: {
+                        ...state.openDm,
+                        isTyping: false
+                    }
+                }
+            return state;
         
         case actionTypes.CLEAR_USER_DATA:
             return initialState;

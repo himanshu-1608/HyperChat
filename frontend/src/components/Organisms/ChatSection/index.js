@@ -10,22 +10,50 @@ import { sendMessageInDm, sendMessageInChannel } from '../../../utils/message';
 
 class ChatSection extends Component {
     state = {
-        message: '',
+        message: ''
     };
 
     setTypingEvents = () => {
         const { openChannel, openDm, user } = this.props;
-        let receiverID;
-        if(openDm)
+        let receiverID, isChannel;
+        if(openDm){
             receiverID = openDm._id;
-        else if(openChannel)
+            isChannel = false;
+        }
+        else if(openChannel){
             receiverID = openChannel._id;
-
+            isChannel = true;
+        }
+            
         const socket = getSocket();
         if(socket && socket.connected){
             socket.emit('TYPING', {
                 receiverID: receiverID,
-                senderID: user._id
+                senderID: user._id,
+                isChannel: isChannel,
+                senderName: user.userName
+            });
+        }
+    }
+
+    unsetTypingEvents = () => {
+        const { openChannel, openDm, user } = this.props;
+        let receiverID, isChannel;
+        if(openDm){
+            receiverID = openDm._id;
+            isChannel = false;
+        }
+        else if(openChannel){
+            receiverID = openChannel._id;
+            isChannel = true;
+        }
+
+        const socket = getSocket();
+        if(socket && socket.connected){
+            socket.emit('STOP_TYPING', {
+                receiverID: receiverID,
+                senderID: user._id,
+                isChannel: isChannel
             });
         }
     }
@@ -34,6 +62,10 @@ class ChatSection extends Component {
         this.setState({ message: e.target.value });
         this.setTypingEvents();
     };
+
+    onBlurHandler = () => {
+        this.unsetTypingEvents();
+    }
 
     isMessageValid = () => {
         const { message } = this.state;
@@ -132,10 +164,14 @@ class ChatSection extends Component {
                                 </>
                             ) : (  openDm ? (
                                     <div className={styles.user_status}>
-                                        {openDm.lastSeen}
+                                        {openDm.isTyping ? 'Typing...' : `${openDm.lastSeen}`}
                                     </div>
                                 ) : null    
                             )}
+                        </div>
+                        {/* TODO: Rahul apply style on it  */}
+                        <div>
+                            {openChannel && openChannel.isTyping ? `${openChannel.typingInfo.userName} is typing...` : null}
                         </div>
                     </div>
                     <div className={styles.chat_options}>
@@ -157,6 +193,7 @@ class ChatSection extends Component {
                                 name="message"
                                 value={this.state.message}
                                 onChange={this.inputChangeHandler}
+                                onBlur={this.onBlurHandler}
                             />
                         </div>
                         <div className={styles.send_icon}>

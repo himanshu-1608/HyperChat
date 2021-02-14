@@ -234,6 +234,43 @@ export const unsetTypingInDm = dmId => {
     }
 }
 
+export const setTypingInOpenChannel = (channelId, typedBy) => {
+    return {
+        type: actionTypes.SET_TYPING_IN_OPEN_CHANNEL,
+        payload: {
+            channelId: channelId,
+            userName: typedBy
+        }
+    }
+}
+
+export const setTypingInOpenDm = dmId => {
+    return {
+        type: actionTypes.SET_TYPING_IN_OPEN_DM,
+        payload: {
+            dmId: dmId
+        }
+    }
+}
+
+export const unsetTypingInOpenChannel = channelId => {
+    return {
+        type: actionTypes.UNSET_TYPING_IN_OPEN_CHANNEL,
+        payload: {
+            channelId: channelId
+        }
+    }
+}
+
+export const unsetTypingInOpenDm = dmId => {
+    return {
+        type: actionTypes.UNSET_TYPING_IN_OPEN_DM,
+        payload: {
+            dmId: dmId
+        }
+    }
+}
+
 export const clearUserData = () => {
     return {
         type: actionTypes.CLEAR_USER_DATA

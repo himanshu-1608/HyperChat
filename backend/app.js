@@ -44,8 +44,13 @@ const connection = (socket) => {
 
     const IO = require('./socket').getIo();
     socket.on('TYPING', data => {
-        const { receiverID, senderID } = data;
+        const { receiverID } = data;
         IO.to(receiverID).emit('TYPING', data);
+    })
+
+    socket.on('STOP_TYPING', data => {
+        const { receiverID } = data;
+        IO.to(receiverID).emit('STOP_TYPING', data);
     })
 
     socket.on('disconnect', (reason) => {
