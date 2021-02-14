@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import NavItem from '../../Atom/NavItem';
 import styles from './NavBar.module.css';
 import { BsChatSquareDots,BsThreeDotsVertical } from 'react-icons/bs';
@@ -15,14 +16,20 @@ class NavBar extends Component {
             return <ChannelNavItem 
                 key={channel._id} 
                 text={channel.channelName}
-                onClick={() => this.props.channelOpened(channel)} />
+                onClick={() => {
+                    this.props.channelOpened(channel)
+                    this.props.history.push('/');
+                }} />
         });
 
         const dmList = this.props.friends.map(friend => {
             return <DmNavItem 
                 key={friend._id} 
                 text={friend.userName}
-                onClick={() => this.props.dmOpened(friend)}/>
+                onClick={() => {
+                    this.props.dmOpened(friend)
+                    this.props.history.push('/');
+                }}/>
         });
 
         return (
@@ -42,4 +49,4 @@ class NavBar extends Component {
         );
     }
 }
-export default NavBar;
+export default withRouter(NavBar);

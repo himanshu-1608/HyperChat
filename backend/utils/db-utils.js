@@ -260,3 +260,9 @@ exports.findUserChannels = async (userId) => {
 //         }
 //     });
 // }
+
+exports.updateUserLastSeen = async (userId) => {
+    const currUser = await User.findById(userId);
+    currUser.lastSeen = new Date().toString();
+    await currUser.save();
+}

@@ -6,7 +6,7 @@ const { setIo } = require('./socket');
 const authRoutes = require('./routes/auth-routes');
 const userRoutes = require('./routes/user-routes');
 const channelRoutes = require('./routes/channel-routes');
-const { updateUserDeliveredTimes, findUserChannels } = require('./utils/db-utils');
+const { updateUserDeliveredTimes, findUserChannels, updateUserLastSeen } = require('./utils/db-utils');
 const { mongoUrl } = require('./config');
 
 const app = express();
@@ -38,6 +38,7 @@ const connection = (socket) => {
     setIo(io);
     socket.on('USER_JOINED', async userID => {
         socket.join(userID);
+        socket.userID = userID;
         const channelIDs = await findUserChannels(userID);
         if(channelIDs) channelIDs.map(channelID => socket.join(''+channelID));
         updateUserDeliveredTimes(userID);
@@ -55,6 +56,7 @@ const connection = (socket) => {
 
     socket.on('disconnect', (reason) => {
         console.log('why disconnect: ', reason);
+        updateUserLastSeen(socket.userID);
     })
 }
 
