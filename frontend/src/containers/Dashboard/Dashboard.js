@@ -5,7 +5,7 @@ import styles from './Dashboard.module.css';
 import ChatSection from '../../components/Organisms/ChatSection';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../actions/index';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import BrowseChannels from '../BrowseChannels';
 import BrowseDms from '../BrowseDMs';
 import EmptySection from '../../components/Organisms/EmptySection';
@@ -101,6 +101,16 @@ class Dashboard extends Component {
                         />
                         <Switch>
                             <Route
+                                path="/browse-channels"
+                                exact
+                                component={() => <BrowseChannels showCreateChannelModal={this.createChannelModalToggleHandler}/>}
+                            />
+                            <Route
+                                path="/browse-dms"
+                                exact
+                                component={() => <BrowseDms />}
+                            />
+                            <Route
                                 path="/"
                                 exact
                                 component={() =>
@@ -122,16 +132,7 @@ class Dashboard extends Component {
                                     )
                                 }
                             />
-                            <Route
-                                path="/browse-channels"
-                                exact
-                                component={() => <BrowseChannels showCreateChannelModal={this.createChannelModalToggleHandler}/>}
-                            />
-                            <Route
-                                path="/browse-dms"
-                                exact
-                                component={() => <BrowseDms />}
-                            />
+                            <Redirect to="/" />
                         </Switch>
                     </div>
                 </Router>
