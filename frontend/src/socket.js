@@ -55,9 +55,7 @@ const setEvents = (
     deleteMessageInDm,
     user
 ) => {
-    socket.emit('USER_JOINED', {
-        userID: user._id
-    });
+    socket.emit('USER_JOINED', user._id);
     
     socket.on('DIRECT_MESSAGE', message => {
         // console.log("DIRECT_MESSAGE came at room: ", user._id, message);

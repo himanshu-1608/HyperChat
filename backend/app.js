@@ -6,7 +6,7 @@ const { setIo } = require('./socket');
 const authRoutes = require('./routes/auth-routes');
 const userRoutes = require('./routes/user-routes');
 const channelRoutes = require('./routes/channel-routes');
-const { updateUserDeliveredTimes } = require('./utils/db-utils');
+const { updateUserDeliveredTimes, findUserChannels } = require('./utils/db-utils');
 const { mongoUrl } = require('./config');
 
 const app = express();
@@ -34,9 +34,10 @@ app.use((error, req, res, next) => {
 
 const connection = (socket) => {
     console.log('New client connected: ', socket.id);
-    socket.on('USER_JOINED', (data) => {
-        const { userID, channelIDs } = data;
+    socket.on('USER_JOINED', async userID => {
         socket.join(userID);
+        const channelIDs = await findUserChannels(userID);
+        console.log(channelIDs);
         if(channelIDs) channelIDs.map(channelID => socket.join(''+channelID));
         updateUserDeliveredTimes(userID);
     });

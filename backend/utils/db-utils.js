@@ -243,6 +243,11 @@ exports.updateUserDeliveredTimes = async (userId) => {
     });
 }
 
+exports.findUserChannels = async (userId) => {
+    const user = await User.findById(userId);
+    return user.userChannelIDs;
+}
+
 // exports.updateUserSeenTimes = async (userId, receiverId) => {
 //     const currUser = await User.findById(userId);
 //     const messages = await Message
