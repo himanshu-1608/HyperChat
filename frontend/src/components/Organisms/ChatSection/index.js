@@ -160,16 +160,12 @@ class ChatSection extends Component {
                                     <span className={styles.divider}> | </span>
                                     {openChannel.channelDesc}
                                     <div className={styles.typing_text}>
-                                        {openChannel && openChannel.isTyping
-                                            ? (
-                                                  <span
-                                                      className={styles.divider}
-                                                  >
-                                                      {' '}
-                                                      |{' '}
-                                                  </span>
-                                              )`${openChannel.typingInfo.userName} is typing...`
-                                            : null}
+                                        {openChannel && openChannel.isTyping ? (
+                                            <span className={styles.divider}>
+                                                |
+                                                <span className={styles.typing}>{`${openChannel.typingInfo.userName} is typing...`}</span>
+                                            </span>
+                                        ) : null}
                                     </div>
                                 </>
                             ) : openDm ? (
