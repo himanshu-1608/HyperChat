@@ -44,7 +44,7 @@ class ChatSection extends Component {
                 messagePayload: this.state.message,
                 sentTime: new Date()
             }
-            sendMessageInChannel(openChannel._id, message, this.props.addMessageInChannel);
+            sendMessageInChannel(openChannel._id, message);
         }
     };
 

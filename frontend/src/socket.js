@@ -73,17 +73,17 @@ const setEvents = (
     });
     
     socket.on('CHANNEL_MESSAGE', message => {
-        console.log("CHANNEL_MESSAGE came at room: ", message);
+        // console.log("CHANNEL_MESSAGE came at room: ", message);
         addMessageInChannel(message);
     });
 
     socket.on('EDIT_MESSAGE_CHANNEL', message => {
-        console.log("EDIT_MESSAGE_CHANNEL came at room: ", message);
+        // console.log("EDIT_MESSAGE_CHANNEL came at room: ", message);
         editMessageInChannel(message);
     });
     
     socket.on('DELETE_MESSAGE_CHANNEL', message => {
-        console.log("DELETE_MESSAGE_CHANNEL came at room: ", message);
+        // console.log("DELETE_MESSAGE_CHANNEL came at room: ", message);
         deleteMessageInChannel(message);
     });
 }

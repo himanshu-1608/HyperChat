@@ -37,8 +37,9 @@ const connection = (socket) => {
     socket.on('USER_JOINED', async userID => {
         socket.join(userID);
         const channelIDs = await findUserChannels(userID);
-        console.log(channelIDs);
+        // console.log(channelIDs);
         if(channelIDs) channelIDs.map(channelID => socket.join(''+channelID));
+        // console.log(socket.rooms);
         updateUserDeliveredTimes(userID);
     });
     socket.on('disconnect', (reason) => {

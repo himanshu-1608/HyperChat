@@ -39,7 +39,7 @@ class EditMessageModal extends Component {
                 messageID: this.props.editMessage._id,
                 messagePayload: this.state.message
             }
-            editMessageInChannelUtil(openChannel._id, message, hideModal, this.props.editMessageInChannel);
+            editMessageInChannelUtil(openChannel._id, message, hideModal);
         }
     }
 
