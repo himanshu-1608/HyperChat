@@ -1,5 +1,6 @@
 
 import axios from '../axios';
+import { getSocket } from '../socket';
 
 export const sendMessageInDm = (userId, message, addMessageInDmAction) => {
     axios.post(`/users/${userId}/dm/message`, message)
@@ -10,11 +11,10 @@ export const sendMessageInDm = (userId, message, addMessageInDmAction) => {
     .catch(err => console.log(err));
 }
 
-export const sendMessageInChannel = (channelId, message, addMessageInChannelAction) => {
+export const sendMessageInChannel = (channelId, message) => {
     axios.post(`/channels/${channelId}/message`, message)
     .then(result => {
-        const { message } = result.data;
-        addMessageInChannelAction(message);
+        // console.log(result);
     })
     .catch(err => console.log(err));
 }
@@ -29,11 +29,9 @@ export const editMessageInDm = (userId, message, hideModal, editMessageInDmActio
     .catch(err => console.log(err));
 }
 
-export const editMessageInChannel = (channelId, message, hideModal, editMessageInChannelAction) => {
+export const editMessageInChannel = (channelId, message, hideModal) => {
     axios.put(`/channels/${channelId}/message`, message)
     .then(result => {
-        const { message } = result.data;
-        editMessageInChannelAction(message);
         hideModal();
     })
     .catch(err => console.log(err));
@@ -49,12 +47,11 @@ export const deleteMessageInDm = (userId, messageId, hideModal, deleteMessageInD
     .catch(err => console.log(err));
 }
 
-export const deleteMessageInChannel = (channelId, messageId, hideModal, deleteMessageInChannelAction) => {
+export const deleteMessageInChannel = (channelId, messageId, hideModal) => {
     axios.delete(`/channels/${channelId}/message/${messageId}`)
     .then(result => {
-        const { message } = result.data;
-        deleteMessageInChannelAction(message);
         hideModal();
     })
     .catch(err => console.log(err));
 }
+

@@ -84,7 +84,7 @@ exports.sendMessageInChannel = async(req, res, next) => {
 exports.editMessageInChannel = async(req, res, next) => {
     try {
         const { messageID, messagePayload } = req.body;
-        const receiverId = req.query.cid;
+        const receiverId = req.params.cid;
         const message = await findMessageByID(messageID);
         message.isEdited = true;
         message.messagePayload = messagePayload;
@@ -105,7 +105,7 @@ exports.editMessageInChannel = async(req, res, next) => {
 exports.deleteMessageInChannel = async(req, res, next) => {
     try {
         const messageID = req.params.mid;
-        const receiverId = req.query.cid;
+        const receiverId = req.params.cid; 
         const message = await findMessageByID(messageID);
         message.isDeleted = true;
         await message.save();

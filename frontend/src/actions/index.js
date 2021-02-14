@@ -26,7 +26,15 @@ export { fetchFriendsAndChannels,
     clearUserData,
     createChannel,
     joinChannel,
-    addDm
+    addDm,
+    setTypingInChannel,
+    setTypingInDm,
+    unsetTypingInChannel,
+    unsetTypingInDm,
+    setTypingInOpenChannel,
+    setTypingInOpenDm,
+    unsetTypingInOpenChannel,
+    unsetTypingInOpenDm,
 } from './user';
 
 // general actionCreators

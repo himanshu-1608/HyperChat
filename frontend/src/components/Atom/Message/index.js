@@ -70,7 +70,7 @@ class Message extends Component {
                             </div>
                             <div
                                 className={styles.option}
-                                onClick={showLastSeenModal}
+                                onClick={() => showLastSeenModal(this.props.message)}
                             >
                                 <BiShow />
                             </div>

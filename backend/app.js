@@ -34,17 +34,28 @@ app.use((error, req, res, next) => {
 
 const connection = (socket) => {
     console.log('New client connected: ', socket.id);
+    setIo(io);
     socket.on('USER_JOINED', async userID => {
         socket.join(userID);
         const channelIDs = await findUserChannels(userID);
-        console.log(channelIDs);
         if(channelIDs) channelIDs.map(channelID => socket.join(''+channelID));
         updateUserDeliveredTimes(userID);
     });
+
+    const IO = require('./socket').getIo();
+    socket.on('TYPING', data => {
+        const { receiverID } = data;
+        IO.to(receiverID).emit('TYPING', data);
+    })
+
+    socket.on('STOP_TYPING', data => {
+        const { receiverID } = data;
+        IO.to(receiverID).emit('STOP_TYPING', data);
+    })
+
     socket.on('disconnect', (reason) => {
         console.log('why disconnect: ', reason);
     })
-    setIo(io);
 }
 
 const startServer = ()=> {

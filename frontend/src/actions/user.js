@@ -197,6 +197,80 @@ export const addCreatedChannelToStore = channel => {
     }
 }
 
+export const setTypingInChannel = (channelId, typedBy) => {
+    return {
+        type: actionTypes.SET_TYPING_IN_CHANNEL,
+        payload: {
+            channelId: channelId,
+            userName: typedBy
+        }
+    }
+}
+
+export const setTypingInDm = dmId => {
+    return {
+        type: actionTypes.SET_TYPING_IN_DM,
+        payload: {
+            dmId: dmId
+        }
+    }
+}
+
+export const unsetTypingInChannel = channelId => {
+    return {
+        type: actionTypes.UNSET_TYPING_IN_CHANNEL,
+        payload: {
+            channelId: channelId
+        }
+    }
+}
+
+export const unsetTypingInDm = dmId => {
+    return {
+        type: actionTypes.UNSET_TYPING_IN_DM,
+        payload: {
+            dmId: dmId
+        }
+    }
+}
+
+export const setTypingInOpenChannel = (channelId, typedBy) => {
+    return {
+        type: actionTypes.SET_TYPING_IN_OPEN_CHANNEL,
+        payload: {
+            channelId: channelId,
+            userName: typedBy
+        }
+    }
+}
+
+export const setTypingInOpenDm = dmId => {
+    return {
+        type: actionTypes.SET_TYPING_IN_OPEN_DM,
+        payload: {
+            dmId: dmId
+        }
+    }
+}
+
+export const unsetTypingInOpenChannel = channelId => {
+    return {
+        type: actionTypes.UNSET_TYPING_IN_OPEN_CHANNEL,
+        payload: {
+            channelId: channelId
+        }
+    }
+}
+
+export const unsetTypingInOpenDm = dmId => {
+    return {
+        type: actionTypes.UNSET_TYPING_IN_OPEN_DM,
+        payload: {
+            dmId: dmId
+        }
+    }
+}
+
 export const clearUserData = () => {
     return {
         type: actionTypes.CLEAR_USER_DATA

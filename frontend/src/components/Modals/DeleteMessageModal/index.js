@@ -18,7 +18,7 @@ class DeleteMessageModal extends Component {
         }
         else if(openChannel){
             const messageId = this.props.deleteMessage._id; 
-            deleteMessageInChannelUtil(openChannel._id, messageId, hideModal, this.props.deleteMessageInChannel);
+            deleteMessageInChannelUtil(openChannel._id, messageId, hideModal);
         }
     }
 
