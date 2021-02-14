@@ -86,6 +86,10 @@ const setEvents = (
         // console.log("DELETE_MESSAGE_CHANNEL came at room: ", message);
         deleteMessageInChannel(message);
     });
+
+    socket.on('TYPING', data => {
+        console.log('Typing back', data);
+    })
 }
 
 export const disconnectSocket = () => {

@@ -1,5 +1,6 @@
 
 import axios from '../axios';
+import { getSocket } from '../socket';
 
 export const sendMessageInDm = (userId, message, addMessageInDmAction) => {
     axios.post(`/users/${userId}/dm/message`, message)
@@ -53,3 +54,4 @@ export const deleteMessageInChannel = (channelId, messageId, hideModal) => {
     })
     .catch(err => console.log(err));
 }
+

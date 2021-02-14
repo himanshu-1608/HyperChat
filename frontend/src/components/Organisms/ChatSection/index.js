@@ -4,6 +4,7 @@ import { AiOutlineSend } from 'react-icons/ai';
 import Message from '../../Atom/Message';
 import { MdPersonOutline } from 'react-icons/md';
 import { RiUserAddLine } from 'react-icons/ri';
+import { getSocket } from '../../../socket';
 
 import { sendMessageInDm, sendMessageInChannel } from '../../../utils/message';
 
@@ -12,8 +13,26 @@ class ChatSection extends Component {
         message: '',
     };
 
+    setTypingEvents = () => {
+        const { openChannel, openDm, user } = this.props;
+        let receiverID;
+        if(openDm)
+            receiverID = openDm._id;
+        else if(openChannel)
+            receiverID = openChannel._id;
+
+        const socket = getSocket();
+        if(socket && socket.connected){
+            socket.emit('TYPING', {
+                receiverID: receiverID,
+                senderID: user._id
+            });
+        }
+    }
+
     inputChangeHandler = (e) => {
         this.setState({ message: e.target.value });
+        this.setTypingEvents();
     };
 
     isMessageValid = () => {

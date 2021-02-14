@@ -12,9 +12,10 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
 
+    let updatedSubscribedChannels = [];
+    let updatedFriends = [];
     let updatedChannelMessages = [];
     let updatedDirectMessages = [];
-    let newMessage = {};
 
     switch(action.type){
 
@@ -142,6 +143,70 @@ const userReducer = (state = initialState, action) => {
                 subscribedChannels: [...state.subscribedChannels, action.payload.channel]
             }
 
+        case actionTypes.SET_TYPING_IN_CHANNEL:
+            updatedSubscribedChannels = state.subscribedChannels.map(channel => {
+                if(channel._id == action.payload.channelId){
+                    return {
+                        ...channel,
+                        isTyping: true,
+                        typingInfo: {
+                            userName: action.payload.userName,
+                        }
+                    }
+                }
+                return channel;
+            })
+            return {
+                ...state,
+                subscribedChannels: updatedSubscribedChannels
+            }
+
+        case actionTypes.SET_TYPING_IN_DM:
+            updatedFriends = state.friends.map(friend => {
+                if(friend._id == action.payload.dmId){
+                    return {
+                        ...friend,
+                        isTyping: true
+                    }
+                }
+                return friend;
+            });
+            return {
+                ...state,
+                friends: updatedFriends
+            }
+
+        case actionTypes.UNSET_TYPING_IN_CHANNEL:
+            updatedSubscribedChannels = state.subscribedChannels.map(channel => {
+                if(channel._id == action.payload.channelId){
+                    return {
+                        ...channel,
+                        isTyping: false,
+                        typingInfo: null
+                    }
+                }
+                return channel;
+            })
+            return {
+                ...state,
+                subscribedChannels: updatedSubscribedChannels
+            }
+
+        case actionTypes.UNSET_TYPING_IN_DM:
+            updatedFriends = state.friends.map(friend => {
+                if(friend._id == action.payload.dmId){
+                    return {
+                        ...friend,
+                        isTyping: false
+                    }
+                }
+                return friend;
+            });
+            return {
+                ...state,
+                friends: updatedFriends
+            }
+        
         case actionTypes.CLEAR_USER_DATA:
             return initialState;
         
