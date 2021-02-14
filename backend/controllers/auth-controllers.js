@@ -16,7 +16,7 @@ exports.registerNewUser = async(req, res, next) => {
             message: "User created successfully",
             token: token,
             user: {
-                id: createdUser.id,
+                _id: createdUser.id,
                 userName: userName
             }
         });

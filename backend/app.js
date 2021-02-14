@@ -10,6 +10,7 @@ const { updateUserDeliveredTimes, findUserChannels } = require('./utils/db-utils
 const { mongoUrl } = require('./config');
 
 const app = express();
+let io;
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -42,15 +43,14 @@ const connection = (socket) => {
         updateUserDeliveredTimes(userID);
     });
 
-    const IO = require('./socket').getIo();
     socket.on('TYPING', data => {
         const { receiverID } = data;
-        IO.to(receiverID).emit('TYPING', data);
+        socket.to(receiverID).emit('TYPING', data);
     })
 
     socket.on('STOP_TYPING', data => {
         const { receiverID } = data;
-        IO.to(receiverID).emit('STOP_TYPING', data);
+        socket.to(receiverID).emit('STOP_TYPING', data);
     })
 
     socket.on('disconnect', (reason) => {
