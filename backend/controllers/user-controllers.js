@@ -1,4 +1,4 @@
-const { findUserById, findUserDetails, createNewMessage, findMessagesInDm, findMessageByID, getUsers } = require('../utils/db-utils');
+const { findUserById, findUserDetails, createNewMessage, findMessagesInDm, findMessageByID, getUsers, setSeenTime } = require('../utils/db-utils');
 const HttpError = require('../models/http-error');
 const { getIo } = require('../socket');
 
@@ -49,9 +49,11 @@ exports.getUserDmMessages = async(req, res, next) => {
         offset = parseInt(offset);
         limit = parseInt(limit);
         const messages = await findMessagesInDm(req.userId, req.params.dmid, limit, offset);
+        const updatedMessages = await setSeenTime(messages, req.userId);
+        // console.log('Updated messages', updatedMessages);
         res.status(200).json({
             message: `List of messages(most recent first): ${offset} to ${offset+limit-1}`,
-            "message-list": messages
+            "message-list": updatedMessages
         });
     } catch(err) {
         if(err.code) return next(err);

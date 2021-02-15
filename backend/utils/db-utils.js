@@ -266,3 +266,23 @@ exports.updateUserLastSeen = async (userId) => {
     currUser.lastSeen = new Date().toString();
     await currUser.save();
 }
+
+exports.setSeenTime = async(messages, userID) => {
+    messages.map(async(message) => {
+        if(message.seenTime && message.seenTime.findIndex(obj => obj.userID._id == userID) == -1){
+            message.seenTime.push({
+                userID: userID,
+                seenTime: new Date().toString()
+            })
+        }
+        else if(!message.seenTime){
+            message.seenTime = [{
+                userID: userID,
+                seenTime: new Date().toString()
+            }]
+        }
+        await message.save();
+    })
+    // console.log('Updated messages: ', messages);
+    return messages;
+}
