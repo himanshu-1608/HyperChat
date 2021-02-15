@@ -1,6 +1,5 @@
 
 import openSocket from 'socket.io-client';
-// import { unsetTypingInDm, unsetTypingInChannel } from './actions/index';
 
 let socket;
 export const init = (  
