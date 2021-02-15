@@ -15,8 +15,7 @@ class BrowseDms extends Component {
                 key={user.id} 
                 user={user} 
                 addDm={() => {
-                    this.props.addDm(user, this.props.user._id);
-                    this.props.history.push('/');
+                    this.props.addDm(user, this.props.user._id, this.props.history);
                 }}/>
         })
 
@@ -55,7 +54,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchUsers: () => dispatch(actionCreators.fetchUsers()),
-        addDm: (dm, userId) => dispatch(actionCreators.addDm(dm, userId))
+        addDm: (dm, userId, history) => dispatch(actionCreators.addDm(dm, userId, history))
     }
 }
 

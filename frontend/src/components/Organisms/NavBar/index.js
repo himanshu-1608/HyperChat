@@ -16,6 +16,7 @@ class NavBar extends Component {
             return <ChannelNavItem 
                 key={channel._id} 
                 text={channel.channelName}
+                isBold={channel.hasUnreadMessage}
                 onClick={() => {
                     this.props.channelOpened(channel);
                     this.props.history.push('/');
@@ -26,6 +27,7 @@ class NavBar extends Component {
             return <DmNavItem 
                     key={friend._id} 
                     text={friend.userName}
+                    isBold={friend.hasUnreadMessage}
                     onClick={() => {
                         this.props.dmOpened(friend);
                         this.props.history.push('/');

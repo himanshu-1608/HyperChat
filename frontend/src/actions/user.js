@@ -1,5 +1,4 @@
 
-
 import axios from '../axios';
 import * as actionTypes from './actionTypes';
 
@@ -25,6 +24,7 @@ export const setFriendsAndChannels = (friends, subscribedChannels) => {
 export const channelOpened = channel => dispatch => {
     dispatch(setOpenChannel(channel));
     dispatch(fetchMessagesInChannel(channel._id));
+    dispatch(setReadChannel(channel._id));
 }
 
 export const setOpenChannel = channel => {
@@ -58,6 +58,7 @@ export const dmOpened = dm => dispatch => {
     const user = JSON.parse(localStorage.getItem('user'));
     dispatch(setOpenDm(dm));
     dispatch(fetchMessagesInDm(user.id, dm._id));
+    dispatch(setReadDm(dm._id));
 }
 
 export const setOpenDm = dm => {
@@ -69,12 +70,13 @@ export const setOpenDm = dm => {
     }
 }
 
-export const joinChannel = channelId => dispatch => {
+export const joinChannel = (channelId, history) => dispatch => {
     axios.post(`/channels/${channelId}/join`)
     .then(result => {
         const { channel } = result.data;
         dispatch(addJoinedChannelInReduxStore(channel));
         dispatch(setOpenChannel(channel));
+        history.push('/');
     })
     .catch(err => console.log(err));
 }
@@ -88,12 +90,13 @@ export const addJoinedChannelInReduxStore = channel => {
     }
 }
 
-export const addDm = (dm, userId) => dispatch => {
-    console.log('Dm is', dm);
+export const addDm = (dm, userId, history) => dispatch => {
     axios.put(`/users/${userId}/dm/add`, { DmID: dm.id })
     .then(result => {
-        dispatch(setOpenDm(dm));
-        dispatch(addDmInReduxStore(dm));
+        const { dmUser } = result.data;
+        dispatch(setOpenDm(dmUser));
+        dispatch(addDmInReduxStore(dmUser));
+        history.push('/');
     })
     .catch(err => console.log(err));
 }
@@ -125,7 +128,12 @@ export const setMessagesInDm = directMessages => {
     }
 }
 
-export const addMessageInChannel = message => {
+export const addMessageInChannel = message => dispatch => {
+    dispatch(addMessageInChannelUtil(message));
+    dispatch(setUnreadChannel(message.receiverID));
+}
+
+export const addMessageInChannelUtil = message => {
     return {
         type: actionTypes.ADD_MESSAGE_IN_CHANNEL,
         payload: {
@@ -134,7 +142,12 @@ export const addMessageInChannel = message => {
     }
 }
 
-export const addMessageInDm = message => {
+export const addMessageInDm = message => dispatch => {
+    dispatch(addMessageInDmUtil(message));
+    dispatch(setUnreadDm(message.senderID._id));
+}
+
+export const addMessageInDmUtil = message => {
     return {
         type: actionTypes.ADD_MESSAGE_IN_DM,
         payload: {
@@ -266,6 +279,42 @@ export const unsetTypingInOpenChannel = channelId => {
 export const unsetTypingInOpenDm = dmId => {
     return {
         type: actionTypes.UNSET_TYPING_IN_OPEN_DM,
+        payload: {
+            dmId: dmId
+        }
+    }
+}
+
+export const setUnreadChannel = channelId => {
+    return {
+        type: actionTypes.SET_UNREAD_CHANNEL,
+        payload: {
+            channelId: channelId
+        }
+    }
+}
+
+export const setUnreadDm = dmId => {
+    return {
+        type: actionTypes.SET_UNREAD_DM,
+        payload: {
+            dmId: dmId
+        }
+    }
+}
+
+export const setReadChannel = channelId => {
+    return {
+        type: actionTypes.SET_READ_CHANNEL,
+        payload: {
+            channelId: channelId
+        }
+    }
+}
+
+export const setReadDm = dmId => {
+    return {
+        type: actionTypes.SET_READ_DM,
         payload: {
             dmId: dmId
         }

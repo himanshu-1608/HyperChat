@@ -254,6 +254,72 @@ const userReducer = (state = initialState, action) => {
                     }
                 }
             return state;
+
+        case actionTypes.SET_UNREAD_CHANNEL:
+            if(!state.openChannel || action.payload.channelId != state.openChannel._id){
+                updatedSubscribedChannels = state.subscribedChannels.map(channel => {
+                    if(channel._id === action.payload.channelId){
+                        return {
+                            ...channel,
+                            hasUnreadMessage: true
+                        }
+                    }
+                    return channel;
+                });
+                return {
+                    ...state,
+                    subscribedChannels: updatedSubscribedChannels
+                }
+            }
+            return state;
+
+        case actionTypes.SET_UNREAD_DM:
+            if( !state.openDm || action.payload.dmId != state.openDm._id){
+                updatedFriends = state.friends.map(friend => {
+                    if(friend._id == action.payload.dmId){
+                        return {
+                            ...friend,
+                            hasUnreadMessage: true
+                        }
+                    }
+                    return friend;
+                })
+                return {
+                    ...state,
+                    friends: updatedFriends
+                }
+            }
+            return state;
+
+        case actionTypes.SET_READ_CHANNEL:
+            updatedSubscribedChannels = state.subscribedChannels.map(channel => {
+                if(channel._id == action.payload.channelId){
+                    return {
+                        ...channel,
+                        hasUnreadMessage: false
+                    }
+                }
+                return channel;
+            });
+            return {
+                ...state,
+                subscribedChannels: updatedSubscribedChannels
+            }
+
+        case actionTypes.SET_READ_DM:
+            updatedFriends = state.friends.map(friend => {
+                if(friend._id == action.payload.dmId){
+                    return {
+                        ...friend,
+                        hasUnreadMessage: false
+                    }
+                }
+                return friend;
+            })
+            return {
+                ...state,
+                friends: updatedFriends
+            }
         
         case actionTypes.CLEAR_USER_DATA:
             return initialState;
