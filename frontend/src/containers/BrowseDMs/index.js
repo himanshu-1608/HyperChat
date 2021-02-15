@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import styles from './BrowseDms.module.css';
 import { connect } from "react-redux";
 import * as actionCreators from '../../actions/index';
@@ -13,7 +14,10 @@ class BrowseDms extends Component {
             return <DmItem 
                 key={user.id} 
                 user={user} 
-                addDm={() => this.props.addDm(user, this.props.user._id)}/>
+                addDm={() => {
+                    this.props.addDm(user, this.props.user._id);
+                    this.props.history.push('/');
+                }}/>
         })
 
         return (
@@ -55,4 +59,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BrowseDms);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(BrowseDms));

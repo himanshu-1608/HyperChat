@@ -89,6 +89,7 @@ export const addJoinedChannelInReduxStore = channel => {
 }
 
 export const addDm = (dm, userId) => dispatch => {
+    console.log('Dm is', dm);
     axios.put(`/users/${userId}/dm/add`, { DmID: dm.id })
     .then(result => {
         dispatch(setOpenDm(dm));
