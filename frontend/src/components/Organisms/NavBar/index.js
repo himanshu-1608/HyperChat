@@ -17,8 +17,8 @@ class NavBar extends Component {
                 key={channel._id} 
                 text={channel.channelName}
                 onClick={() => {
-                    this.props.channelOpened(channel)
-                    this.props.history.push('/')
+                    this.props.channelOpened(channel);
+                    this.props.history.push('/');
                 }} />
         });
 
@@ -27,8 +27,8 @@ class NavBar extends Component {
                     key={friend._id} 
                     text={friend.userName}
                     onClick={() => {
-                        this.props.dmOpened(friend)
-                        this.props.history.push('/')
+                        this.props.dmOpened(friend);
+                        this.props.history.push('/');
                     }}/>
         });
 

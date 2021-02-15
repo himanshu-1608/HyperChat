@@ -6,6 +6,7 @@ exports.addNewDM = async(req, res, next) => {
     try {
         const { DmID } = req.body; 
         const user = await findUserById(req.userId);    
+        const dmUser = await findUserById(DmID);    
         if(user.userFriendIDs.find(userFriendID => userFriendID == DmID)) {
             throw new HttpError('User already inside DM list!', 409);
         }
@@ -17,7 +18,8 @@ exports.addNewDM = async(req, res, next) => {
         }
         await user.save();
         res.status(200).json({
-            message: "Added in User's recent DM Successfully"
+            message: "Added in User's recent DM Successfully",
+            dmUser: dmUser
         });
     } catch(err) {
         if(err.code) return next(err);

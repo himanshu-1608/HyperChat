@@ -10,53 +10,51 @@ import { sendMessageInDm, sendMessageInChannel } from '../../../utils/message';
 
 class ChatSection extends Component {
     state = {
-        message: ''
+        message: '',
     };
 
     setTypingEvents = () => {
         const { openChannel, openDm, user } = this.props;
         let receiverID, isChannel;
-        if(openDm){
+        if (openDm) {
             receiverID = openDm._id;
             isChannel = false;
-        }
-        else if(openChannel){
+        } else if (openChannel) {
             receiverID = openChannel._id;
             isChannel = true;
         }
-            
+
         const socket = getSocket();
-        if(socket && socket.connected){
+        if (socket && socket.connected) {
             socket.emit('TYPING', {
                 receiverID: receiverID,
                 senderID: user._id,
                 isChannel: isChannel,
-                senderName: user.userName
+                senderName: user.userName,
             });
         }
-    }
+    };
 
     unsetTypingEvents = () => {
         const { openChannel, openDm, user } = this.props;
         let receiverID, isChannel;
-        if(openDm){
+        if (openDm) {
             receiverID = openDm._id;
             isChannel = false;
-        }
-        else if(openChannel){
+        } else if (openChannel) {
             receiverID = openChannel._id;
             isChannel = true;
         }
 
         const socket = getSocket();
-        if(socket && socket.connected){
+        if (socket && socket.connected) {
             socket.emit('STOP_TYPING', {
                 receiverID: receiverID,
                 senderID: user._id,
-                isChannel: isChannel
+                isChannel: isChannel,
             });
         }
-    }
+    };
 
     inputChangeHandler = (e) => {
         this.setState({ message: e.target.value });
@@ -65,14 +63,16 @@ class ChatSection extends Component {
 
     onBlurHandler = () => {
         this.unsetTypingEvents();
-    }
+    };
 
     isMessageValid = () => {
         const { message } = this.state;
         return message.trim().length;
     };
-    componentDidMount(){
-        const chat_box = document.getElementsByClassName(`${styles.chat_box}`)[0];
+    componentDidMount() {
+        const chat_box = document.getElementsByClassName(
+            `${styles.chat_box}`
+        )[0];
         chat_box.scrollTop = chat_box.scrollHeight;
     }
 
@@ -88,13 +88,12 @@ class ChatSection extends Component {
                 sentTime: new Date(),
             };
             sendMessageInDm(user._id, message, this.props.addMessageInDm);
-        }
-        else if(openChannel){
+        } else if (openChannel) {
             const message = {
                 messageType: 'text',
                 messagePayload: this.state.message,
-                sentTime: new Date()
-            }
+                sentTime: new Date(),
+            };
             sendMessageInChannel(openChannel._id, message);
         }
     };
@@ -109,9 +108,9 @@ class ChatSection extends Component {
             showSubscribersModal,
             showEditMessageModal,
             showDeleteMessageModal,
-            showLastSeenModal
+            showLastSeenModal,
         } = this.props;
-    
+
         let messageList;
         if (openChannel) {
             messageList = channelMessages.map((message) => {
@@ -123,7 +122,6 @@ class ChatSection extends Component {
                         showEditMessageModal={showEditMessageModal}
                         showDeleteMessageModal={showDeleteMessageModal}
                         showLastSeenModal={showLastSeenModal}
-
                     />
                 );
             });
@@ -161,17 +159,22 @@ class ChatSection extends Component {
                                     {openChannel.channelSubscribers.length}
                                     <span className={styles.divider}> | </span>
                                     {openChannel.channelDesc}
-                                </>
-                            ) : (  openDm ? (
-                                    <div className={styles.user_status}>
-                                        {openDm.isTyping ? 'Typing...' : `${openDm.lastSeen}`}
+                                    <div className={styles.typing_text}>
+                                        {openChannel && openChannel.isTyping ? (
+                                            <span className={styles.divider}>
+                                                |
+                                                <span className={styles.typing}>{`${openChannel.typingInfo.userName} is typing...`}</span>
+                                            </span>
+                                        ) : null}
                                     </div>
-                                ) : null    
-                            )}
-                        </div>
-                        {/* TODO: Rahul apply style on it  */}
-                        <div>
-                            {openChannel && openChannel.isTyping ? `${openChannel.typingInfo.userName} is typing...` : null}
+                                </>
+                            ) : openDm ? (
+                                <div className={styles.user_status}>
+                                    {openDm.isTyping
+                                        ? 'Typing...'
+                                        : `${openDm.lastSeen}`}
+                                </div>
+                            ) : null}
                         </div>
                     </div>
                     <div className={styles.chat_options}>
