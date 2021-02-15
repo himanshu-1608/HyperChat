@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import ChannelItem from '../../components/Atom/ChannelItem';
 import Search from '../../components/Atom/Search';
 import styles from './BrowseChannels.module.css';
@@ -16,7 +17,7 @@ class BrowseChannels extends Component {
         const { showCreateChannelModal, channels, joinChannel } = this.props;
 
         const channelList = channels.map(channel => {
-            return <ChannelItem key={channel._id} channel={channel} onClick={() => joinChannel(channel._id)}/>
+            return <ChannelItem key={channel._id} channel={channel} onClick={() => joinChannel(channel._id, this.props.history)}/>
         })
 
         return (
@@ -56,8 +57,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchChannels: () => dispatch(actionCreators.fetchChannels()),
-        joinChannel: channelId => dispatch(actionCreators.joinChannel(channelId))
+        joinChannel: (channelId, history) => dispatch(actionCreators.joinChannel(channelId, history))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BrowseChannels);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(BrowseChannels));

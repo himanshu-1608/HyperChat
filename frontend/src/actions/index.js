@@ -35,6 +35,8 @@ export { fetchFriendsAndChannels,
     setTypingInOpenDm,
     unsetTypingInOpenChannel,
     unsetTypingInOpenDm,
+    setUnreadChannel,
+    setUnreadDm
 } from './user';
 
 // general actionCreators

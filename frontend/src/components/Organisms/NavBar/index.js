@@ -16,20 +16,22 @@ class NavBar extends Component {
             return <ChannelNavItem 
                 key={channel._id} 
                 text={channel.channelName}
+                isBold={channel.hasUnreadMessage}
                 onClick={() => {
-                    this.props.channelOpened(channel)
+                    this.props.channelOpened(channel);
                     this.props.history.push('/');
                 }} />
         });
 
         const dmList = this.props.friends.map(friend => {
             return <DmNavItem 
-                key={friend._id} 
-                text={friend.userName}
-                onClick={() => {
-                    this.props.dmOpened(friend)
-                    this.props.history.push('/');
-                }}/>
+                    key={friend._id} 
+                    text={friend.userName}
+                    isBold={friend.hasUnreadMessage}
+                    onClick={() => {
+                        this.props.dmOpened(friend);
+                        this.props.history.push('/');
+                    }}/>
         });
 
         return (
