@@ -1,4 +1,4 @@
-const { createChannel, findChannelById, findUserById, findMessagesInChannel, createNewMessage, findMessageByID, getSomeChannels } = require('../utils/db-utils');
+const { createChannel, findChannelById, findUserById, findMessagesInChannel, createNewMessage, findMessageByID, getSomeChannels, setSeenTime } = require('../utils/db-utils');
 const HttpError = require('../models/http-error');
 const { getIo } = require('../socket');
 
@@ -52,9 +52,10 @@ exports.getChannelMessages = async(req, res, next) => {
         offset = parseInt(offset);
         limit = parseInt(limit);
         const messages = await findMessagesInChannel(channelId, limit, offset);
+        const updatedMessages = await setSeenTime(messages, req.userId);
         res.status(200).json({
             message: `List of messages: ${offset} to ${offset+limit-1}`,
-            messages: messages
+            messages: updatedMessages
         });
     } catch(err) {
         if(err.code) return next(err);

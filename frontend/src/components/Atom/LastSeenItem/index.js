@@ -1,24 +1,23 @@
 import { Component } from "react";
 import styles from './LastSeenItem.module.css';
+import { formatTime } from '../../../utils/time';
 
 class LastSeenItem extends Component{
     render(){
+        const { seenObj, deliveredObj } = this.props;
         return(
             <div className={styles.user_detail_box} onClick={this.props.onClick}>
                 <div className={styles.inner_box}>
                     <div className={styles.user_image}>
-                        {/* TODO: seen user url */}
-                        <img src="" alt="User"/>
+                        <img src={seenObj.userID.userProfilePicURL} alt="User"/>
                     </div>
                     <div className={styles.user_info}>
-                        {/* TODO: seen time user name */}
                         <div className={styles.user_name}>
-                            Rahul Yadav
+                            {seenObj.userID.userName}
                         </div>
-                        {/* TODO: timing of message seen */}
                         <div className={styles.user_time}>
-                            <span>Seen time: 9:30 PM</span>
-                            <span>Delivered time: 9:31 PM</span>
+                            <span>Seen time: {formatTime(seenObj.seenTime)}</span>
+                            <span>Delivered time: {formatTime(deliveredObj.deliveredTime)}</span>
                         </div>
                     </div>
                 </div>

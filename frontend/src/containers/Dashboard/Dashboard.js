@@ -23,7 +23,8 @@ class Dashboard extends Component {
         showCreateChannelModal: false,
         showLastSeenModal: false,
         editMessage: {},
-        deleteMessage: {}
+        deleteMessage: {},
+        detailedMessage: {}
     };
 
     componentWillReceiveProps(newProps) {
@@ -58,9 +59,10 @@ class Dashboard extends Component {
         });
     };
 
-    lastSeenModalToggleHandler = () => {
+    lastSeenModalToggleHandler = (detailedMessage = {}) => {
         this.setState({
             showLastSeenModal: !this.state.showLastSeenModal,
+            detailedMessage: detailedMessage
         });
     };
 
@@ -87,7 +89,8 @@ class Dashboard extends Component {
             showCreateChannelModal,
             showLastSeenModal,
             editMessage,
-            deleteMessage } = this.state;
+            deleteMessage,
+            detailedMessage } = this.state;
         return (
             <div className={styles.dashboard_page}>
                 <Router>
@@ -179,6 +182,7 @@ class Dashboard extends Component {
                     <div className={styles.modals}>
                         <LastSeenModal
                             hideModal={this.lastSeenModalToggleHandler}
+                            message={detailedMessage}
                         />
                     </div>
                 ) : null}

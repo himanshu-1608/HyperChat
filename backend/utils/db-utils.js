@@ -233,7 +233,7 @@ exports.getSomeChannels = async (limit, offset) => {
 exports.updateUserDeliveredTimes = async (userId) => {
     const currUser = await User.findById(userId);
     const messages = await Message
-    .find({receiverID: {$in: [userId, ...currUser.userChannelIDs]}});
+    .find({receiverID: {$in: [userId, ...currUser.userChannelIDs]}, senderID: {$ne: userId}});
     if(!messages) return;
     messages.map(async (message) => {
         if(!message.deliveredTime.find(timeObj => timeObj.userID == userId)) {
@@ -269,6 +269,8 @@ exports.updateUserLastSeen = async (userId) => {
 
 exports.setSeenTime = async(messages, userID) => {
     messages.map(async(message) => {
+        if(message.senderID._id == userID)
+            return;
         if(message.seenTime && message.seenTime.findIndex(obj => obj.userID._id == userID) == -1){
             message.seenTime.push({
                 userID: userID,

@@ -5,6 +5,7 @@ import Message from '../../Atom/Message';
 import { MdPersonOutline } from 'react-icons/md';
 import { RiUserAddLine } from 'react-icons/ri';
 import { getSocket } from '../../../socket';
+import { formatTime } from '../../../utils/time';
 
 import { sendMessageInDm, sendMessageInChannel } from '../../../utils/message';
 
@@ -69,6 +70,7 @@ class ChatSection extends Component {
         const { message } = this.state;
         return message.trim().length;
     };
+
     componentDidMount() {
         const chat_box = document.getElementsByClassName(
             `${styles.chat_box}`
@@ -172,7 +174,7 @@ class ChatSection extends Component {
                                 <div className={styles.user_status}>
                                     {openDm.isTyping
                                         ? 'Typing...'
-                                        : `${openDm.lastSeen}`}
+                                        : `${formatTime(openDm.lastSeen)}`}
                                 </div>
                             ) : null}
                         </div>

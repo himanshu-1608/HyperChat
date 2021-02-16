@@ -50,7 +50,6 @@ exports.getUserDmMessages = async(req, res, next) => {
         limit = parseInt(limit);
         const messages = await findMessagesInDm(req.userId, req.params.dmid, limit, offset);
         const updatedMessages = await setSeenTime(messages, req.userId);
-        // console.log('Updated messages', updatedMessages);
         res.status(200).json({
             message: `List of messages(most recent first): ${offset} to ${offset+limit-1}`,
             "message-list": updatedMessages
