@@ -5,7 +5,7 @@ const isAuth = require('../middlewares/isAuth');
 const router = express.Router();
 
 router.post('/:cid/join', isAuth, channelControllers.joinChannelByID);
-router.get('/:cid/message', channelControllers.getChannelMessages);
+router.get('/:cid/message', isAuth, channelControllers.getChannelMessages);
 router.post('/:cid/message', isAuth, channelControllers.sendMessageInChannel);
 router.put('/:cid/message', isAuth, channelControllers.editMessageInChannel);
 router.delete('/:cid/message/:mid', isAuth, channelControllers.deleteMessageInChannel);
