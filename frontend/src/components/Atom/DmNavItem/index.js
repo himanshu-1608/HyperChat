@@ -11,7 +11,9 @@ class DmNavItem extends Component {
 
         return (
             <div className={styles.item} onClick={this.props.onClick}>
-                <div className={styles.image}></div>
+                <div className={styles.image}>
+                    <img src={this.props.user.userProfilePicURL} alt='User'/>
+                </div>
                 {messageText}
             </div>
         );

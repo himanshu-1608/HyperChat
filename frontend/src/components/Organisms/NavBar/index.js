@@ -28,6 +28,7 @@ class NavBar extends Component {
                     key={friend._id} 
                     text={friend.userName}
                     isBold={friend.hasUnreadMessage}
+                    user={friend}
                     onClick={() => {
                         this.props.dmOpened(friend);
                         this.props.history.push('/');

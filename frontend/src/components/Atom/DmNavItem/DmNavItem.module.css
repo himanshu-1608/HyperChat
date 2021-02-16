@@ -9,6 +9,7 @@
 .item:hover {
 	background-color: #fec6ff;
 }
+
 .image {
 	height: 80%;
 	width: 25px;
@@ -17,8 +18,12 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background: url('../../../assests/images/demo.jpg') no-repeat no-repeat center;
 	background-size: cover;
+}
+
+.image > img {
+	height: 100%;
+	width: 100%;
 }
 
 .text {
