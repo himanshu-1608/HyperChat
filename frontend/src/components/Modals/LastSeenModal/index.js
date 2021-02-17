@@ -23,11 +23,10 @@ class LastSeenModal extends Component {
                     <div className={styles.modal_inner_box}>
                         <div className={styles.modal_title}>
                             {/* TODO: total member in the channel */}
-                            Last Seen
+                            Details
                         </div>
                         
                         <div className={styles.member_names}>
-                            {/* TODO: user details */}
                             {userList}
                         </div>
                         <div className={styles.cancel_btn} onClick={this.props.hideModal}>
