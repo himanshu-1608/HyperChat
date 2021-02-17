@@ -114,7 +114,7 @@ export const fetchMessagesInDm = (userId, dmId) => dispatch => {
     axios.get(`/users/${userId}/dm/${dmId}/message?limit=20&offset=0`)
     .then(result => {
         const messages = result.data['message-list'];
-        console.log(messages);
+        // console.log(messages);
         dispatch(setMessagesInDm(messages))
     })
     .catch(err => console.log(err));
@@ -144,6 +144,7 @@ export const addMessageInChannelUtil = message => {
 }
 
 export const addMessageInDm = message => dispatch => {
+    // console.log(message);
     dispatch(addMessageInDmUtil(message));
     dispatch(setUnreadDm(message.senderID._id));
 }
