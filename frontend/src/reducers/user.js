@@ -65,16 +65,20 @@ const userReducer = (state = initialState, action) => {
             }
 
         case actionTypes.ADD_MESSAGE_IN_CHANNEL:
-            return {
-                ...state,
-                channelMessages: [...state.channelMessages, action.payload.channelMessage]
-            }
+            if(state.openChannel && state.openChannel._id == action.payload.channelMessage.receiverID)
+                return {
+                    ...state,
+                    channelMessages: [...state.channelMessages, action.payload.channelMessage]
+                }
+            return state;
 
         case actionTypes.ADD_MESSAGE_IN_DM:
-            return {
-                ...state,
-                directMessages: [...state.directMessages, action.payload.directMessage]
-            }
+            if(state.openDm && (state.openDm._id == action.payload.directMessage.senderID._id || state.openDm._id == action.payload.directMessage.receiverID))
+                return {
+                    ...state,
+                    directMessages: [...state.directMessages, action.payload.directMessage]
+                }
+            return state;
 
         case actionTypes.EDIT_MESSAGE_IN_CHANNEL:
             updatedChannelMessages = state.channelMessages.map(message => {
