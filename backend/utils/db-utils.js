@@ -231,37 +231,29 @@ exports.getSomeChannels = async (limit, offset) => {
 }
 
 exports.updateUserDeliveredTimes = async (userId) => {
-    const currUser = await User.findById(userId);
-    currUser.lastSeen = "online";
-    await currUser.save();
-    const messages = await Message
-    .find({receiverID: {$in: [userId, ...currUser.userChannelIDs]}, senderID: {$ne: userId}});
-    if(!messages) return;
-    messages.map(async (message) => {
-        if(!message.deliveredTime.find(timeObj => timeObj.userID == userId)) {
-            message.deliveredTime.push({userID: userId, deliveredTime: new Date().toString()});
-            await message.save();
-        }
-    });
+    try {
+        const currUser = await User.findById(userId);
+        currUser.lastSeen = "online";
+        await currUser.save();
+        const messages = await Message
+        .find({receiverID: {$in: [userId, ...currUser.userChannelIDs]}, senderID: {$ne: userId}});
+        if(!messages) return;
+        messages.map(async (message) => {
+            if(!message.deliveredTime.find(timeObj => timeObj.userID == userId)) {
+                message.deliveredTime.push({userID: userId, deliveredTime: new Date().toString()});
+                await message.save();
+            }
+        });
+    } catch(err) {
+        console.log("Error in updating user delivered time at db-utils.js->updateUserDeliveredTimes: ", err);
+        throw new Error(err);
+    }
 }
 
 exports.findUserChannels = async (userId) => {
     const user = await User.findById(userId);
     return user.userChannelIDs;
 }
-
-// exports.updateUserSeenTimes = async (userId, receiverId) => {
-//     const currUser = await User.findById(userId);
-//     const messages = await Message
-//     .find({receiverID: {$in: [userId, ...currUser.userChannelIDs]}});
-//     if(!messages) return;
-//     messages.map(async (message) => {
-//         if(!message.deliveredTime.find(timeObj => timeObj.userID == userId)) {
-//             message.deliveredTime.push({userID: userId, deliveredTime: new Date().toString()});
-//             await message.save();
-//         }
-//     });
-// }
 
 exports.updateUserLastSeen = async (userId) => {
     const currUser = await User.findById(userId);
@@ -270,23 +262,27 @@ exports.updateUserLastSeen = async (userId) => {
 }
 
 exports.setSeenTime = async(messages, userID) => {
-    messages.map(async(message) => {
-        if(message.senderID._id == userID)
-            return;
-        if(message.seenTime && message.seenTime.findIndex(obj => obj.userID._id == userID) == -1){
-            message.seenTime.push({
-                userID: userID,
-                seenTime: new Date().toString()
-            })
-        }
-        else if(!message.seenTime){
-            message.seenTime = [{
-                userID: userID,
-                seenTime: new Date().toString()
-            }]
-        }
-        await message.save();
-    })
-    // console.log('Updated messages: ', messages);
-    return messages;
+    try {
+        messages.map(async(message) => {
+            if(message.senderID._id == userID)
+                return;
+            if(message.seenTime && message.seenTime.findIndex(obj => obj.userID._id == userID) == -1){
+                message.seenTime.push({
+                    userID: userID,
+                    seenTime: new Date().toString()
+                })
+            }
+            else if(!message.seenTime){
+                message.seenTime = [{
+                    userID: userID,
+                    seenTime: new Date().toString()
+                }]
+            }
+            await message.save();
+        })
+        return messages;
+    } catch(err) {
+        console.log("Error in updating user seen time at db-utils.js->setSeenTime: ", err);
+        throw new Error(err);
+    }
 }

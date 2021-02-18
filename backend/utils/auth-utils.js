@@ -3,9 +3,14 @@ const bcrypt = require('bcryptjs');
 const { secret, times } = require('../config');
 
 exports.hashPassword = async (password) => {
-    let hashedPassword;
-    hashedPassword = await bcrypt.hash(password, times);
-    return hashedPassword;
+    try {
+      let hashedPassword;
+      hashedPassword = await bcrypt.hash(password, times);
+      return hashedPassword;
+    } catch(err) {
+      console.log('Error at auth-utils-> hashPassword: ', err);
+      throw new Error(err);
+    }
 };
 
 exports.createToken = (userId) => {
