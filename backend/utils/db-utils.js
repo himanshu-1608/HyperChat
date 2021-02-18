@@ -232,6 +232,8 @@ exports.getSomeChannels = async (limit, offset) => {
 
 exports.updateUserDeliveredTimes = async (userId) => {
     const currUser = await User.findById(userId);
+    currUser.lastSeen = "online";
+    await currUser.save();
     const messages = await Message
     .find({receiverID: {$in: [userId, ...currUser.userChannelIDs]}, senderID: {$ne: userId}});
     if(!messages) return;
