@@ -1,13 +1,15 @@
 const { createChannel, findChannelById, findUserById, findMessagesInChannel, createNewMessage, findMessageByID, getSomeChannels, setSeenTime } = require('../utils/db-utils');
 const HttpError = require('../models/http-error');
 const { getIo } = require('../socket');
+const { createLog } = require('../utils/log-utils');
 
 exports.createNewChannel = async(req, res, next) => {
     try {
         let { channelName, channelDesc } = req.body;
         const subscribedUserIDs = [ req.userId ];
         const channel = await createChannel(channelName, channelDesc, req.userId, subscribedUserIDs);
-        res.status(200).json({
+        createLog('info', '_create_new_channel_');
+		res.status(200).json({
             message: "Added Channel Successfully",
             channel: channel
         });
@@ -76,6 +78,7 @@ exports.sendMessageInChannel = async(req, res, next) => {
             message: message
         });
     } catch(err) {
+		createLog('error', '_send_channel_message_exception_ '+err);
         if(err.code) return next(err);
         console.log("Unexpected Error at user-controllers.js->sendMessageInChannel: ", err);
         return next(new HttpError(`Could not send the message, try again`, 400));
@@ -97,6 +100,7 @@ exports.editMessageInChannel = async(req, res, next) => {
             message: message
         });
     } catch(err) {
+		createLog('error', '_edit_channel_message_exception_ '+err);
         if(err.code) return next(err);
         console.log("Unexpected Error at channel-controllers.js->editMessageInChannel: ", err);
         return next(new HttpError(`Could not edit the message, try again`, 400));
@@ -117,6 +121,7 @@ exports.deleteMessageInChannel = async(req, res, next) => {
             message: message
         });
     } catch(err) {
+		createLog('error', '_delete_channel_message_exception_ '+err);
         if(err.code) return next(err);
         console.log("Unexpected Error at channel-controllers.js->deleteMessageInChannel: ", err);
         return next(new HttpError(`Could not edit the message, try again`, 400));

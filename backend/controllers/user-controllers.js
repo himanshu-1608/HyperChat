@@ -1,6 +1,7 @@
 const { findUserById, findUserDetails, createNewMessage, findMessagesInDm, findMessageByID, getUsers, setSeenTime } = require('../utils/db-utils');
 const HttpError = require('../models/http-error');
 const { getIo } = require('../socket');
+const { createLog } = require('../utils/log-utils');
 
 exports.addNewDM = async(req, res, next) => {
     try {
@@ -23,6 +24,7 @@ exports.addNewDM = async(req, res, next) => {
         });
     } catch(err) {
         if(err.code) return next(err);
+		createLog('error', ' _add_dm_exception_ '+err);
         console.log("Unexpected Error at user-controllers.js->addNewDM: ", err);
         return next(new HttpError(`Could not add to user's recents list, try again`, 400));
     }
@@ -72,6 +74,7 @@ exports.sendMessageInDM = async(req, res, next) => {
             message: message
         });
     } catch(err) {
+		createLog('error', ' _send_dm_exception_ '+err);
         if(err.code) return next(err);
         console.log("Unexpected Error at user-controllers.js->sendMessageInDM: ", err);
         return next(new HttpError(`Could not send the message, try again`, 400));
@@ -92,6 +95,7 @@ exports.editMessageInDM = async(req, res, next) => {
             message: message
         });
     } catch(err) {
+		createLog('error', ' _edit_dm_exception_ '+err);
         if(err.code) return next(err);
         console.log("Unexpected Error at user-controllers.js->editMessageInDM: ", err);
         return next(new HttpError(`Could not edit the message, try again`, 400));
@@ -109,6 +113,7 @@ exports.deleteMessageInDM = async(req, res, next) => {
         await message.save();
         const io = getIo();
         io.to(message.receiverID).emit('DELETE_MESSAGE_DM', message);
+		createLog('error', ' _delete_dm_exception_ '+err);
         res.status(200).json({
             response: "Message Deleted Successfully",
             message: message
@@ -135,6 +140,7 @@ exports.getAllUsers = async(req, res, next) => {
             users: users
         });
     } catch(err) {
+		createLog('error', '_fetch_user_list_exception_ '+err);
         if(err.code) return next(err);
         console.log("Unexpected Error at user-controllers.js->getAllUsers: ", err);
         return next(new HttpError(`Could not find users, try again`, 400));
