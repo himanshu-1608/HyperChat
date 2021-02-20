@@ -1,6 +1,7 @@
 const { hashPassword, createToken, checkPassword } = require('../utils/auth-utils');
 const { findUserByEmail, createNewUser } = require('../utils/db-utils');
 const HttpError = require('../models/http-error');
+const { createLog } = require('../utils/log-utils');
 
 exports.registerNewUser = async(req, res, next) => {
     let existingUser,hashedPassword, createdUser, token;
@@ -12,7 +13,8 @@ exports.registerNewUser = async(req, res, next) => {
         hashedPassword = await hashPassword(userPassword);  
         createdUser = await createNewUser(userName, userEmail, hashedPassword); 
         token = createToken(createdUser.id); 
-        res.status(201).json({
+        createLog('info', '_register_new_user_');
+		res.status(201).json({
             message: "User created successfully",
             token: token,
             user: {
@@ -21,6 +23,7 @@ exports.registerNewUser = async(req, res, next) => {
             }
         });
     } catch(err) {
+		createLog('error', '_signup_exception_ '+err);
         if(err.code) return next(err);
         console.log("Unexpected Error at auth-controllers.js->registerNewUser: ", err);
         return next(new HttpError('Could not create user', 400));
@@ -36,7 +39,8 @@ exports.loginUser = async(req, res, next) => {
         isValidPassword = await checkPassword(userPassword, existingUser.userPassword); 
         if (!isValidPassword) throw new HttpError('Invalid credentials: Password', 403);
         token = await createToken(existingUser._id);   
-        res.status(200).json({
+        createLog('info', '_login_user_');
+		res.status(200).json({
             message: "User logged in successfully",
             token: token,
             user: {
@@ -45,6 +49,7 @@ exports.loginUser = async(req, res, next) => {
             }
         });
     } catch (err) {
+		createLog('error', '_login_exception_ '+err);
         if (err.code) return next(err);
         console.log("Unexpected error at auth-controllers.js->loginUser: ", err);
         return next(new HttpError('Logging in failed, please try again.', 400));
