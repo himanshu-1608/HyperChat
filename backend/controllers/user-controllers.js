@@ -22,10 +22,11 @@ exports.addNewDM = async(req, res, next) => {
             message: "Added in User's recent DM Successfully",
             dmUser: dmUser
         });
+		createLog('info', {'endpoint':'PUT /users/uid/dm/add', 'resTime' : res.getHeaders()['x-response-time']});
+
     } catch(err) {
         if(err.code) return next(err);
-		createLog('error', ' _add_dm_exception_ '+err);
-        console.log("Unexpected Error at user-controllers.js->addNewDM: ", err);
+		console.log("Unexpected Error at user-controllers.js->addNewDM: ", err);
         return next(new HttpError(`Could not add to user's recents list, try again`, 400));
     }
 }
@@ -36,6 +37,8 @@ exports.getUserDetails = async(req, res, next) => {
         if(!fields) throw new HttpError('Please add fields in the query!', 400);
         const userData = await findUserDetails(req.userId,fields);
         res.status(200).json(userData);
+		createLog('info', {'endpoint':'GET /users/uid', 'resTime' : res.getHeaders()['x-response-time']});
+
     } catch(err) { 
         if(err.code) return next(err);
         console.log("Unexpected Error at user-controllers.js->getUserDetails: ", err);
@@ -56,6 +59,8 @@ exports.getUserDmMessages = async(req, res, next) => {
             message: `List of messages(most recent first): ${offset} to ${offset+limit-1}`,
             "message-list": updatedMessages
         });
+		createLog('info', {'endpoint':'GET /users/uid/dm/dmid/message', 'resTime' : res.getHeaders()['x-response-time']});
+
     } catch(err) {
         if(err.code) return next(err);
         console.log("Unexpected Error at user-controllers.js->getUserDmMessages: ", err);
@@ -73,9 +78,10 @@ exports.sendMessageInDM = async(req, res, next) => {
             response: "Message Sent Successfully",
             message: message
         });
+		createLog('info', {'endpoint':'POST /users/uid/dm/messsage', 'resTime' : res.getHeaders()['x-response-time']});
+
     } catch(err) {
-		createLog('error', ' _send_dm_exception_ '+err);
-        if(err.code) return next(err);
+		if(err.code) return next(err);
         console.log("Unexpected Error at user-controllers.js->sendMessageInDM: ", err);
         return next(new HttpError(`Could not send the message, try again`, 400));
     }
@@ -94,9 +100,10 @@ exports.editMessageInDM = async(req, res, next) => {
             response: "Message Edited Successfully",
             message: message
         });
+		createLog('info', {'endpoint':'PUT /users/uid/dm/messsage', 'resTime' : res.getHeaders()['x-response-time']});
+
     } catch(err) {
-		createLog('error', ' _edit_dm_exception_ '+err);
-        if(err.code) return next(err);
+		if(err.code) return next(err);
         console.log("Unexpected Error at user-controllers.js->editMessageInDM: ", err);
         return next(new HttpError(`Could not edit the message, try again`, 400));
     }
@@ -113,11 +120,12 @@ exports.deleteMessageInDM = async(req, res, next) => {
         await message.save();
         const io = getIo();
         io.to(message.receiverID).emit('DELETE_MESSAGE_DM', message);
-		createLog('error', ' _delete_dm_exception_ '+err);
-        res.status(200).json({
+		res.status(200).json({
             response: "Message Deleted Successfully",
             message: message
         });
+		createLog('info', {'endpoint':'DELETE /users/uid/dm/message/messageID', 'resTime' : res.getHeaders()['x-response-time']});
+
     } catch(err) {
         if(err.code) return next(err);
         console.log("Unexpected Error at user-controllers.js->deleteMessageInDM: ", err);
@@ -139,9 +147,10 @@ exports.getAllUsers = async(req, res, next) => {
             message: `List of users: ${offset} to ${offset+limit-1}`,
             users: users
         });
+		createLog('info', {'endpoint':'GET /users', 'resTime' : res.getHeaders()['x-response-time']});
+
     } catch(err) {
-		createLog('error', '_fetch_user_list_exception_ '+err);
-        if(err.code) return next(err);
+		if(err.code) return next(err);
         console.log("Unexpected Error at user-controllers.js->getAllUsers: ", err);
         return next(new HttpError(`Could not find users, try again`, 400));
     }
