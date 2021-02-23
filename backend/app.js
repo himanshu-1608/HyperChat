@@ -8,9 +8,14 @@ const userRoutes = require('./routes/user-routes');
 const channelRoutes = require('./routes/channel-routes');
 const { updateUserDeliveredTimes, findUserChannels, updateUserLastSeen } = require('./utils/db-utils');
 const { mongoUrl } = require('./config');
+const { createLog } = require('./utils/log-utils');
+
+var responseTime = require('response-time');
 
 const app = express();
 let io;
+
+app.use(responseTime())
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -31,6 +36,7 @@ app.use((error, req, res, next) => {
     res.status(status).json({
         errorMessage: message
     });
+	createLog('info', {'error':error.message, 'resTime' : res.getHeaders()['x-response-time']});
 });
 
 const connection = (socket) => {

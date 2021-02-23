@@ -8,11 +8,11 @@ exports.createNewChannel = async(req, res, next) => {
         let { channelName, channelDesc } = req.body;
         const subscribedUserIDs = [ req.userId ];
         const channel = await createChannel(channelName, channelDesc, req.userId, subscribedUserIDs);
-        createLog('info', '_create_new_channel_');
-		res.status(200).json({
+        res.status(200).json({
             message: "Added Channel Successfully",
             channel: channel
         });
+		createLog('info', {'endpoint':'POST /channels', 'resTime' : res.getHeaders()['x-response-time']});
     } catch(err) {
         if(err.code) return next(err);
         console.log("Unexpected Error at channel-controllers.js->createNewChannel: ", err);
@@ -38,6 +38,7 @@ exports.joinChannelByID = async(req, res, next) => {
             message: "Subscribed to channel Successfully",
             channel: channel
         });
+		createLog('info', {'endpoint':'POST /channels/cid/join', 'resTime' : res.getHeaders()['x-response-time']});
     } catch(err) {
         if(err.code) return next(err);
         console.log("Unexpected Error at channel-controllers.js->joinChannelByID: ", err);
@@ -59,6 +60,7 @@ exports.getChannelMessages = async(req, res, next) => {
             message: `List of messages: ${offset} to ${offset+limit-1}`,
             messages: updatedMessages
         });
+		createLog('info', {'endpoint':'POST /channels/cid/message', 'resTime' : res.getHeaders()['x-response-time']});
     } catch(err) {
         if(err.code) return next(err);
         console.log("Unexpected Error at channel-controllers.js->getChannelMessage: ", err);
@@ -77,8 +79,8 @@ exports.sendMessageInChannel = async(req, res, next) => {
             response: "Message Sent Successfully",
             message: message
         });
+		createLog('info', {'endpoint':'POST /channels/cid/message', 'resTime' : res.getHeaders()['x-response-time']});
     } catch(err) {
-		createLog('error', '_send_channel_message_exception_ '+err);
         if(err.code) return next(err);
         console.log("Unexpected Error at user-controllers.js->sendMessageInChannel: ", err);
         return next(new HttpError(`Could not send the message, try again`, 400));
@@ -99,9 +101,9 @@ exports.editMessageInChannel = async(req, res, next) => {
             response: "Message Edited Successfully",
             message: message
         });
+		createLog('info', {'endpoint':'PUT /channels/cid/message', 'resTime' : res.getHeaders()['x-response-time']});
     } catch(err) {
-		createLog('error', '_edit_channel_message_exception_ '+err);
-        if(err.code) return next(err);
+		if(err.code) return next(err);
         console.log("Unexpected Error at channel-controllers.js->editMessageInChannel: ", err);
         return next(new HttpError(`Could not edit the message, try again`, 400));
     }
@@ -120,9 +122,9 @@ exports.deleteMessageInChannel = async(req, res, next) => {
             response: "Message deleted Successfully",
             message: message
         });
+		createLog('info', {'endpoint':'DELETE /channels/cid/message/messageID', 'resTime' : res.getHeaders()['x-response-time']});
     } catch(err) {
-		createLog('error', '_delete_channel_message_exception_ '+err);
-        if(err.code) return next(err);
+		if(err.code) return next(err);
         console.log("Unexpected Error at channel-controllers.js->deleteMessageInChannel: ", err);
         return next(new HttpError(`Could not edit the message, try again`, 400));
     }
@@ -141,6 +143,7 @@ exports.getChannels = async(req, res, next) => {
             message: `List of channels: ${offset} to ${offset+limit-1}`,
             channels: channels
         });
+		createLog('info', {'endpoint':'GET /channels', 'resTime' : res.getHeaders()['x-response-time']});
     } catch(err) {
         if(err.code) return next(err);
         console.log("Unexpected Error at channel-controllers.js->getChannels: ", err);
